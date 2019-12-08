@@ -22,7 +22,7 @@
                     <!-- <input class="signin_btn" type="button" href="#login" value = "登入/註冊" /> -->
                 </div>
                 <div class="userbar">
-                    <ul>
+                    <ul class="menu">
                         <li id = "user">
                             <a href="#">
                             <i class="fa-lg fas fa-user "></i>
@@ -108,9 +108,14 @@
                 </li>                   
         </div>
         </nav>
+        <div class="item_container">
         <div class="items">
-            <div class="item">
 
+                <div class="item">
+                    <!-- 記得要根據id開啟item資訊 -->
+                    <a class="check_item" href="#item_info"></a>
+
+                </div>
             </div>
         </div>
         <div class="login_regis" id = "login">
@@ -130,9 +135,13 @@
                     </form>
                 </div>
         </div>
-        <div class="item_info">
-            <div class="cancel"></div>
-        </div>
+        <div class="item_info" id = "item_info">
+            <a href="#" class="close"></a>
+            <div class="item_discripe">
+                
+            </div>
             
+        </div> 
+        
     </body>
 </html>
