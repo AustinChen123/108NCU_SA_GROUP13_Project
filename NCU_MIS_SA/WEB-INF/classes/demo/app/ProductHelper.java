@@ -35,7 +35,7 @@ public class ProductHelper {
         /** 紀錄SQL總行數 */
         int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
-        ResultSet rs = null;
+        ResultSet rs = null; 
         
         try {
             /** 取得資料庫之連線 */
@@ -52,20 +52,28 @@ public class ProductHelper {
             exexcute_sql = pres.toString();
             System.out.println(exexcute_sql);
             
-            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
+            /** 透過 while 迴圈移動pointer(rs.next()為一個boolean值)，取得每一筆回傳資料 */
             while(rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
                 
                 /** 將 ResultSet 之資料取出 */
                 int product_id = rs.getInt("id");
+                int member_id=rs.getInt("id");
+                String seller_name=rs.getString("seller_name");
+                String seller_email=rs.getString("seller_email");
+                String seller_fb=rs.getString("seller_fb");
                 String name = rs.getString("name");
-                double price = rs.getDouble("price");
+                String classificaion=rs.getString("classification");
+                Boolean product_status=rs.getBoolean("product_status");
+                float price = rs.getFloat("price");
+                String product_overview = rs.getString("product_overview");
                 String image = rs.getString("image");
-                String describe = rs.getString("describe");
+                Boolean verification_status=rs.getBoolean("verification_status");
+                Boolean on_shelf=rs.getBoolean("on_shelf");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                p = new Product(product_id, name, price, image, describe);
+                p = new Product(product_id,member_id,seller_name,seller_email,seller_fb, name,classificaion,product_status, price,product_overview, image,verification_status,on_shelf);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(p.getData());
             }
@@ -79,6 +87,7 @@ public class ProductHelper {
         } finally {
             /** 關閉連線並釋放所有資料庫相關之資源 **/
             DBMgr.close(rs, pres, conn);
+            /**rs=>為結果集；pres=>preparedstatement物件；conn=>connection物件*/
         }
         
         /** 紀錄程式結束執行時間 */

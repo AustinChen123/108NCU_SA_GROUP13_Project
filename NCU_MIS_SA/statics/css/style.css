@@ -107,7 +107,41 @@ html {
     text-shadow: 0px 0px 0px; 
 }
 
+.search_add{
+	background-color:#00bbbb;
+	width: 100%;
+    height: 36px;
+}
+.search_add .search{
+	color: #6C6C6C;
+	padding-left: 15px;
+	border: none;
+	float:left;
+	margin-left: 10%;
+	width: 35% - 1px;
+    height: 36px;
+}
+.search_add .search_btn{
+	border: none;
+	float:left;
+	width: 5%;
+    height: 36px;
+	transition: 0.15s linear;
+}
+.search_add .search_btn:hover{
+	border: none;
+	float:left;
+	background-color: aqua;
+	width: 5%;
+    height: 36px;
+}
 
+.search_add .add_item{
+	float:left;
+	margin-right: 10%;
+	width: 40%;
+    height: 36px;
+}
 /* ul{
 display: none;
 } */
@@ -151,11 +185,11 @@ display: none;
     display: none;
 }
 .login_regis:target{
-    width: 500px;
-    height: 600px;
+    width: 250px;
+    height: 300px;
     top:25%;
-    right:35%;
-    position: fixed;
+    right:45%;
+    position: absolute;
     display: flex;
     /* visibility: hidden; */
 }
@@ -172,27 +206,39 @@ display: none;
     display: flex;
 }
 .item_discripe{
-    padding: 150px;
-    width: 200px;
+/*    padding: 150px;*/
+    width: 500px;
     position: relative;
     transition: 0.3s;
     background-color: white;
     border-radius: 25px;
 }
+.item_box{
+	margin: 25px;
+	width: 450px;
+	height: 550px;
+    transition: 0.3s;
+    background-color: gray;
+    border-radius: 25px;
+}
+
 .signin{
-    padding: 150px;
-    width: 200px;
+    padding: 30px 75px 0px 75px;
+    width: 350px;
     position: relative;
-    background-color: lightpink;
+    background-color: #90ECFF;
+	border-radius: 25px;
 }
 form #submit{
     color: black;
     background: aliceblue;
     font-size: 14px;
     border: none;
-    width: 120px;
+    width: 60px;
+	margin: 0px 10px;
     height: 25px;
     transition: 0.12s;
+	float: left;
 }
 
 
@@ -206,7 +252,11 @@ form #submit:hover{
 form #submit:active{
     background: aliceblue;
 }
-
+.signin_text{
+	padding-left: 50px;
+	line-height: 50px;
+	text-align: center;
+}
 .close {
     position: relative;
     display: block;
@@ -231,21 +281,54 @@ form #submit:active{
   
   /* Lightbox overlay */
 .close::before {
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    left: 310px;
+    top: -1rem;
+    width: 2rem;
+    height: 2rem;
     position: fixed;
-    background-color: rgba(0,0,0,.7);
+/*    background-color: rgba(0,0,0,.7);*/
+    content: "";
+    cursor: default;
+  }
+.close_signin {
+    position: relative;
+    display: block;
+  }
+  
+.close_signin::after {
+    left: 310px;
+    top: -1rem;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border-radius: 50%;
+    color: white;
+    content: "×";
+    cursor: pointer;
+  }
+  
+  /* Lightbox overlay */
+.close_signin::before {
+    left: 300px;
+    top: -1rem;
+    width: 2rem;
+    height: 2rem;
+    position: fixed;
+/*    background-color: rgba(0,0,0,.7);*/
     content: "";
     cursor: default;
   }
 
 form div {
-	clear: both;
+/*	clear: both;*/
 	margin-bottom: 1em;
-	padding: .5em;
-	vertical-align: text-top;
+/*	padding: .5em;*/
+/*	vertical-align: text-top;*/
 }
 
 
