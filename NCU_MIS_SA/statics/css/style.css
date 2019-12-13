@@ -31,12 +31,12 @@ html {
     font-family: SimHei;
     font-size: 28px;
 }
-.btn{
+#btn{
     border: none;
     float: right;
 }
 
-.btn{
+#btn{
     height: 36PX;
     width:125px;
     color:black;
@@ -49,16 +49,16 @@ html {
     -webkit-transition:all .14s linear;
     transition:all .14s linear;
     }
-.btn:hover{
+#btn:hover{
     background: pink;
     border: none;
     float: right;
 }
-.btn:active{
+#btn:active{
     background: powderblue
     }
     
-.btn:focus{
+#btn:focus{
     outline: none;
     }
 #header .userbar{
@@ -298,12 +298,42 @@ td{
 .item_box .last{
     height: 50px;
 }
-.item_box .buy_btn{
+.item_box #buy_btn{
     float: left;
     margin: 10px 0px 0px 160px ;
     /* margin-left: 160px; */
     font-size: 16px;
 }
+#buy_btn{
+    border: none;
+    float: right;
+}
+
+#buy_btn{
+    height: 36PX;
+    width:125px;
+    color:black;
+    background: powderblue;
+    line-height: 36px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+    -webkit-transform:translateZ(0) scale(1,1);
+    -webkit-transition:all .14s linear;
+    transition:all .14s linear;
+    }
+#buy_btn:hover{
+    background: pink;
+    border: none;
+    float: left;
+}
+#buy_btn:active{
+    background: powderblue
+    }
+    
+#buy_btn:focus{
+    outline: none;
+    }
 
 .signin{
     padding: 30px 95px 0px 95px;
