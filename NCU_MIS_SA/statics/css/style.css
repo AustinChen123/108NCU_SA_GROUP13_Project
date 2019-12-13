@@ -31,12 +31,12 @@ html {
     font-family: SimHei;
     font-size: 28px;
 }
-#header .top_nav .signin_btn{
+.btn{
     border: none;
     float: right;
 }
 
-#header .top_nav .signin_btn{
+.btn{
     height: 36PX;
     width:125px;
     color:black;
@@ -49,16 +49,16 @@ html {
     -webkit-transition:all .14s linear;
     transition:all .14s linear;
     }
-#header .top_nav .signin_btn:hover{
+.btn:hover{
     background: pink;
     border: none;
     float: right;
 }
-#header .top_nav .signin_btn:active{
+.btn:active{
     background: powderblue
     }
     
-#header .top_nav .signin_btn:focus{
+.btn:focus{
     outline: none;
     }
 #header .userbar{
@@ -118,15 +118,18 @@ html {
 	border: none;
 	float:left;
 	margin-left: 10%;
-	width: 35% - 1px;
+	width: 30%;
     height: 36px;
+    border-radius: 15px 0px 0px 15px;
 }
 .search_add .search_btn{
 	border: none;
 	float:left;
 	width: 5%;
     height: 36px;
-	transition: 0.15s linear;
+    transition: 0.15s linear;
+    border-radius: 0px 15px 15px 0px;
+    cursor: pointer;
 }
 .search_add .search_btn:hover{
 	border: none;
@@ -135,13 +138,34 @@ html {
 	width: 5%;
     height: 36px;
 }
+.search_btn:focus{
+    outline: none;
+}
 
-.search_add .add_item{
-	float:left;
+.search_add .add_item_btn{
+    float:right;
+    border: none;
 	margin-right: 10%;
 	width: 40%;
     height: 36px;
+    background: silver;
+    transition: 0.15s;
+    border-radius: 15px;
+    cursor: pointer;
 }
+.search_add .add_item_btn:hover{
+    background: powderblue;
+}
+.search_add .add_item_btn:focus{
+    outline: none;
+}
+.search_add .add_item_btn:active{
+    background: silver;
+}
+
+
+
+
 /* ul{
 display: none;
 } */
@@ -164,6 +188,7 @@ display: none;
     top: 5%;
     width: 300px;
     height: 400px;
+
     background: rgb(240, 240, 240);
     -webkit-border-radius: 25px;
     transition: 0.3s;
@@ -174,11 +199,42 @@ display: none;
     box-shadow: 0 3px 15px 3px rgba(51, 51, 51, 0.5);
 }
 .item a{
-    display:inline-block;
+    /* display:inline-block; */
+    z-index: 1;
+    float: left;
+    position: absolute;
+    top: 585px;
     width: 300px;
     height: 400px;
-    -webkit-border-radius: 25px;
-    transition: 0.3s;
+    border-radius: 25px;
+    cursor: pointer;
+}
+.item img{
+    z-index: -1;
+    width: 270px;
+    margin: 15px;
+    margin-top: 25px;
+    border-radius: 25px;
+}
+table{
+    z-index: -1;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+tr{
+    display: table-row;
+}
+td{
+    /* margin: 20px; */
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    /* padding-right: 10px; */
+    width: 130px;
+    height: 50px;
+    background: rgb(209, 209, 209);
+    border-radius: 3px;
+    /* border: none; */
 }
 
 .login_regis{
@@ -218,12 +274,39 @@ display: none;
 	width: 450px;
 	height: 550px;
     transition: 0.3s;
-    background-color: gray;
+    /* background-color: gray; */
     border-radius: 25px;
+}
+.item_box img{
+    margin-bottom: 15px;
+    width: 450px;
+    height: 250px;
+    border-radius: 25px;
+}
+.item_box .left{
+    text-align: center;
+    width: 100px;
+    height: 35px;
+    background: rgb(209, 209, 209);
+}
+.item_box .right{
+    text-align: center;
+    width: 300px;
+    height: 35px;
+    background: rgb(209, 209, 209);
+}
+.item_box .last{
+    height: 50px;
+}
+.item_box .buy_btn{
+    float: left;
+    margin: 10px 0px 0px 160px ;
+    /* margin-left: 160px; */
+    font-size: 16px;
 }
 
 .signin{
-    padding: 30px 75px 0px 75px;
+    padding: 30px 95px 0px 95px;
     width: 350px;
     position: relative;
     background-color: #90ECFF;
@@ -234,11 +317,12 @@ form #submit{
     background: aliceblue;
     font-size: 14px;
     border: none;
-    width: 60px;
+    width: 45px;
 	margin: 0px 10px;
     height: 25px;
     transition: 0.12s;
-	float: left;
+    float: left;
+    cursor: pointer;
 }
 
 
@@ -252,8 +336,9 @@ form #submit:hover{
 form #submit:active{
     background: aliceblue;
 }
+
 .signin_text{
-	padding-left: 50px;
+	padding-left: 40px;
 	line-height: 50px;
 	text-align: center;
 }

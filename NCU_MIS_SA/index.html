@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+    <script language="javascript">
+        function func1(){
+            alert('測試文字')
+        }
+    </script>
     <head>
         <!-- 編碼類型 -->
          <meta charset="UTF-8">
@@ -16,7 +21,7 @@
             <nav class="top_nav">
                 <span class="slogan">復活福利社2.0</span>
                 <div class="btnbox">
-                    <a class = "signin_btn" href="#login">
+                    <a class = "signin_btn btn" href="#login">
                     <span class="nav-text">登入/註冊</span>
                     </a>
                     <!-- <input class="signin_btn" type="button" href="#login" value = "登入/註冊" /> -->
@@ -113,12 +118,27 @@
 			<button class="search_btn">
 			<i class="fas fa-search fa-lg"></i>
 			</button>
-			<button class="add_item"></button>
+			<button class="add_item_btn" onclick="location.href='#add_item'">新增商品</button>
 		</div>
         <div class="item_container">
-        <div class="items">
-
+            <div class="items">
                 <div class="item">
+                    <!-- 此為示範檔案格式 之後會使用js進行這部分的撰寫 -->
+                    <img class = "item_shortimg" src="/NCU_MIS_SA/statics/img/item1.jpg" />
+                    <table class="item_shortinfo">
+                        <tr>
+                            <td>商品名稱</td>
+                            <td>腳踏車</td>
+                        </tr>
+                        <tr>
+                            <td>商品狀態</td>
+                            <td>二手</td>
+                        </tr>
+                        <tr>
+                            <td>商品價格</td>
+                            <td>1500</td>
+                        </tr>             
+                    </table>
                     <!-- 記得要根據id開啟item資訊 -->
                     <a class="check_item" href="#item_info"></a>
 
@@ -152,10 +172,54 @@
             <a href="#" class="close"></a>
             <div class="item_discripe">
                 <div class="item_box">
-					
-				</div>
+                    <img class = "item_img" src="/NCU_MIS_SA/statics/img/item1.jpg" />
+                    <table>
+                        <tr>
+                            <td class="left">商品名稱</td>
+                            <td class="right">腳踏車</td>
+                        </tr>
+                        <tr>
+                            <td class="left">商品分類</td>
+                            <td class="right">交通工具</td>
+                        </tr>
+                        <tr>
+                            <td class="left">商品狀態</td>
+                            <td class="right">二手</td>
+                        </tr>
+                        <tr>
+                            <td class="left">售價</td>
+                            <td class="right">1500元</td>
+                        </tr>
+                        <tr>
+                            <td class="left">商品描述</td>
+                            <td class="right last">上課代步用，正常使用痕跡</td>
+                        </tr>
+                    </table>
+                    <button class="buy_btn btn">購買商品</button>
+                </div>
             </div>
         </div> 
-        
+        <div class="item_info" id = "add_item">
+            <a href="#" class="close"></a>
+            <div class="item_discripe">
+                <div class="item_box">
+                    <form enctype="multipart/form-data">
+                        <input name = "item_name"/>
+                        <input name = "item_name"/>
+                        <input name = "item_name"/>
+                        <input name = "item_name"/>
+                    </form>
+                </div>
+            </div>
+        </div> 
+        <!-- <form class="" action="add.php" method="post">
+            <input type="mail" name="mail" value="" placeholder="輸入註冊信箱">
+            <input type="text" name="password" value=""panel placeholder="輸入密碼">
+            <input type="password" name="pwcheck" value=""panel placeholder="再次輸入密碼">
+            <input type="text" name="name" value="" placeholder="輸入姓名">
+            <input type="number" name="phone" value="" placeholder="輸入電話">
+            <input type="text" name="addr" value="" placeholder="輸入地址">
+            <input type="submit" name="" value="註冊">
+        </form> -->
     </body>
 </html>
