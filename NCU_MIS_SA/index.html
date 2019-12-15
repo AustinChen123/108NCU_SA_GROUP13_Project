@@ -199,11 +199,38 @@
             <div class="item_discripe">
                 <div class="item_box">
                     <form enctype="multipart/form-data">
-                        <input name = "item_name"/>
-                        <input name = "item_name"/>
-                        <input name = "item_name"/>
-                        <input name = "item_name"/>
-                    </form>
+					<table>
+						<tr>商品上架
+							<td>商品名稱</td>
+							<td><input name = "item_name"/></td>
+						</tr>
+						<tr>
+							<td>商品分類</td>
+							<td><select name = "item_category"/>
+								<option>請選擇</option>
+							</td>
+						</tr>	
+						<tr>
+							<td>商品狀態</td>
+							<td><input type="radio" name = "item_state" value = "new"/>全新
+								<input type="radio" name = "item_state" value = "used"/>二手
+							</td>
+						</tr>
+						<tr>
+							<td>售價</td>
+							<td><input name = "item_price"/>元
+							</td>
+						</tr>
+						<tr>
+							<td>商品圖片</td>
+							<td><input type="file" name = "item_image"></td>
+						</tr>
+						<tr>
+							<td>商品描述</td>
+							<td><input type="text" name = "item_dis"></td>
+						</tr>
+                    </table>
+					</form>
                 </div>
             </div>
         </div> 
