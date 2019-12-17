@@ -8,7 +8,6 @@ import ncu.im3069.demo.util.DBMgr;
 
 // TODO: Auto-generated Javadoc
 /**
- * <p>
  * The Class MemberHelper<br>
  * MemberHelper類別（class）主要管理所有與Member相關與資料庫之方法（method）
  * </p>
@@ -17,7 +16,6 @@ import ncu.im3069.demo.util.DBMgr;
  * @version 1.0.0
  * @since 1.0.0
  */
-
 //一個會員跟資料庫的關係(例如修改..)都在這裡，跟核心邏輯不相關，就寫在這
 
 public class MemberHelper {
@@ -156,7 +154,9 @@ public class MemberHelper {
                 String fb_link=rs.getString("fb_link");
                 String password = rs.getString("password");
                 String status = rs.getString("status");
+         //     Timestamp login_datetime = m.getLogin_datetime();
                 Timestamp login_datetime = rs.getTimestamp("login_datetime");
+
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
                 m = new Member(member_id, email, name, fb_link, password, status,login_datetime);
@@ -214,7 +214,7 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_project`.`members` WHERE `id` = ? and status = 1 LIMIT 1";
+            String sql = "SELECT * FROM `sa_project`.`members` WHERE `id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -232,15 +232,17 @@ public class MemberHelper {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
                 
-                /** 將 ResultSet 之資料取出 */
+                /** 將 ResultSet 之資料取出 */               
                 int member_id = rs.getInt("id");
-                String name = rs.getString("name");
                 String email = rs.getString("email");
+                String name = rs.getString("name");
                 String fb_link=rs.getString("fb_link");
-                
+            //    String password = rs.getString("password");
+             //   String status = rs.getString("status");
+             //   Timestamp login_datetime = rs.getTimestamp("login_datetime");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, name, email, fb_link);
+                m = new Member(member_id, email, name, fb_link);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
@@ -271,6 +273,54 @@ public class MemberHelper {
         return response;
     }
     
+    /**
+     * 取得該名會員之更新時間與所屬之會員組別
+     *
+     * @param m 一名會員之Member物件
+     * @return the JSON object 回傳該名會員之更新時間與所屬組別（以JSONObject進行封裝）
+     */
+//    public JSONObject getLoginTimesStatus(Member m) {
+//        /** 用於儲存該名會員所檢索之更新時間分鐘數與會員組別之資料 */
+//        JSONObject jso = new JSONObject();
+//        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+//        ResultSet rs = null;
+//
+//        try {
+//            /** 取得資料庫之連線 */
+//            conn = DBMgr.getConnection();
+//            /** SQL指令 */
+//            String sql = "SELECT * FROM `sa_project`.`members` WHERE `id` = ? LIMIT 1";
+//            
+//            /** 將參數回填至SQL指令當中 */
+//            pres = conn.prepareStatement(sql);
+//            pres.setInt(1, m.getID());
+//            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+//            rs = pres.executeQuery();
+//            
+//            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
+//            /** 正確來說資料庫只會有一筆該電子郵件之資料，因此其實可以不用使用 while迴圈 */
+//            while(rs.next()) {
+//                /** 將 ResultSet 之資料取出 */
+//                int login_datetime = rs.getInt("login_datetime");
+//                String status = rs.getString("status");
+//                /** 將其封裝至JSONObject資料 */
+//                jso.put("login_datetime", login_datetime);
+//                jso.put("status", status);
+//            }
+//            
+//        } catch (SQLException e) {
+//            /** 印出JDBC SQL指令錯誤 **/
+//            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+//        } catch (Exception e) {
+//            /** 若錯誤則印出錯誤訊息 */
+//            e.printStackTrace();
+//        } finally {
+//            /** 關閉連線並釋放所有資料庫相關之資源 **/
+//            DBMgr.close(rs, pres, conn);
+//        }
+//
+//        return jso;
+//    }
     
     /**
      * 檢查該名會員之電子郵件信箱是否重複註冊
@@ -340,14 +390,16 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `sa_project`.`members`(`email`, `name`,`fb_link`, `password`, `created`, `modified`,`login_datetime`)"
+            String sql = "INSERT INTO `sa_project`.`members`(`email`, `name`, `fb_link`, `password`, `created`, `modified`, `login_datetime`)"
                     + " VALUES(?, ?, ?, ?, ?, ?, ?)";
             
             /** 取得所需之參數 */
             String email = m.getEmail();
             String name = m.getName();
-            String fb_link=m.getFb_link();
+            String fb_link = m.getFb_link();
             String password = m.getPassword();
+//            Timestamp login_datetime = m.getLoginTimes();
+//            String status = m.getStatus();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -358,7 +410,7 @@ public class MemberHelper {
             pres.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             pres.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             pres.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-            
+             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
             
@@ -415,13 +467,13 @@ public class MemberHelper {
             /** 取得所需之參數 */
             String name = m.getName();
             String email = m.getEmail();
-            Stirng fb_link=m.getFb_link();
+            String fb_link = m.getFb_link();
             String password = m.getPassword();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setString(1, name);
-            pres.setString(2,fb_link);
+            pres.setString(2, fb_link);
             pres.setString(3, password);
             pres.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             pres.setString(5, email);
@@ -463,8 +515,8 @@ public class MemberHelper {
      *
      * @param m 一名會員之Member物件
      */
-    public void updateLogin_datetime(Member m) {
-        /** 更新時間登入時間 */
+    public void updateLoginTimes(Member m) {
+        /** 更新時間之分鐘數 */
     	Timestamp login_datetime = m.getLogin_datetime();
         
         /** 記錄實際執行之SQL指令 */
@@ -502,7 +554,7 @@ public class MemberHelper {
     }
     
     /**
-     * 更新會員之會員審核狀態
+     * 更新會員之審核狀態
      *
      * @param m 一名會員之Member物件
      * @param status 會員組別之字串（String）
@@ -539,6 +591,7 @@ public class MemberHelper {
             DBMgr.close(pres, conn);
         }
     }
+    
     /**
      * 檢查該名會員是否登入成功
      *
