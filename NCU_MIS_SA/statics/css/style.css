@@ -128,6 +128,9 @@ html {
     height: 36px;
     border-radius: 15px 0px 0px 15px;
 }
+.search_add .search:focus{
+    outline: none;
+}
 .search_add .search_btn{
 	border: none;
 	float:left;
@@ -147,6 +150,10 @@ html {
 }
 .search_btn:focus{
     outline: none;
+}
+.search_btn:active{
+    outline: none;
+    background: silver;
 }
 
 .search_add .add_item_btn{
@@ -186,7 +193,7 @@ display: none;
     display: table;
     height: 1100px;
     background: #00bbbb;
-    -webkit-border-radius: 25px;
+    border-radius: 0px 0px 25px 25px;
     float: left;
 }
 .item{
@@ -355,7 +362,7 @@ form #submit{
     font-size: 14px;
     border: none;
     width: 45px;
-	margin: 0px 10px;
+	margin: 0px 25px;
     height: 25px;
     transition: 0.12s;
     float: left;
@@ -418,7 +425,7 @@ form #submit:active{
   }
   
 .close_signin::after {
-    left: 310px;
+    left: 360px;
     top: -1rem;
     width: 2rem;
     height: 2rem;
@@ -452,19 +459,30 @@ form div {
 /*	padding: .5em;*/
 /*	vertical-align: text-top;*/
 }
-
-.item_box #return_btn #add_btn{
-    float: right;
-    margin: 10px 0px 0px 160px ;
+.img_input{
+	width: 290px;
+	margin-left: 60px;
+}
+.item_box td input{
+	border: none;
+}
+.item_box .description{
+	padding: 20px;
+	height: 50px;
+}
+.item_box .return_btn, .add_btn{
+/*    float: right;*/
+/*    margin: 10px 0px 0px 160px ;*/
     /* margin-left: 160px; */
     font-size: 16px;
+	border: none;
 }
-#return_btn #add_btn{
+.return_btn, .add_btn{
     border: none;
-    float: right;
+/*    float: right;*/
 }
 
-#return_btn{
+.return_btn{
     height: 36PX;
     width:125px;
     color:black;
@@ -477,7 +495,7 @@ form div {
     -webkit-transition:all .14s linear;
     transition:all .14s linear;
     }
-#add_btn{
+.add_btn{
     height: 36PX;
     width:125px;
     color:black;
@@ -490,16 +508,16 @@ form div {
     -webkit-transition:all .14s linear;
     transition:all .14s linear;
     }
-#return_btn #add_btn:hover{
+.return_btn:hover, .add_btn:hover{
     background: pink;
     border: none;
-    float: left;
+/*    float: left;*/
 }
-#return_btn #add_btn:active{
+.return_btn:active, .add_btn:active{
     background: powderblue
     }
     
-#return_btn #add_btn:focus{
+.return_btn:focus, .add_btn:focus{
     outline: none;
     }
 
