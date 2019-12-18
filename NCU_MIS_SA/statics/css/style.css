@@ -348,7 +348,10 @@ td{
 #buy_btn:focus{
     outline: none;
     }
-
+.form_text{
+    margin-left: 165px;
+    font-size: 30px;
+}
 .signin{
     padding: 30px 95px 0px 95px;
     width: 350px;
@@ -382,9 +385,10 @@ form #submit:active{
 }
 
 .signin_text{
-	padding-left: 55px;
+	padding-left: 45px;
 	line-height: 60px;
-	text-align: center;
+    text-align: center;
+    font-size: 25px;
 }
 .close {
     position: relative;
@@ -470,31 +474,18 @@ form div {
 	padding: 20px;
 	height: 50px;
 }
-.item_box .return_btn, .add_btn{
+.item_box .add_btn{
 /*    float: right;*/
 /*    margin: 10px 0px 0px 160px ;*/
     /* margin-left: 160px; */
     font-size: 16px;
 	border: none;
 }
-.return_btn, .add_btn{
+.add_btn{
     border: none;
 /*    float: right;*/
 }
 
-.return_btn{
-    height: 36PX;
-    width:125px;
-    color:black;
-    background: powderblue;
-    line-height: 36px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    -webkit-transform:translateZ(0) scale(1,1);
-    -webkit-transition:all .14s linear;
-    transition:all .14s linear;
-    }
 .add_btn{
     height: 36PX;
     width:125px;
@@ -508,16 +499,16 @@ form div {
     -webkit-transition:all .14s linear;
     transition:all .14s linear;
     }
-.return_btn:hover, .add_btn:hover{
+.add_btn:hover{
     background: pink;
     border: none;
 /*    float: left;*/
 }
-.return_btn:active, .add_btn:active{
+.add_btn:active{
     background: powderblue
     }
     
-.return_btn:focus, .add_btn:focus{
+.add_btn:focus{
     outline: none;
     }
 
@@ -620,10 +611,10 @@ background-color: #BFBFBF;
     position:relative;
     display:block;
     width:270px;
-      
+    }  
     
     
-    }
+    
     .main-menu li .btn{
         background: #F7F7F7;
         color:#8a8a8a;
@@ -631,7 +622,7 @@ background-color: #BFBFBF;
         padding: 12px 16px; 
         border: none;
         width:300px;
-        font-size: 13px;
+        font-size: 15px;
         -webkit-transform:translateZ(0) scale(1,1);
         -webkit-transition:all .14s linear;
         transition:all .14s linear;
