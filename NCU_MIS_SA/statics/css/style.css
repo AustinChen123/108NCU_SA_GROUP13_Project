@@ -2,6 +2,9 @@
 body{
   font-family: 'Noto Sans TC', sans-serif ;
 }
+.hidden{
+    visibility: hidden;
+}
 *{
     margin: 0px;
     padding: 0px;
