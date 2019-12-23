@@ -7,6 +7,7 @@
          <link rel="stylesheet" href="/css/style.css" />
          <link rel="stylesheet" type="text/css" 
          href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
+          <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         
         </head>
 
@@ -17,10 +18,11 @@
                 <span class="slogan">復活福利社2.0</span>
                 <div class="btnbox">
                     <a class = "signin_btn btn" id = "btn" href="#login">
-                    <span class="nav-text">登入/註冊</span>
+                    <span class="nav-text" id = "login_here">登入/註冊</span>
                     </a>
                     <!-- <input class="signin_btn" type="button" href="#login" value = "登入/註冊" /> -->
                 </div>
+                <span id ="member_message"></span>
                 <div class="userbar">
                     <ul class="menu">
                         <li id = "user">
@@ -165,8 +167,10 @@
                             <input name="password" maxlength="30" type="password" id="member_password" required="required">
                         </div>
                         <div class="submit">
-							<input type="button" value="登入" id="submit">
-							<input type="button" value="註冊" id="submit">
+							<input type="button" value="登入" id="login_submit">
+							<a href="register.html">
+							<input type="button" value="註冊" id="register_submit">
+							</a>
 							
 						</div>
                     </form>
@@ -265,4 +269,107 @@
             <input type="submit" name="" value="註冊">
         </form> -->
     </body>
+    <script type="text/javascript">
+    $('#login_submit').click(function() {
+    	check();
+    });
+   
+    function check() {
+        var email=$("input[name='email']").val(); //獲取input裡的值
+        var password=$("input[name='password']").val();
+        if(email==""|| password==""){
+        	alert("帳號密碼均不能為空！");
+        }
+        else{
+	        var data_object = {
+	                "email": email,
+	                "password": password,
+	        }
+	        
+	        var data_string = JSON.stringify(data_object);
+	        var id="id";
+	        var name="name";
+	        $.ajax({
+	            type:"POST",
+	            url:"api/login.do",
+	            data:data_string,  //直接傳表單裡的資料
+	            crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+	            success:function (response) {
+	            	 if(response.status == 200){
+	                    alert("登入成功！");
+	                    setCookie(id, response.response.data[0].id,1);
+	                    setCookie(name, response.response.data[0].name,1);
+	                    
+	                    login_();
+	                    
+	                }else{
+	                	console.log(response.status);
+	                    alert("使用者名稱或密碼錯誤");
+	                    $("#member_password").val("");  //將密碼input清空
+	                    $("#member_password").focus();  //將游標定位到密碼input
+	                   
+	                }
+	            },
+	            error:function (err) {
+	                alert("帳號密碼錯誤！");
+	            }
+	        });
+        }
+    	};
+    	function setCookie(cookieName, cookieValue, exdays) {
+    		  if (document.cookie.indexOf(cookieName) >= 0) {
+    		    var expD = new Date();
+    		    expD.setTime(expD.getTime() + (-1*24*60*60*1000));
+    		    var uexpires = "expires="+expD.toUTCString();
+    		    document.cookie = cookieName + "=" + cookieValue + "; " + uexpires; 
+    		  } 
+    		  var d = new Date();
+    		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    		  var expires = "expires="+d.toUTCString();
+    		  document.cookie = cookieName + "=" + cookieValue + "; " + expires;  
+    		}
+    	//取cookies函式  
+    	function getCookie(cookieName) {
+			var name = cookieName + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0; i<ca.length; i++) {
+			      var c = ca[i];
+			      while (c.charAt(0)==' ') c = c.substring(1);
+			      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+	  		}
+  			return "";
+		}
+    	//刪除cookie
+    	function delCookie(name){
+    	var exp = new Date();
+    	exp.setTime(exp.getTime() - 1);
+    	var cval = getCookie(name);
+    	if (cval != null) document.cookie = name   +"="+   cval   +";expires="+   exp.toGMTString();
+    	}
+    	//login後
+    	function login_() {
+            var id= getCookie("id"); //取得cookie
+            var name=getCookie("name");
+            $("#member_message").html(name+" 歡迎你!");
+            $("#login_here").attr('id','logout_here');
+            $("#logout_here").html("登出");
+            $("#btn").attr('href','#logout')
+            
+            
+        	};
+        //點擊登出按鈕
+        $('#logout_here').click(function() {
+    	    	logout();
+    	    	console.log(success);
+    	});
+        function logout_(){
+        	 window.location.href="index.html";
+        	 delCookie("name");
+        	 delCookie("id");
+        	
+        }
+    </script>
 </html>

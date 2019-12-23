@@ -123,6 +123,10 @@ public class Member {
         this.fb_link = fb_link;
         
     }
+    public Member(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
     
     
     /**
