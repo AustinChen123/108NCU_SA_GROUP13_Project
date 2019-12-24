@@ -105,7 +105,7 @@
    		inner_html += '<h4 class="font-weight-normal text-center text-truncate">' + data.name + '</h4>';
  		inner_html += '</div>';
  		inner_html += '<div class="card mb-4 shadow-sm">';
- 		inner_html += '<img src="/product/' + data.image + '" width="100%"';
+ 		inner_html += '<img src="statics/img/product/' + data.image + '" width="100%"';
 		inner_html += '<div class="card-body">';
 		inner_html += '<h1 class="card-title pricing-card-title">$' + data.price + ' <small class="text-muted">/ TWD</small></h1>';
 		inner_html += '<p class="card-text">' + "產品分類: "+ data.classification + '</p>';
@@ -164,7 +164,7 @@
 	    document.addEventListener("error",function (e) {
 	    	var elem = e.target;
 	    	if (elem.tagName.toLowerCase() == 'img') {
-	    		elem.src = "/product/default_.jpg";
+	    		elem.src = "statics/img/product/default_.jpg";
 	    	}
 	    	}, true);
     });
