@@ -1,4 +1,9 @@
 /*@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);*/
+@font-face {
+    font-family: 'DFHsiu-W3-WIN-BF';
+    src: url('../fonts/DFHsiu-W3-WIN-BF.woff') format("woff"),
+           url('../fonts/DFHsiu-W3-WIN-BF.ttf') format("truetype");
+  }
 body{
   font-family: 'Noto Sans TC', sans-serif ;
 }
@@ -8,7 +13,7 @@ body{
 *{
     margin: 0px;
     padding: 0px;
-    font-family: "華康秀風體W3";
+    font-family: 'DFHsiu-W3-WIN-BF';
 	font-weight: bold;
 	font-size: 18px;
 }

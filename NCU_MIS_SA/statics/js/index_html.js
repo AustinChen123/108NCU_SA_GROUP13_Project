@@ -35,7 +35,7 @@ function updateitem(data) {
         table_html += '<td>' + value['price'] + '</td>'+'</tr>';
         table_html += '</table>';
         // 尚未連結id
-        table_html += '<a class="check_item" href="#item_info?id='+ value['id']+'"></a>';
+        table_html += '<a class="check_item" href="?id='+ value['id']+'#item_info'+'"></a>';
         table_html += '</div>';
     })
 
