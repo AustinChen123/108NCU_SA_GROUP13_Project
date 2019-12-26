@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 編碼類型 -->
+         <meta charset="UTF-8">
+         <title>復活福利社2.0</title>
+         <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+         <link rel="stylesheet" href="statics/css/member.css" />
+         <link rel="stylesheet" type="text/css" 
+         href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
+        
+        </head>
+
+    <body> 
+        <div id="header">
+            <nav class="top_nav">
+                <span class="slogan">復活福利社2.0</span>
+                <div class="userbar">
+                    <ul class="menu">
+                        <li id = "user">
+                            <a href="index.html">
+                            <i class="fa-lg fas fa-shopping-cart "></i>
+                            <span class="nav-text">回到商場&nbsp;</span>
+                            </a>
+                        </li>
+                        <li id = "user">
+                            <a href="manager.html">
+                            <i class="fa-lg fas fa-wrench"></i>
+                            <span class="nav-text">管理員專區</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </div>
+        <div class="member_container">
+            <div class="member_info">
+                <table>
+                    <tr>
+                        <td class="info_title">會員id</td>
+                        <td>我是假id</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">email</td>
+                        <td>我是假email</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">會員姓名</td>
+                        <td>我是假名</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">Facebook連結</td>
+                        <td><a href = "#FB">Facebook</a></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>                        
+                        <td class="info_title">會員建立日期</td>
+                        <td>不是今天</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">會員驗證狀態</td>
+                        <td>沒驗證</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">上次登入時間</td>
+                        <td>現在</td>
+                    </tr>
+                    <tr>
+                        <td><a href = "#order">會員訂單</a></td>
+                        <td><a href = "#product">會員商品</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr size="3px" align="center" width="100%" color = skyblue>
+        <div class="member_product" id= "product">
+            <div class="product_info">
+                <h1 style="text-align:center; font-size:30px;">會員商品</h1>
+                <table>
+                    <tr class = "table_title">
+                        <td class = "table_title">商品id</td>
+                        <td class = "table_title">商品名稱</td>
+                        <td class = "table_title">商品狀態</td>
+                        <td class = "table_title">商品價格</td>
+                    </tr>
+                    <!-- 這裡開始是js填入 -->
+                    <tr>
+                        <td><a href="#">1</a></td>
+                        <td>腳踏車</td>
+                        <td>二手</td>
+                        <td>TWD 1500</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr size="3px" width="100%" color = skyblue>
+        <div class="member_order" id = "order">
+            <div class="order_info">
+                <h1 style="text-align:center; font-size:30px;">會員訂單</h1>
+                <table>
+                    <tr class = "table_title">
+                        <td class = "table_title">訂單id</td>
+                        <td class = "table_title">商品id</td>
+                        <td class = "table_title">商品名稱</td> 
+                        <td class = "table_title">買家id</td>
+                        <td class = "table_title">買家名稱</td>
+                        <td class = "table_title">訂單金額</td>
+                        <td class = "table_title">建立時間</td>
+                    </tr>
+                    <!-- 這裡開始是js填入 -->
+                    <tr>
+                        <td><a href="#">1</a></td>
+                        <td><a href="#">1</a></td>
+                        <td>腳踏車</td>
+                        <td><a href="#">1</a></td>
+                        <td>測試員</td>
+                        <td>TWD 1500</td>
+                        <td>2019/12/26</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <script>
+        // 取得網址參數
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var id = url.searchParams.get("id");
+        // 取得會員資料
+            function getmember(id) {
+                var data_object = {
+                    "id": id,
+                }
+                var data_string = JSON.stringify(data_object);
+                $.ajax({
+	            data:data_string,  //直接傳表單裡的資料
+	            crossDomain: true,
+                type: "POST",
+                url: "api/member.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                    if (response.status == 200) {
+                    updatemember(response.response.data);
+                    }
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                        }
+                 }); // end ajax
+                }   // end function
+        //     <table>
+        //     <tr>
+        //         <td class="info_title">會員id</td>
+        //         <td>我是假id</td>
+        //     </tr>
+        //     <tr>
+        //         <td class="info_title">email</td>
+        //         <td>我是假email</td>
+        //     </tr>
+        //     <tr>
+        //         <td class="info_title">會員姓名</td>
+        //         <td>我是假名</td>
+        //     </tr>
+        //     <tr>
+        //         <td class="info_title">Facebook連結</td>
+        //         <td><a href = "#FB">Facebook連結/a></td>
+        //     </tr>
+        // </table>
+        // <table>
+        //     <tr>                        
+        //         <td class="info_title">會員建立日期</td>
+        //         <td>不是今天</td>
+        //     </tr>
+        //     <tr>
+        //         <td class="info_title">會員驗證狀態</td>
+        //         <td>沒驗證</td>
+        //     </tr>
+        //     <tr>
+        //         <td class="info_title">上次登入時間</td>
+        //         <td>現在</td>
+        //     </tr>
+        //     <tr>
+        //         <td><a href = "#order">會員訂單</a></td>
+        //         <td><a href = "#product">會員商品</a></td>
+        //     </tr>
+        // </table>
+        function updatemember(data){
+            $(".member_info").empty();
+            var table_html = '';
+            table_html += '<table>';
+            table_html += '<tr><td class="info_title">會員id</td><td>'+data.id+'</td></tr>';
+            table_html += '<tr><td class="info_title">email</td><td>'+data.email+'</td></tr>';
+            table_html += '<tr><td class="info_title">會員姓名</td><td>'+data.name+'</td></tr>';
+            table_html += '<tr><td class="info_title">Facebook連結</td><td>'+'<a href = '+data.fb_link+'/a>Facebook</td></tr>';
+            table_html += '</table>';
+            table_html += '<table>';
+            table_html += '<tr><td class="info_title">會員id</td><td>'+data.created+'</td></tr>';
+            table_html += '<tr><td class="info_title">email</td><td>'+data.status+'</td></tr>';
+            table_html += '<tr><td class="info_title">email</td><td>'+data.login_datetime+'</td></tr>';
+            
+            table_html += '<tr><td><a href = "#order">會員訂單</a></td>';
+            table_html += '<td><a href = "#product">會員商品</a></td></tr>';
+            table_html += '</table>';
+            $(".member_info").append(table_html);
+        }
+        
+        $(document).ready(function(){
+        	getmember(id);
+        });
+        </script>
+    </body>
+</html>
