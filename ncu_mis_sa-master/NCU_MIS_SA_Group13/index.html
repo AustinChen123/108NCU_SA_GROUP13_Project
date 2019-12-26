@@ -30,7 +30,7 @@
                 <div class="userbar">
                     <ul class="menu">
                         <li id = "user">
-                            <a href="#">
+                            <a href="#" id = "member">
                             <i class="fa-lg fas fa-user "></i>
                             <span class="nav-text">會員專區&nbsp;</span>
                             </a>
@@ -295,6 +295,7 @@
 	                    $("#member_password").val("");
 	                    var parameter= getCookie("id");
 	                	location.href='#id='+parameter;
+                        member.href='member.html?id='+parameter;
 	                    login_();
 	                    
 	                }else{
