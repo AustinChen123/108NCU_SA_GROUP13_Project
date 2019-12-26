@@ -146,6 +146,7 @@
                         success: function (response) {
                             if(response.status == 200){
                             	updateSQLTable(response.response);
+                            	console.log(response.response);
                             	document.getElementById('member_name').value = response['response']['data'][0]['name'];
                             	document.getElementById('member_email').value = response['response']['data'][0]['email'];
                             	document.getElementById('member_fb_link').value = response['response']['data'][0]['fb_link'];
