@@ -70,18 +70,31 @@
 	            <span id="order_id">{{order_id}}</span>
 	          </p>
 	        </div>
-	        
+	        <div class="col media text-muted pt-3">
+	          <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+	            <strong class="d-block text-gray-dark">建立時間</strong>
+	            <span id="create_datetime">{{create_datetime}}</span>
+	          </p>
+	        </div>
+	        <div class="col media text-muted pt-3">
+	          <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+	            <strong class="d-block text-gray-dark">交易狀態</strong>
+	            <span id="status">{{status}}</span>
+	          </p>
+	        </div>
+	     </div>
+	     <div class="row">  
 	        <div class="col media text-muted pt-3">
              <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-               <strong class="d-block text-gray-dark">修改日期</strong>
-               <span id="modify">{{modify}}</span>
+               <strong class="d-block text-gray-dark">買家名字</strong>
+               <span id="buyer_name">{{buyer_name}}</span>
              </p>
            </div>
            
            <div class="col media text-muted pt-3">
              <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-               <strong class="d-block text-gray-dark">建立日期</strong>
-               <span id="create">{{create}}</span>
+               <strong class="d-block text-gray-dark">買家信箱</strong>
+               <span id="buyer_email">{{buyer_email}}</span>
              </p>
            </div>
          </div>
@@ -89,47 +102,25 @@
          <div class="row">
            <div class="col media text-muted pt-3">
              <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-               <strong class="d-block text-gray-dark">姓名</strong>
-               <span id="last_name" class="p-2">{{last_name}}</span><span id="first_name">{{first_name}}</span>
+               <strong class="d-block text-gray-dark">賣家名字</strong>
+               <span id="seller_name" class="p-2">{{seller_name}}</span>
              </p>
            </div>
            
           <div class="col media text-muted pt-3">
             <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-              <strong class="d-block text-gray-dark">手機號碼</strong>
-              <span id="phone">{{phone}}</span>
+              <strong class="d-block text-gray-dark">賣家信箱</strong>
+              <span id="seller_email">{{seller_email}}</span>
             </p>
           </div>
           
           <div class="col media text-muted pt-3">
             <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-              <strong class="d-block text-gray-dark">電子郵件</strong>
-              <span id="email">{{email}}</span>
+              <strong class="d-block text-gray-dark">賣家FB</strong>
+              <span id="seller_fb">{{seller_fb}}</span>
             </p>
           </div>
          </div>
-         
-         <div class="media text-muted pt-3">
-           <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-             <strong class="d-block text-gray-dark">住址</strong>
-             <span id="address">{{address}}</span>
-           </p>
-         </div>
-         
-         <div class="row">
-          <div class="col media text-muted pt-3">
-            <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-              <strong class="d-block text-gray-dark">項目數量</strong>
-              <span id="item">{{item}}</span>
-            </p>
-          </div>
-          
-          <div class="col media text-muted pt-3">
-             <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-               <strong class="d-block text-gray-dark">商品總數</strong>
-               <span id="quantity">{{quantity}}</span>
-             </p>
-           </div>
          </div>
         
         <H3 class="d-block text-right mt-3">總價：$ <span id="total">{{total}}</span></H3>
@@ -141,10 +132,13 @@
            <thead>
              <tr>
                <th class="text-center" style="width: 10%">商品編號</th>
-               <th class="text-center" style="width: 40%">品名</th>
-               <th class="text-center" style="width: 15%">單價</th>
-               <th class="text-center" style="width: 10%">數量</th>
-               <th class="text-center" style="width: 15%">小計</th>
+               <th class="text-center" style="width: 50%">品名</th>
+               <th class="text-center" style="width: 40%">價格</th>
+             </tr>
+             <tr>
+               <th class="text-center" style="width: 10%" id="product_id">{{product_id}}</th>
+               <th class="text-center" style="width: 50%" id="product_name">{{product_name}}</th>
+               <th class="text-center" style="width: 40%" id="total_2">{{total}}</th>
              </tr>
            </thead>
            <tbody id="panel">
@@ -152,7 +146,6 @@
          </table>
        </div>
      </div>
-  </div>
 
   <script>
   //取得網址參數
@@ -171,7 +164,9 @@
           timeout: 5000,
           success: function (response) {
               if(response.status == 200){
-            	  updateHTML(response.response.data);
+            	  updateHTML(response.response.data[0]);
+            	 
+            	  
               }
           },
           error: function () {
@@ -183,47 +178,32 @@
   getOrderData();
   
   function updateHTML(data) {
-	  $("#order_id").html(data['order_info']['id']);
-	  $("#create").html(data['order_info']['create']);
-	  $("#modify").html(data['order_info']['modify']);
-	  $("#email").html(data['order_info']['email']);
-	  $("#address").html(data['order_info']['address']);
-	  $("#phone").html(data['order_info']['phone']);
-	  $("#first_name").html(data['order_info']['first_name']);
-	  $("#last_name").html(data['order_info']['last_name']);
-	  $("#item").html(data.product_info.length);
+	  var status_value='';
+      if (data.status === false ) {
+    	  status_value="尚在交易";
+      } 
+      else if (data.status === true ) {
+    	  status_value="交易完成";
+      }
+      console.log(data.buyer_email);
+	  $("#order_id").html(id);
+	  $("#create_datetime").html(data.create_datetime);
+	  $("#status").html(status_value);
+	  $("#buyer_email").html(data.buyer_email);
+	  $("#buyer_name").html(data.buyer_name);
+	  $("#seller_name").html(data.seller_name);
+	  $("#seller_email").html(data.seller_email);
+	  $("#seller_fb").html(data.seller_fb);
+	  $("#total").html(data.total);
 	  
-	  var total_price = Big(0.0);
-	  var quantity = 0;
-	  var inner_html = "";
 	  
-	  $.each(data.product_info, function (k, v) {
-		  quantity += v['quantity'];
-		  total_price = total_price.plus(v['subtotal']);
-		  inner_html += updateOrderProductTable(v);
-	  });
+	  $("#product_id").html(data.product_id);
+	  $("#total_2").html(data.total);
+	  $("#product_name").html(data.product_name);
 	  
-	  $("#quantity").html(quantity);
-	  $("#total").html(total_price.toString());
-	  
-	  $("#table > tbody").empty();
-	  $("#panel").append(inner_html);
 
   }
-  
-  function updateOrderProductTable(data) {
-	  var table_html = "";
-	  table_html += '<tr id="row_' + data.id + '">';
-    table_html += '<td class="align-middle text-center">' + data.product.id + '</td>';
-    table_html += '<td class="align-middle"><p class="text-break">' + data.product.name + '</p></td>';
-    table_html += '<td class="align-middle text-center"><span id="price_' + data.id + '">' + data.price + '</td>';
-    table_html += '<td class="align-middle text-center">' + data.quantity + '</td>';
-    table_html += '<td class="align-middle text-center"><strong><span id="subtotal_' + data.id + '">' + data.subtotal + '<strong></td>';
-    table_html += '</tr>';
-	  
-	  return table_html;
-	  
-  }
+
   </script>
 
   <footer class="text-muted">

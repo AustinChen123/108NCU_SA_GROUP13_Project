@@ -425,7 +425,21 @@
       		return inner_html;
           }
           $(document).ready(function() {
-         		getAllProduct();
+        	  //console.log(getCookie("id"))
+        	  if (getCookie("id")!="") {
+        		    var name=getCookie("name");
+        		    $("#member_message").html(name+" 歡迎你!");
+        		  	$("#login_here").attr('id','logout_here');
+                 	$("#logout_here").html("登出");
+                 	$("#btn").attr('href','#logout');
+                    $("#btn").attr('onclick','logout_()');
+                 	//console.log("there is someone login right now")
+                } else {
+                	$("#logout_here").attr('id','login_here');
+                    $("#login_here").html("登入/註冊");
+                    //console.log("there is noone login right now")
+                }
+         	getAllProduct();
           
       	    document.addEventListener("error",function (e) {
       	    	var elem = e.target;
