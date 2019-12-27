@@ -8,10 +8,10 @@
          <link rel="stylesheet" type="text/css" 
          href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
          <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  		 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+  		 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>-->
+  		 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>-->
         
         </head>
 
@@ -126,7 +126,7 @@
 			<button class="search_btn">
 			<i class="fas fa-search fa-lg" style="font-size: 17px"></i>
 			</button>
-			<button class="add_item_btn" onclick="location.href='#add_item'">新增商品</button>
+			<button id="add_item_" class="add_item_btn" >新增商品</button>
         </div>
         <div class="album py-5 bg-light" style="background-color:black;">
         <div class="item_container">
@@ -208,7 +208,7 @@
 						</tr>
 						<tr>
 							<td>商品分類</td>
-							<td><select name = "item_category" required = "required">
+							<td><select id="sfs" name = "item_category" required = "required">
 								<option>食物</option>
 								<option>服飾</option>
 								<option>美妝</option>
@@ -218,6 +218,7 @@
 								<option>收購</option>
 								<option>贈送</option>
 								<option>其他</option>
+								</select>
 							</td>
 						</tr>	
 						<tr>
@@ -233,16 +234,17 @@
 						</tr>
 						<tr>
 							<td>商品圖片</td>
-							<td><input class="img_input" type="file" name = "item_image"></td>
+							<td><input id="file-selector" class="img_input" type="file" name = "item_image" accept=".jpg" multiple="multiple"></td>
 						</tr>
 						<tr>
 							<td>商品描述</td>
-							<td><textarea class="description" name = "item_dis" rows = "2" cols="20"></textarea></td>
+							<td><textarea class="description" name = "item_dis" rows = "10" cols="20"></textarea></td>
 						</tr>
                     </table>
 					<div style="text-align:center">
-						<button class="add_btn" id="add_btn">確認新增</button>
+						<div class="submit"><input type="button" value="確認新增" id="submit"></div>
 					</div>
+					<div id = "preview"></div>
 					</form>
                 </div>
             </div>
@@ -258,6 +260,7 @@
         </form> -->
     </body>
     <script type="text/javascript">
+    
     //點擊登入按鈕
     $('#login_submit').click(function() {
     	check();
@@ -278,6 +281,8 @@
 	        var data_string = JSON.stringify(data_object);
 	        var id="id";
 	        var name="name";
+	        var email="email";
+	        var fb_link="fb_link"
 	        $.ajax({
 	            type:"POST",
 	            url:"api/login.do",
@@ -291,11 +296,12 @@
 	                    alert("登入成功！");
 	                    setCookie(id, response.response.data[0].id,1);
 	                    setCookie(name, response.response.data[0].name,1);
+	                    setCookie(email, response.response.data[0].email,1);
+	                    setCookie(fb_link, response.response.data[0].fb_link,1);
 	                    $("#member_email").val("");
 	                    $("#member_password").val("");
 	                    var parameter= getCookie("id");
 	                	location.href='#id='+parameter;
-                        member.href='member.html?id='+parameter;
 	                    login_();
 	                    
 	                }else{
@@ -343,7 +349,7 @@
     	var cval = getCookie(name);
     	if (cval != null) document.cookie = name   +"="+   cval   +";expires="+   exp.toGMTString();
     	}
-    	//login後
+    	//按下login後
     	function login_() {
             var id= getCookie("id"); //取得cookie
             var name=getCookie("name");
@@ -362,6 +368,8 @@
           	$("#btn").attr('onclick','');
           	delCookie("name");
           	delCookie("id");
+          	delCookie("email");
+          	delCookie("fb_link");
           	
         }
         //取得全部商品資料
@@ -425,8 +433,86 @@
       		
       		return inner_html;
           }
-          $(document).ready(function() {
-        	  //console.log(getCookie("id"))
+          
+          //新增商品
+          function submit() {
+        	  
+	        	  var member_id =getCookie("id");
+	              var name = $("input[name='item_name']").val();
+	              var classification =$("#sfs :selected").text();
+	              var product_status = false ;
+	              if( $('input[name=item_state]:checked').val()=="new"){
+	            	  product_status=true;
+	              }
+	              else{
+	            	  product_status=false; 
+	              }
+	              var price = $("input[name='item_price']").val();
+	              var product_overview = $("textarea[name='item_dis']").val();
+	              
+	
+	              if (name == "") {
+	            	  alert("欄位請填寫完整！");
+	              }
+	              else {
+	                  // 將資料組成JSON格式
+	                  var data_object = {
+	                  "member_id":member_id,
+	                  "name": name,
+	                  "seller_name":getCookie("name"),
+	                  "seller_email":getCookie("email"),
+	                  "seller_fb":getCookie("fb_link"),
+	                  "classification": classification,
+	                  "product_status": product_status,
+	                  "price":price,
+	                  "product_overview":product_overview
+	                  };
+	
+	                  // 將JSON格式轉換成字串
+	                  var data_string = JSON.stringify(data_object);
+	
+	                  // 發出POST的AJAX請求
+	                  $.ajax({
+	                     		 type: "POST",
+	                             url: "api/product.do",
+	                             data: data_string,
+	                             crossDomain: true,
+	                             cache: false,
+	                             dataType: 'json',
+	                             timeout: 5000,
+	                             success: function (response) {
+	                                   if(response.status == 200){
+	                                            console.log(response.response);
+	                                            alert("新增成功！")
+	                                            getAllProduct();
+	                                        }
+	                                    },
+	                                    error: function () {
+	                                        alert("無法連線到伺服器！");
+	                                    }
+	                            });
+	                        }
+        	  			
+                    }
+          //登入者才能新增商品
+          $( "#add_item_" ).click(function() {
+        	if (getCookie("id")!="") {
+        		location.href='#add_item';
+        		// 處理新增商品表單點擊事件
+                var $form = $('#submit');
+                $form.click(function() {
+                	console.log("點了");
+                    submit();});
+          	}
+        	else{
+        		 alert("欲新增商品請先登入");
+        	}
+          });
+                 		
+           
+          
+ $(document).ready(function() {
+        	  //有登入才能做的事
         	  if (getCookie("id")!="") {
         		    var name=getCookie("name");
         		    $("#member_message").html(name+" 歡迎你!");
@@ -434,21 +520,27 @@
                  	$("#logout_here").html("登出");
                  	$("#btn").attr('href','#logout');
                     $("#btn").attr('onclick','logout_()');
-                 	//console.log("there is someone login right now")
+                    var result='member.html?id='+getCookie("id")
+                    $("#member").attr("href",result);
+                 	
+      
+              //登出後
                 } else {
                 	$("#logout_here").attr('id','login_here');
                     $("#login_here").html("登入/註冊");
-                    //console.log("there is noone login right now")
+                    
                 }
          	getAllProduct();
-          
+         	
+           //沒有圖片上傳會放default圖
       	    document.addEventListener("error",function (e) {
       	    	var elem = e.target;
       	    	if (elem.tagName.toLowerCase() == 'img') {
       	    		elem.src = "statics/img/product/default_.jpg";
       	    	}
       	    	}, true);
-          });
+      	
+ });
        
     </script>
 </html>
