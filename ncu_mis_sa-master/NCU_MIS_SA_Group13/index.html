@@ -77,7 +77,7 @@
                 美妝
                 </button>                                 
                 </li>   
-                  
+                 
                 <li>  
                 <button class="btn">
                 <i class="fa fa-headphones fa-lg"></i>
@@ -409,10 +409,11 @@
               	varification_value="已審核";
               }
           	let inner_html = '';
+
           	inner_html += '<div class="col-md-3">';
           	//<a href="#item_info?id='+ data.id +'"></a>
-          	inner_html += '<div class="item" style="height:470px">';
-          	inner_html += '<img class = "item_shortimg"  src="statics/img/product/' + data.image + '" width="200" height="240"/>'
+          	inner_html += '<div class="item"  style="height:470px">';
+          	inner_html += '<img class = "item_shortimg" src="statics/img/product/' + data.image + '" width="200" height="240"/>';
           	inner_html +='<table class="item_shortinfo">';
           	inner_html +='<tr>';
           	inner_html +='<td>商品名稱</td>';
@@ -427,7 +428,9 @@
           	inner_html +='<td>TWD' + data.price + '</td>';
           	inner_html +='</tr>';
           	inner_html +='</table>';
+
           	inner_html +='</div>';
+
           	inner_html +='</div>';
           	
       		
@@ -508,7 +511,12 @@
         		 alert("欲新增商品請先登入");
         	}
           });
-                 		
+          
+          //點擊圖片，查看商品詳細內容
+          $(document).on("click",".item_shortimg",function() {
+        	   location.href='#item_info';
+        	});
+	
            
           
  $(document).ready(function() {
