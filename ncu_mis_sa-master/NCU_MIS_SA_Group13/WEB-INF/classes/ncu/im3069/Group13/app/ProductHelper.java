@@ -61,6 +61,7 @@ public class ProductHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int product_id = rs.getInt("id");
+                int member_id=rs.getInt("member_id");
                 String seller_name=rs.getString("seller_name");
                 String seller_email=rs.getString("seller_email");
                 String seller_fb=rs.getString("seller_fb");
@@ -73,7 +74,7 @@ public class ProductHelper {
                 Boolean verification_status=rs.getBoolean("verification_status");
                 
                 /** 將每一筆商品資料產生一個新Product物件 */
-                p = new Product(product_id,seller_name,seller_email,seller_fb, name,classificaion,product_status, price,product_overview, image,verification_status);
+                p = new Product(product_id,member_id,seller_name,seller_email,seller_fb, name,classificaion,product_status, price,product_overview, image,verification_status);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(p.getData());
             }
@@ -283,26 +284,27 @@ public class ProductHelper {
         long start_time = System.nanoTime();
         /** 紀錄SQL總行數 */
         int row = 0;
-        
+        //12/27 here
         try {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
             /** member_id從cookie取*/
-            String sql = "INSERT INTO `sa_project`.`products`(`member_id`,`seller_name`, `seller_email`,`seller_fb`, `name`, `classification`, `product_status`,`price`,‵`product_overview`,`image`)"
-                    + " VALUES(?, (SELECT  `name` = ? FROM members WHERE members.id = member_id), (SELECT  `email` = ? FROM members WHERE members.id = member_id), (SELECT  `fb_link` = ? FROM members WHERE members.id = member_id), ?, ?, ?, ?, ?, ?)";
+            String sql = 
+            		"INSERT INTO `sa_project`.`products`(`member_id`,`seller_name`, `seller_email`,`seller_fb`, `name`, `classification`, `product_status`,`price`,`product_overview`)"
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             /** 取得所需之參數 */
-            int member_id = p.getInt();
-            String seller_name=p.getString();
-            String seller_email=p.getString();
-            String seller_fb=p.getString();
-            String name = p.getString();
-            String classificaion=p.getString();
-            Boolean product_status=p.getBoolean();
-            float price = p.getFloat();
-            String product_overview = p.getString();
-            String image = p.getString();
+            int member_id = p.getMember_id();
+            String seller_name=p.getSeller_name();
+            String seller_email=p.getSeller_email();
+            String seller_fb=p.getSeller_fb();
+            String name = p.getName();
+            String classificaion=p.getClassification();
+            Boolean product_status=p.getProduct_status();
+            float price = p.getPrice();
+            String product_overview = p.getProduct_overview();
+            //String image = p.getImage();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -315,7 +317,7 @@ public class ProductHelper {
             pres.setBoolean(7, product_status);
             pres.setFloat(8, price);
             pres.setString(9, product_overview);
-            pres.setString(10, image);
+            //pres.setString(8, image);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
