@@ -104,7 +104,7 @@ public class OrderHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`orders`";
+            String sql = "SELECT * FROM `sa_project`.`orders`";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -122,18 +122,23 @@ public class OrderHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
-                String first_name = rs.getString("first_name");
-                String last_name = rs.getString("last_name");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
-                String phone = rs.getString("phone");
-                Timestamp create = rs.getTimestamp("create");
-                Timestamp modify = rs.getTimestamp("modify");
+                int buyer_id = rs.getInt("buyer_id");
+                String buyer_name = rs.getString("buyer_name");
+                String buyer_email = rs.getString("buyer_email");
+                int product_id = rs.getInt("product_id");
+                String product_name = rs.getString("product_name");
+                String seller_name = rs.getString("seller_name");
+                String seller_email = rs.getString("seller_email");
+                String seller_fb = rs.getString("seller_fb");
+                float total=rs.getFloat("total");
+                Timestamp create_datetime = rs.getTimestamp("create_datetime");
+                boolean status=rs.getBoolean("status");
+                boolean deleted=rs.getBoolean("deleted");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id, first_name, last_name, email, address, phone, create, modify);
+                o = new Order(id, buyer_id, buyer_name, buyer_email, product_id, product_name, seller_name, seller_email,seller_fb,total,create_datetime,status,deleted);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
-                jsa.put(o.getOrderAllInfo());
+                jsa.put(o.getOrderData());
             }
 
         } catch (SQLException e) {
@@ -163,9 +168,10 @@ public class OrderHelper {
     }
     
     public JSONObject getById(String order_id) {
-        JSONObject data = new JSONObject();
         Order o = null;
         /** 記錄實際執行之SQL指令 */
+        JSONArray jsa = new JSONArray();
+        /** 用於儲存所有檢索回之會員，以JSONArray方式儲存 */
         String exexcute_sql = "";
         /** 紀錄程式開始執行時間 */
         long start_time = System.nanoTime();
@@ -178,7 +184,7 @@ public class OrderHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`orders` WHERE `orders`.`id` = ?";
+            String sql = "SELECT * FROM `sa_project`.`orders` WHERE `orders`.`id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -197,18 +203,23 @@ public class OrderHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
-                String first_name = rs.getString("first_name");
-                String last_name = rs.getString("last_name");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
-                String phone = rs.getString("phone");
-                Timestamp create = rs.getTimestamp("create");
-                Timestamp modify = rs.getTimestamp("modify");
+                int buyer_id = rs.getInt("buyer_id");
+                String buyer_name = rs.getString("buyer_name");
+                String buyer_email = rs.getString("buyer_email");
+                int product_id = rs.getInt("product_id");
+                String product_name = rs.getString("product_name");
+                String seller_name = rs.getString("seller_name");
+                String seller_email = rs.getString("seller_email");
+                String seller_fb = rs.getString("seller_fb");
+                float total=rs.getFloat("total");
+                Timestamp create_datetime = rs.getTimestamp("create_datetime");
+                boolean status=rs.getBoolean("status");
+                boolean deleted=rs.getBoolean("deleted");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id, first_name, last_name, email, address, phone, create, modify);
-                /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
-                data = o.getOrderAllInfo();
+                o = new Order(id, buyer_id, buyer_name, buyer_email, product_id, product_name, seller_name, seller_email,seller_fb,total,create_datetime,status,deleted);
+                /** 取出該名訂單之資料並封裝至 JSONsonArray 內 */
+                jsa.put(o.getOrderData());
             }
 
         } catch (SQLException e) {
@@ -233,7 +244,7 @@ public class OrderHelper {
         response.put("sql", exexcute_sql);
         response.put("row", row);
         response.put("time", duration);
-        response.put("data", data);
+        response.put("data", jsa);
 
         return response;
     }

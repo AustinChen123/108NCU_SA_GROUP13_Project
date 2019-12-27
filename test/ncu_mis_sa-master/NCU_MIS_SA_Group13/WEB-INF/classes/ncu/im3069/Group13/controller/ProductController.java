@@ -48,8 +48,53 @@ public class ProductController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
+		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+        JsonReader jsr = new JsonReader(request);
+        JSONObject jso = jsr.getObject();
+        
+        /** 取出經解析到JSONObject之Request參數 */
+        int member_id = jso.getInt("member_id");
+        String seller_name=jso.getString("seller_name");
+        String seller_email=jso.getString("seller_email");
+        String seller_fb=jso.getString("seller_fb");
+        String name = jso.getString("name");
+        String classification = jso.getString("classification");
+        boolean product_status = jso.getBoolean("product_status");
+        float price=jso.getFloat("price");
+        //String image = jso.getString("image");
+        String product_overview = jso.getString("product_overview");
+        
+        
+        
+        /** 建立一個新的會員物件 */
+        Product p = new Product(member_id,seller_name,seller_email,seller_fb,name,classification,product_status,price,product_overview);
+        
+        /** 後端檢查是否有欄位為空值，若有則回傳錯誤訊息 */
+        if(name.isEmpty() || classification.isEmpty()) {
+            /** 以字串組出JSON格式之資料 */
+            String resp = "{\"status\": \'400\', \"message\": \'欄位不能有空值\', \'response\': \'\'}";
+            /** 透過JsonReader物件回傳到前端（以字串方式） */
+            jsr.response(resp, response);
+        }
+        /** 透過MemberHelper物件的checkDuplicate()檢查該會員電子郵件信箱是否有重複 */
+        else {
+            /** 透過MemberHelper物件的create()方法新建一個會員至資料庫 */
+            JSONObject data = ph.create(p);
+            
+            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+            JSONObject resp = new JSONObject();
+            resp.put("status", "200");
+            resp.put("message", "成功! 新增商品...");
+            resp.put("response", data);
+            
+            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+            jsr.response(resp, response);
+        }
 	}
+	
+	
+	
 	/**
      * 處理Http Method請求PUT方法（更新）
      *

@@ -88,8 +88,9 @@ public class Product {
 		this.image = image;
 		this.product_overview = product_overview;
 	}
-	public Product(int id,String seller_name,String seller_email,String seller_fb, String name,String classificaion, Boolean product_status, float price, String product_overview, String image, Boolean verification_status) {
+	public Product(int id,int member_id,String seller_name,String seller_email,String seller_fb, String name,String classificaion, Boolean product_status, float price, String product_overview, String image, Boolean verification_status) {
 		this.id = id;
+		this.member_id=member_id;
 		this.seller_name=seller_name;
 		this.seller_email=seller_email;
 		this.seller_fb=seller_fb;
@@ -100,6 +101,18 @@ public class Product {
 		this.product_overview = product_overview;
 		this.image = image;
 		this.verification_status=verification_status;
+	}
+	public Product(int member_id,String seller_name,String seller_email,String seller_fb,String name,String classification, Boolean product_status, float price, String product_overview) {
+		this.member_id=member_id;
+		this.seller_name=seller_name;
+		this.seller_email=seller_email;
+		this.seller_fb=seller_fb;
+		this.name = name;
+		this.classification = classification;
+		this.product_status=product_status;
+		this.price = price;
+		this.product_overview = product_overview;
+		
 	}
 	
 	
