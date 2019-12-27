@@ -167,31 +167,9 @@
         <div class="item_info" id = "item_info">
             <a href="#" class="close"></a>
             <div class="item_discripe">
-                <div class="item_box">
-                    <img class = "item_img" src="/img/item1.jpg" />
-                    <table>
-                        <tr>
-                            <td class="left">商品名稱</td>
-                            <td class="right">腳踏車</td>
-                        </tr>
-                        <tr>
-                            <td class="left">商品分類</td>
-                            <td class="right">交通工具</td>
-                        </tr>
-                        <tr>
-                            <td class="left">商品狀態</td>
-                            <td class="right">二手</td>
-                        </tr>
-                        <tr>
-                            <td class="left">售價</td>
-                            <td class="right">1500元</td>
-                        </tr>
-                        <tr>
-                            <td class="left">商品描述</td>
-                            <td class="right last">上課代步用，正常使用痕跡</td>
-                        </tr>
-                    </table>
-                    <button class="buy_btn"id="buy_btn">購買商品</button>
+                <div class="item_box" id="item_panel">
+
+                    
                 </div>
             </div>
         </div> 
@@ -382,6 +360,7 @@
               dataType: 'json',
               timeout: 5000,
               success: function (response) {
+            	  console.log(response)
                 if (response.status == 200) {
               	var product_panel = '';
               	
@@ -413,8 +392,8 @@
           	inner_html += '<div class="col-md-3">';
           	//<a href="#item_info?id='+ data.id +'"></a>
           	inner_html += '<div class="item"  style="height:470px">';
-          	inner_html += '<img class = "item_shortimg" src="statics/img/product/' + data.image + '" width="200" height="240"/>';
-          	inner_html +='<table class="item_shortinfo">';
+          	inner_html += '<img class = "item_shortimg" id="' + data.id +'" src="statics/img/product/' + data.image + '" width="200" height="240"/>';
+          	inner_html +='<table class="item_shortinfo">';   
           	inner_html +='<tr>';
           	inner_html +='<td>商品名稱</td>';
           	inner_html +='<td>'+ data.name+'</td>';
@@ -428,9 +407,7 @@
           	inner_html +='<td>TWD' + data.price + '</td>';
           	inner_html +='</tr>';
           	inner_html +='</table>';
-
           	inner_html +='</div>';
-
           	inner_html +='</div>';
           	
       		
@@ -512,12 +489,66 @@
         	}
           });
           
+          function getiteminfo(item_id) {
+              $.ajax({
+                type: "GET",
+                url: "api/product.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                data:{
+                	id_list: item_id
+                },
+                success: function (response) {
+                	console.log(response)
+                  if (response.status == 200) {
+                	var item_box = '';
+
+                	item_box += '<img class = "item_img" src="statics/img/product/' + response.response.data[0].image + '">';
+                	item_box += '<table>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品名稱</td>';
+                	item_box += '<td class="right">' + response.response.data[0].name + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品分類</td>';
+                	item_box += '<td class="right">' + response.response.data[0].classification + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品狀態</td>';
+                	item_box += '<td class="right">二手</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">售價</td>';
+                	item_box += '<td class="right">' + response.response.data[0].price + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品描述</td>';
+                	item_box += '<td class="right last">' + response.response.data[0].product_overview + '</td>';
+                	item_box += '</tr>';
+                	item_box += '</table>';
+                	item_box += '<button class="buy_btn"id="buy_btn">購買商品</button>'
+                	$("#item_panel").empty();
+                	$("#item_panel").append(item_box);
+                	
+                  }
+                },
+                error: function () {
+                  alert("無法連線到伺服器！");
+                }
+              });
+            }
+
+          
           //點擊圖片，查看商品詳細內容
           $(document).on("click",".item_shortimg",function() {
-        	   location.href='#item_info';
+        	  var item_id = $(this).attr("id");//取得點擊的商品資料
+        	  getiteminfo(item_id);
+        	  location.href='#item_info';
+
         	});
-	
-           
+                   
           
  $(document).ready(function() {
         	  //有登入才能做的事
