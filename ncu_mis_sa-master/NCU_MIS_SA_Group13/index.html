@@ -419,10 +419,48 @@
           }
           //搜尋商品
           $( "#search_btn_" ).click(function() {
-
-				var name = $("input[name='search_text']").val();
+        	  
+			  var name = $("input[name='search_text']").val();
+              if(name=="搜尋商品"){
+              	alert("請輸入欲搜尋之關鍵字！");
+              }
+              else{
 				alert(name);
+				selectitem(name);
+              }
           });
+          
+          function selectitem(item_name) {
+              $.ajax({
+                type: "GET",
+                url: "api/product.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                data:{
+                	name_list: item_name
+                },
+                success: function (response) {
+                	console.log(response)
+                  if (response.status == 200) {
+ //               	var item_box = '';
+ //               	var product_name = response.response.data[0].name;
+//                	var seller_name=response.response.data[0].seller_name;
+//                	var seller_email=response.response.data[0].seller_email;
+//                	var seller_fb=response.response.data[0].seller_fb;
+//                	var price=response.response.data[0].price;
+					console.log(response.response.data[0]);
+
+                  }
+                },
+                error: function () {
+                  alert("無法連線到伺服器！");
+                }
+              });
+         }
+          
+          
           
           
           //新增商品
@@ -548,10 +586,10 @@
                 	item_box += '<td class="left">審核狀態</td>';
                 	//判斷商品的審核狀態
                 	if(response.response.data[0].verifacation_status){
-                		item_box += '<td class="right">全新</td>';
+                		item_box += '<td class="right">未審核</td>';
                 	}
                 	else{
-                		item_box += '<td class="right">二手</td>';
+                		item_box += '<td class="right">已審核</td>';
                  	 }
                 
                 	item_box += '</tr>';

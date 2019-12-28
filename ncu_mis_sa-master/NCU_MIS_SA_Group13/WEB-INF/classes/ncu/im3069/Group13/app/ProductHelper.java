@@ -105,6 +105,58 @@ public class ProductHelper {
 
         return response;
     }
+    
+    public JSONObject deleteByID(int id) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            
+            /** SQL指令 */
+            String sql = "DELETE FROM `sa_project`.`products` WHERE id = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, id);
+            /** 執行刪除之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+
+        return response;
+    }
 
     
     public JSONObject getById(String id) {
@@ -179,11 +231,13 @@ public class ProductHelper {
         return response;
     }
     
-    public Product getByName(String name) {
+    public JSONObject getByName(String name) {
         /** 新建一個 Product 物件之 p 變數，用於紀錄每一位查詢回之商品資料 */
         Product p = null;
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
+        JSONArray jsa = new JSONArray();
+        long start_time = System.nanoTime();
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
         ResultSet rs = null;
         
@@ -191,7 +245,7 @@ public class ProductHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_project`.`products` WHERE `products`.`name` like '?%' and on_shelf = 0";
+            String sql = "SELECT * FROM `sa_project`.`products` WHERE `products`.`name` like '?%' and on_shelf = 0";//如果試著把0改成?
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -207,10 +261,11 @@ public class ProductHelper {
             while(rs.next()) {
             	/** 將 ResultSet 之資料取出 */
                 int product_id = rs.getInt("id");
+                int member_id=rs.getInt("member_id");
                 String seller_name=rs.getString("seller_name");
                 String seller_email=rs.getString("seller_email");
                 String seller_fb=rs.getString("seller_fb");
-                String name = rs.getString("name");
+                String name_ = rs.getString("name");
                 String classificaion=rs.getString("classification");
                 Boolean product_status=rs.getBoolean("product_status");
                 float price = rs.getFloat("price");
@@ -219,7 +274,9 @@ public class ProductHelper {
                 Boolean verification_status=rs.getBoolean("verification_status");
                 
                 /** 將每一筆商品資料產生一個新Product物件 */
-                p = new Product(product_id,seller_name,seller_email,seller_fb, name,classificaion,product_status, price,product_overview, image,verification_status);
+                p = new Product(product_id,member_id,seller_name,seller_email,seller_fb, name_,classificaion,product_status, price,product_overview, image,verification_status);
+        //        p = new Product(product_id,seller_name,seller_email,seller_fb, name_,classificaion,product_status, price,product_overview, image,verification_status);
+                jsa.put(p.getData());  
             }
 
         } catch (SQLException e) {
@@ -232,8 +289,20 @@ public class ProductHelper {
             /** 關閉連線並釋放所有資料庫相關之資源 **/
             DBMgr.close(rs, pres, conn);
         }
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", 1);
+        response.put("time", duration);
+        response.put("data", jsa);
 
-        return p;
+        return response;
+       // return p;
     }
     
     public Product getByClassification(String classification) {
