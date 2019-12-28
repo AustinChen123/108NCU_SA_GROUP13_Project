@@ -123,8 +123,8 @@
         </div>
         </nav>
 		<div class="search_add">
-			<input class="search" type="summit" value="搜尋商品"/>
-			<button class="search_btn">
+			<input class="search" type="summit" value="搜尋商品" name="search_text"/>
+			<button class="search_btn" id="search_btn_">
 			<i class="fas fa-search fa-lg" style="font-size: 17px"></i>
 			</button>
 			<button id="add_item_" class="add_item_btn" >新增商品</button>
@@ -417,6 +417,13 @@
       		
       		return inner_html;
           }
+          //搜尋商品
+          $( "#search_btn_" ).click(function() {
+
+				var name = $("input[name='search_text']").val();
+				alert(name);
+          });
+          
           
           //新增商品
           function submit() {
