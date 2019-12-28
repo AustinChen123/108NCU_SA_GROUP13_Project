@@ -269,7 +269,7 @@ td{
 }
 .item_info:target{
     width: 500px;
-    height: 600px;
+    height: 800px;
     top:25%;
     right:35%;
     position: absolute;
