@@ -277,7 +277,7 @@ td{
 }
 .item_discripe{
 /*    padding: 150px;*/
-    width: 500px;
+    width: 630px;
     position: relative;
     transition: 0.3s;
     background-color: white;
@@ -285,7 +285,7 @@ td{
 }
 .item_box{
 	margin: 25px;
-	width: 450px;
+	width: 900px;
 	height: 550px;
     transition: 0.3s;
     /* background-color: gray; */
@@ -299,13 +299,13 @@ td{
 }
 .item_box .left{
     text-align: center;
-    width: 100px;
+    width: 150px;
     height: 35px;
     background: rgb(209, 209, 209);
 }
 .item_box .right{
     text-align: center;
-    width: 300px;
+    width: 400px;
     height: 35px;
     background: rgb(209, 209, 209);
 }
@@ -325,7 +325,7 @@ td{
 
 #buy_btn{
     height: 36PX;
-    width:125px;
+    width:225px;
     color:black;
     background: powderblue;
     line-height: 36px;
@@ -396,7 +396,7 @@ form #submit:active{
   }
   
 .close::after {
-    left: 487px;
+    left: 600px;
     top: -1rem;
     width: 2rem;
     height: 2rem;

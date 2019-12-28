@@ -164,6 +164,8 @@
                     </form>
                 </div>
         </div>
+        
+        <!-- 點擊商品後，會顯示該商品的詳細資料 -->
         <div class="item_info" id = "item_info">
             <a href="#" class="close"></a>
             <div class="item_discripe">
@@ -175,7 +177,7 @@
         </div> 
         <div class="item_info" id = "add_item">
             <a href="#" class="close"></a>
-            <div class="item_discripe">
+            <div class="item_discripe" >
                 <div class="item_box">
                     <span class="form_text">商品上架</span>
                     <form enctype="multipart/form-data">
@@ -517,7 +519,25 @@
                 	item_box += '</tr>';
                 	item_box += '<tr>';
                 	item_box += '<td class="left">商品狀態</td>';
-                	item_box += '<td class="right">二手</td>';
+                	//判斷商品的狀態
+                	if(response.response.data[0].product_status){
+                		item_box += '<td class="right">全新</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">二手</td>';
+                 	 }
+                	
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">審核狀態</td>';
+                	//判斷商品的審核狀態
+                	if(response.response.data[0].verifacation_status){
+                		item_box += '<td class="right">全新</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">二手</td>';
+                 	 }
+                
                 	item_box += '</tr>';
                 	item_box += '<tr>';
                 	item_box += '<td class="left">售價</td>';
@@ -526,6 +546,18 @@
                 	item_box += '<tr>';
                 	item_box += '<td class="left">商品描述</td>';
                 	item_box += '<td class="right last">' + response.response.data[0].product_overview + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">賣家</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_name + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">E-Mail</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_email + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">FACEBOOK</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_fb + '</td>';
                 	item_box += '</tr>';
                 	item_box += '</table>';
                 	item_box += '<button class="buy_btn"id="buy_btn">購買商品</button>'
