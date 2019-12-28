@@ -77,7 +77,7 @@
                 美妝
                 </button>                                 
                 </li>   
-                 
+                  
                 <li>  
                 <button class="btn">
                 <i class="fa fa-headphones fa-lg"></i>
@@ -119,6 +119,7 @@
                 其他
                 </button>                                 
                 </li> 
+                </ul>
         </div>
         </nav>
 		<div class="search_add">
@@ -168,8 +169,6 @@
             <a href="#" class="close"></a>
             <div class="item_discripe">
                 <div class="item_box" id="item_panel">
-
-                    
                 </div>
             </div>
         </div> 
@@ -283,7 +282,7 @@
 	                    login_();
 	                    
 	                }else{
-	                	console.log(response.status);
+	                	//console.log(response.status);
 	                    alert("使用者名稱或密碼錯誤 或 您的帳號未審核過");
 	                    $("#member_password").val("");  //將密碼input清空
 	                    $("#member_password").focus();  //將游標定位到密碼input
@@ -335,6 +334,8 @@
             $("#login_here").attr('id','logout_here');
            	$("#logout_here").html("登出");
             $("#btn").attr('href','#logout');
+            var result='?id='+getCookie("id")
+            location.href= result;
             $("#btn").attr('onclick','logout_()');
     	}
         //logout方法
@@ -348,6 +349,8 @@
           	delCookie("id");
           	delCookie("email");
           	delCookie("fb_link");
+          	var result='index.html';
+            location.href= result;
           	
         }
         //取得全部商品資料
@@ -360,7 +363,7 @@
               dataType: 'json',
               timeout: 5000,
               success: function (response) {
-            	  console.log(response)
+            	  //console.log(response)
                 if (response.status == 200) {
               	var product_panel = '';
               	
@@ -388,12 +391,11 @@
               	varification_value="已審核";
               }
           	let inner_html = '';
-
           	inner_html += '<div class="col-md-3">';
           	//<a href="#item_info?id='+ data.id +'"></a>
-          	inner_html += '<div class="item"  style="height:470px">';
-          	inner_html += '<img class = "item_shortimg" id="' + data.id +'" src="statics/img/product/' + data.image + '" width="200" height="240"/>';
-          	inner_html +='<table class="item_shortinfo">';   
+          	inner_html += '<div class="item" style="height:470px">';
+        	inner_html += '<img class = "item_shortimg" id="' + data.id +'" src="statics/img/product/' + data.image + '" width="200" height="240"/>';
+          	inner_html +='<table class="item_shortinfo">';
           	inner_html +='<tr>';
           	inner_html +='<td>商品名稱</td>';
           	inner_html +='<td>'+ data.name+'</td>';
@@ -462,9 +464,12 @@
 	                             timeout: 5000,
 	                             success: function (response) {
 	                                   if(response.status == 200){
-	                                            console.log(response.response);
-	                                            alert("新增成功！")
+	                                            //console.log(response.response);
+	                                            alert("新增成功！");
+	                                            $("#product_panel").empty();
+	                                            location.href='#add_success';
 	                                            getAllProduct();
+	                                              
 	                                        }
 	                                    },
 	                                    error: function () {
@@ -473,7 +478,7 @@
 	                            });
 	                        }
         	  			
-                    }
+          }
           //登入者才能新增商品
           $( "#add_item_" ).click(function() {
         	if (getCookie("id")!="") {
@@ -481,15 +486,14 @@
         		// 處理新增商品表單點擊事件
                 var $form = $('#submit');
                 $form.click(function() {
-                	console.log("點了");
                     submit();});
           	}
         	else{
         		 alert("欲新增商品請先登入");
         	}
           });
-          
-          function getiteminfo(item_id) {
+    //商品細項
+    function getiteminfo(item_id) {
               $.ajax({
                 type: "GET",
                 url: "api/product.do",
@@ -504,7 +508,12 @@
                 	console.log(response)
                   if (response.status == 200) {
                 	var item_box = '';
-
+                	var product_name = response.response.data[0].name;
+                	var seller_name=response.response.data[0].seller_name;
+                	var seller_email=response.response.data[0].seller_email;
+                	var seller_fb=response.response.data[0].seller_fb;
+                	var price=response.response.data[0].price;
+					//console.log(response.response.data[0]);
                 	item_box += '<img class = "item_img" src="statics/img/product/' + response.response.data[0].image + '">';
                 	item_box += '<table>';
                 	item_box += '<tr>';
@@ -528,7 +537,7 @@
                 	item_box += '<td class="right last">' + response.response.data[0].product_overview + '</td>';
                 	item_box += '</tr>';
                 	item_box += '</table>';
-                	item_box += '<button class="buy_btn"id="buy_btn">購買商品</button>'
+                	item_box += '<button class="buy_btn" id="buy_btn" onclick=Buy('+item_id+',"'+product_name+'","'+seller_name+'","'+seller_email+'","'+seller_fb+'","'+price+'")>購買商品</button>'
                 	$("#item_panel").empty();
                 	$("#item_panel").append(item_box);
                 	
@@ -538,7 +547,7 @@
                   alert("無法連線到伺服器！");
                 }
               });
-            }
+         }
 
           
           //點擊圖片，查看商品詳細內容
@@ -546,9 +555,78 @@
         	  var item_id = $(this).attr("id");//取得點擊的商品資料
         	  getiteminfo(item_id);
         	  location.href='#item_info';
+          });
+          
+         //購買商品方法
+         function Buy(item_id,product_name,seller_name,seller_email,seller_fb,price){
+          //點擊購買商品按鈕(作有無登入的判斷)
+       	  if (getCookie("id")=="") {
+       		alert("欲購買商品請先登入");
+       	  }
+       	  else if(getCookie("email")==seller_email){
+       		alert("不能購買自己的商品");
+       	  }
+       	  else{
+        	 var msg = "您真的確定要購買嗎？\n\n請確認！"; 
+        	 if (confirm(msg)==true){ 
+        		 //創建訂單
+        		 var buyer_id =getCookie("id");
+        		 var buyer_name=getCookie("name");
+        		 var buyer_email=getCookie("email");
+        		 var product_id=item_id;
+        		 var total=price;
+        		 
+        		 // 將資料組成JSON格式
+                 var data_object = {
+                 "buyer_id":buyer_id,
+                 "buyer_name":buyer_name,
+                 "buyer_email":buyer_email,
+                 "product_id":product_id,
+                 "product_name":product_name,
+                 "seller_name":seller_name,
+                 "seller_email":seller_email,
+                 "seller_fb":seller_fb,
+                 "total": total,
+                 };
 
-        	});
-                   
+                 // 將JSON格式轉換成字串
+                 var data_string = JSON.stringify(data_object);
+
+                 // 發出POST的AJAX請求
+                 $.ajax({
+                    		 type: "POST",
+                            url: "api/order.do",
+                            data: data_string,
+                            crossDomain: true,
+                            cache: false,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function (response) {
+                                  if(response.status == 200){
+                                           //console.log(response.response);
+                                           alert("創建訂單成功！");
+                                           location.href='cart.html'+'?item_id='+item_id;
+                                             
+                                       }
+                                   },
+                                   error: function () {
+                                       alert("無法連線到伺服器！");
+                                   }
+                           });
+        		 
+        		 
+        		 
+        		 
+        	 }
+        	 else{ 
+        		 console.log("已取消")
+             } 
+          } 
+         }
+         
+          
+                 		
+           
           
  $(document).ready(function() {
         	  //有登入才能做的事
