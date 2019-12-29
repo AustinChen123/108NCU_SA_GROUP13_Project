@@ -275,7 +275,7 @@ public class ProductHelper {
                 
                 /** 將每一筆商品資料產生一個新Product物件 */
                 p = new Product(product_id,member_id,seller_name,seller_email,seller_fb, name_,classificaion,product_status, price,product_overview, image,verification_status);
-        //        p = new Product(product_id,seller_name,seller_email,seller_fb, name_,classificaion,product_status, price,product_overview, image,verification_status);
+ 
                 jsa.put(p.getData());  
             }
 
@@ -302,7 +302,6 @@ public class ProductHelper {
         response.put("data", jsa);
 
         return response;
-       // return p;
     }
     
     public Product getByClassification(String classification) {

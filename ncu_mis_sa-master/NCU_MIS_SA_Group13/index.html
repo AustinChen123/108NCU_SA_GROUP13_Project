@@ -431,7 +431,6 @@
               	alert("請輸入欲搜尋之關鍵字！");
               }
               else{
-				alert(name);
 				selectitem(name);
               }
           });
@@ -450,13 +449,32 @@
                 success: function (response) {
                 	console.log(response)
                   if (response.status == 200) {
- //               	var item_box = '';
- //               	var product_name = response.response.data[0].name;
-//                	var seller_name=response.response.data[0].seller_name;
-//                	var seller_email=response.response.data[0].seller_email;
-//                	var seller_fb=response.response.data[0].seller_fb;
-//                	var price=response.response.data[0].price;
-					console.log(response.response.data[0]);
+                	  
+                	$("#product_panel").empty();  //清空原來的商品區
+                	
+                	var select_panel = '';
+                	
+                	select_panel += '<div class="col-md-3">';
+                  	select_panel += '<div class="item" style="height:470px">';
+                  	select_panel += '<img class = "item_shortimg" id="' + response.response.data[0].id +'" src="statics/img/product/' + response.response.data[0].image + '" width="200" height="240"/>';
+                  	select_panel +='<table class="item_shortinfo">';
+                  	select_panel +='<tr>';
+                  	select_panel +='<td>商品名稱</td>';
+                  	select_panel +='<td>'+ response.response.data[0].name +'</td>';
+                  	select_panel +='</tr>';
+                  	select_panel +='<tr>';
+                  	select_panel +='<td>商品狀態</td>';
+                  	select_panel +='<td>'+ response.response.data[0].product_status +'</td>';
+                  	select_panel +='</tr>';
+                  	select_panel +='<tr>';
+                  	select_panel +='<td>商品價格</td>';
+                  	select_panel+='<td>TWD' + response.response.data[0].price + '</td>';
+                  	select_panel +='</tr>';
+                  	select_panel +='</table>';
+                  	select_panel +='</div>';
+                  	select_panel +='</div>';
+                  	
+                  	$("#product_panel").append(select_panel);
 
                   }
                 },
