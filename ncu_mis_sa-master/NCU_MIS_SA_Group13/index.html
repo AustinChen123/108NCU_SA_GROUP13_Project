@@ -81,7 +81,7 @@
                 <li>  
                 <button class="btn">
                 <i class="fa fa-headphones fa-lg"></i>
-                3C周邊
+     3C周邊
                 </button>                                
                 </li>   
 
@@ -120,15 +120,12 @@
                 </button>                                 
                 </li> 
 				
-				
 				<li>  
 				<button class="btn">
 				<i class="fa fa-book fa-lg"></i>
-				全部
+	全部
 				</button>                                 
 				</li> 
-				
-				
         </div>
         </nav>
 		<div class="search_add">
@@ -436,10 +433,11 @@
           $( "#search_btn_" ).click(function() {
         	  
 			  var name = $("input[name='search_text']").val();
+			  var product_panel2 = '';
               if(name=="搜尋商品"){
               	alert("請輸入欲搜尋之關鍵字！");
               }
-              else{
+              else{ 
 				selectitem(name);
               }
           });
@@ -459,26 +457,34 @@
                 	console.log(response)
                   if (response.status == 200) {
                 	  
-                	 if(response.response.data.length<=0){
+                	 var select_length = response.response.data.length;
+                	  
+                	 if(select_length<=0){
                 		 alert("搜尋不到相關商品，請重新搜尋！");
+                		 
+                		 return 0;
                 	 }
                 	 else{  
                 		$("#product_panel").empty();  //清空原來的商品區
                 	
-                		var select_panel = '';
-                	
+                		let select_panel = '';
+                		var slong = 0;
+                		
+                		while(select_length > slong){
+
+                			
                 		select_panel += '<div class="col-md-3">';
                  	 	select_panel += '<div class="item" style="height:470px">';
-                 	 	select_panel += '<img class = "item_shortimg" id="' + response.response.data[0].id +'" src="statics/img/product/' + response.response.data[0].image + '" width="200" height="240"/>';
+                 	 	select_panel += '<img class = "item_shortimg" id="' + response.response.data[slong].id +'" src="statics/img/product/' + response.response.data[slong].image + '" width="200" height="240"/>';
                  	 	select_panel +='<table class="item_shortinfo">';
                   		select_panel +='<tr>';
                   		select_panel +='<td>商品名稱</td>';
-                  		select_panel +='<td>'+ response.response.data[0].name +'</td>';
+                  		select_panel +='<td>'+ response.response.data[slong].name +'</td>';
                   		select_panel +='</tr>';
                   		select_panel +='<tr>';
                   		select_panel +='<td class="left">商品狀態</td>';
                 		//判斷商品的狀態
-                		if(response.response.data[0].product_status){
+                		if(response.response.data[slong].product_status){
                 			select_panel += '<td class="right">全新</td>';
                 		}
                 		else{
@@ -487,11 +493,16 @@
                   		select_panel +='</tr>';
                   		select_panel +='<tr>';
                   		select_panel +='<td>商品價格</td>';
-                  		select_panel+='<td>TWD' + response.response.data[0].price + '</td>';
+                  		select_panel+='<td>TWD' + response.response.data[slong].price + '</td>';
                   		select_panel +='</tr>';
                   		select_panel +='</table>';
                   		select_panel +='</div>';
                   		select_panel +='</div>';
+                  		
+                  		slong++;
+                		}
+                  		
+        
                   	
                   		$("#product_panel").append(select_panel);
                 	 }
@@ -677,6 +688,76 @@
         	  getiteminfo(item_id);
         	  location.href='#item_info';
           });
+          
+          //點擊商品分類
+          $( ".btn" ).click(function() {
+        	  var classificationt_id = $(this).text();
+       // 	  var classificationt_id = $(this).attr("id");
+        	  alert(classificationt_id);
+        //	  var classificationt_id = $(this).attr("id");
+
+            });
+          
+          //依照選擇的商品分類顯示該分類的商品
+         function classificationtitem(item_name) {
+              $.ajax({
+                type: "GET",
+                url: "api/product.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                data:{
+                	name_list: item_name
+                },
+                success: function (response) {
+                	console.log(response)
+                  if (response.status == 200) {
+                	  
+                	 if(response.response.data.length<=0){
+                		 alert("搜尋不到相關商品，請重新搜尋！");
+                	 }
+                	 else{  
+                		$("#product_panel").empty();  //清空原來的商品區
+                	
+                		var select_panel = '';
+                	
+                		select_panel += '<div class="col-md-3">';
+                 	 	select_panel += '<div class="item" style="height:470px">';
+                 	 	select_panel += '<img class = "item_shortimg" id="' + response.response.data[0].id +'" src="statics/img/product/' + response.response.data[0].image + '" width="200" height="240"/>';
+                 	 	select_panel +='<table class="item_shortinfo">';
+                  		select_panel +='<tr>';
+                  		select_panel +='<td>商品名稱</td>';
+                  		select_panel +='<td>'+ response.response.data[0].name +'</td>';
+                  		select_panel +='</tr>';
+                  		select_panel +='<tr>';
+                  		select_panel +='<td class="left">商品狀態</td>';
+                		//判斷商品的狀態
+                		if(response.response.data[0].product_status){
+                			select_panel += '<td class="right">全新</td>';
+                		}
+                		else{
+                			select_panel += '<td class="right">二手</td>';
+                 		 }
+                  		select_panel +='</tr>';
+                  		select_panel +='<tr>';
+                  		select_panel +='<td>商品價格</td>';
+                  		select_panel+='<td>TWD' + response.response.data[0].price + '</td>';
+                  		select_panel +='</tr>';
+                  		select_panel +='</table>';
+                  		select_panel +='</div>';
+                  		select_panel +='</div>';
+                  	
+                  		$("#product_panel").append(select_panel);
+                	 }
+
+                  }
+                },
+                error: function () {
+                  alert("無法連線到伺服器！");
+                }
+              });
+         } 
           
          //購買商品方法
          function Buy(item_id,product_name,seller_name,seller_email,seller_fb,price){

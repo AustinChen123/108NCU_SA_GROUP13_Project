@@ -237,6 +237,8 @@ public class ProductHelper {
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         JSONArray jsa = new JSONArray();
+        /** 紀錄SQL總行數 */
+        int row = 0;
         long start_time = System.nanoTime();
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
         ResultSet rs = null;
@@ -259,6 +261,8 @@ public class ProductHelper {
             
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
             while(rs.next()) {
+            	
+                    row += 1;
             	/** 將 ResultSet 之資料取出 */
                 int product_id = rs.getInt("id");
                 int member_id=rs.getInt("member_id");
@@ -297,7 +301,7 @@ public class ProductHelper {
         /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
-        response.put("row", 1);
+        response.put("row", row);
         response.put("time", duration);
         response.put("data", jsa);
 
