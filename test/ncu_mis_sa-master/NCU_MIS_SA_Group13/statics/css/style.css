@@ -269,7 +269,7 @@ td{
 }
 .item_info:target{
     width: 500px;
-    height: 700px;
+    height: 600px;
     top:25%;
     right:35%;
     position: absolute;
@@ -277,7 +277,7 @@ td{
 }
 .item_discripe{
 /*    padding: 150px;*/
-    width: 630px;
+    width: 500px;
     position: relative;
     transition: 0.3s;
     background-color: white;
@@ -285,7 +285,7 @@ td{
 }
 .item_box{
 	margin: 25px;
-	width: 900px;
+	width: 450px;
 	height: 550px;
     transition: 0.3s;
     /* background-color: gray; */
@@ -299,13 +299,13 @@ td{
 }
 .item_box .left{
     text-align: center;
-    width: 150px;
+    width: 100px;
     height: 35px;
     background: rgb(209, 209, 209);
 }
 .item_box .right{
     text-align: center;
-    width: 400px;
+    width: 300px;
     height: 35px;
     background: rgb(209, 209, 209);
 }
@@ -325,7 +325,7 @@ td{
 
 #buy_btn{
     height: 36PX;
-    width:225px;
+    width:125px;
     color:black;
     background: powderblue;
     line-height: 36px;
@@ -396,7 +396,7 @@ form #submit:active{
   }
   
 .close::after {
-    left: 600px;
+    left: 487px;
     top: -1rem;
     width: 2rem;
     height: 2rem;

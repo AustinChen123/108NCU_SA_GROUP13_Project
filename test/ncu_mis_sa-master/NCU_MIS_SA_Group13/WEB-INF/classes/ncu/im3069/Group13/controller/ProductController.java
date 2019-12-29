@@ -22,30 +22,22 @@ public class ProductController extends HttpServlet {
     }
 
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
-        String id = jsr.getParameter("id_list");
-        
-        String name = jsr.getParameter("name_list");
+        String id = jsr.getParameter("id");
         
         JSONObject resp = new JSONObject();
         /** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
         if (!id.isEmpty()) {
-          JSONObject query1=ph.getById(id);
           resp.put("status", "200");
-          resp.put("message", "商品資料取得成功");
-          resp.put("response", query1);
-        }
-        else if(!name.isEmpty()) {
-            JSONObject query2 =ph.getByName(name);
-            resp.put("status", "200");
-            resp.put("message", "搜尋商品資料取得成功");
-            resp.put("response", query2);
+          resp.put("message", "所有商品資料取得成功");
+          resp.put("response", "id");
         }
         else {
           JSONObject query = ph.getAll();
+
           resp.put("status", "200");
           resp.put("message", "所有商品資料取得成功");
           resp.put("response", query);

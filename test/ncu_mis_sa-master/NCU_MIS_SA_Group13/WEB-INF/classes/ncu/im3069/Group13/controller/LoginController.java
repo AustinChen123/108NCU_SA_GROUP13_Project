@@ -66,14 +66,10 @@ public class LoginController extends HttpServlet {
             /** 透過JsonReader物件回傳到前端（以字串方式） */
             jsr.response(resp, response);
         }
-        /** 透過MemberHelper物件的checkLogin()檢查該會員是否成功登入 */
+        /** 透過MemberHelper物件的checkDuplicate()檢查該會員電子郵件信箱是否有重複 */
         else if (mh.checkLogin(m)) {
-            /** 透過MemberHelper物件的getByEmail()方法回傳該email對應之會員資料 */
+            /** 透過MemberHelper物件的create()方法新建一個會員至資料庫 */
             JSONObject data = mh.getByEmail(email);
-            
-            //登入後,更新最新登入時間
-            Member m_update_login_time = new Member(email);
-            mh.updateLogin_datetime(m_update_login_time);
             
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             JSONObject resp = new JSONObject();

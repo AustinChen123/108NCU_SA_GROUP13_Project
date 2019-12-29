@@ -355,6 +355,12 @@
             location.href= result;
           	
         }
+		//登入者才能查看會員專區
+        $( "#member" ).click(function() {
+      	if (getCookie("id")=="") {
+      		 alert("請先登入會員!");
+      	}
+        });
         //取得全部商品資料
         function getAllProduct() {
             $.ajax({
@@ -714,7 +720,7 @@
                  	$("#logout_here").html("登出");
                  	$("#btn").attr('href','#logout');
                     $("#btn").attr('onclick','logout_()');
-                    var result='member.html?id='+getCookie("id")
+                    var result='member.html?id='+getCookie("id");
                     $("#member").attr("href",result);
                  	
       
