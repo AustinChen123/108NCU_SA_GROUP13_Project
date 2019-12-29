@@ -450,37 +450,42 @@
                 	console.log(response)
                   if (response.status == 200) {
                 	  
-                	$("#product_panel").empty();  //清空原來的商品區
+                	 if(response.response.data.length<=0){
+                		 alert("搜尋不到相關商品，請重新搜尋！");
+                	 }
+                	 else{  
+                		$("#product_panel").empty();  //清空原來的商品區
                 	
-                	var select_panel = '';
+                		var select_panel = '';
                 	
-                	select_panel += '<div class="col-md-3">';
-                  	select_panel += '<div class="item" style="height:470px">';
-                  	select_panel += '<img class = "item_shortimg" id="' + response.response.data[0].id +'" src="statics/img/product/' + response.response.data[0].image + '" width="200" height="240"/>';
-                  	select_panel +='<table class="item_shortinfo">';
-                  	select_panel +='<tr>';
-                  	select_panel +='<td>商品名稱</td>';
-                  	select_panel +='<td>'+ response.response.data[0].name +'</td>';
-                  	select_panel +='</tr>';
-                  	select_panel +='<tr>';
-                  	select_panel +='<td class="left">商品狀態</td>';
-                	//判斷商品的狀態
-                	if(response.response.data[0].product_status){
-                		select_panel += '<td class="right">全新</td>';
-                	}
-                	else{
-                		select_panel += '<td class="right">二手</td>';
-                 	 }
-                  	select_panel +='</tr>';
-                  	select_panel +='<tr>';
-                  	select_panel +='<td>商品價格</td>';
-                  	select_panel+='<td>TWD' + response.response.data[0].price + '</td>';
-                  	select_panel +='</tr>';
-                  	select_panel +='</table>';
-                  	select_panel +='</div>';
-                  	select_panel +='</div>';
+                		select_panel += '<div class="col-md-3">';
+                 	 	select_panel += '<div class="item" style="height:470px">';
+                 	 	select_panel += '<img class = "item_shortimg" id="' + response.response.data[0].id +'" src="statics/img/product/' + response.response.data[0].image + '" width="200" height="240"/>';
+                 	 	select_panel +='<table class="item_shortinfo">';
+                  		select_panel +='<tr>';
+                  		select_panel +='<td>商品名稱</td>';
+                  		select_panel +='<td>'+ response.response.data[0].name +'</td>';
+                  		select_panel +='</tr>';
+                  		select_panel +='<tr>';
+                  		select_panel +='<td class="left">商品狀態</td>';
+                		//判斷商品的狀態
+                		if(response.response.data[0].product_status){
+                			select_panel += '<td class="right">全新</td>';
+                		}
+                		else{
+                			select_panel += '<td class="right">二手</td>';
+                 		 }
+                  		select_panel +='</tr>';
+                  		select_panel +='<tr>';
+                  		select_panel +='<td>商品價格</td>';
+                  		select_panel+='<td>TWD' + response.response.data[0].price + '</td>';
+                  		select_panel +='</tr>';
+                  		select_panel +='</table>';
+                  		select_panel +='</div>';
+                  		select_panel +='</div>';
                   	
-                  	$("#product_panel").append(select_panel);
+                  		$("#product_panel").append(select_panel);
+                	 }
 
                   }
                 },
