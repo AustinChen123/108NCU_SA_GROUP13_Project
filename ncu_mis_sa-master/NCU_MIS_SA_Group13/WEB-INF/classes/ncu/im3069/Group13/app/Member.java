@@ -35,10 +35,13 @@ public class Member {
     /** password，會員密碼 */
     private String password;
     
+    /** created，會員創立時間 */
+    private Timestamp created;
+    
     /** login_datetime，最近登入時間 */
     private Timestamp login_datetime;
     
-    /** status，會員之組別 */
+    /** status，會員是否通過審核 */
     private Boolean status;
     
     
@@ -91,6 +94,17 @@ public class Member {
      * @param login_datetime 更新時間的分鐘數
      * @param status the 會員之組別
      */
+    public Member(int id, String email, String name, String fb_link, String password, Boolean status, Timestamp login_datetime, Timestamp created) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.fb_link = fb_link;
+        this.password = password;
+        this.status = status;
+        this.login_datetime = login_datetime;
+        this.created = created;
+    }
+    
     public Member(int id, String email, String name, String fb_link, String password, Boolean status, Timestamp login_datetime) {
         this.id = id;
         this.email = email;
@@ -189,6 +203,15 @@ public class Member {
     }
     
     /**
+     * 取得會員創立時間
+     *
+     * @return the create time 回傳會員創立時間
+     */
+    public Timestamp getCreated() {
+        return this.created;
+    }
+    
+    /**
      * 取得會員資料之會員審核狀態
      *
      * @return the status 回傳會員審核狀態
@@ -228,6 +251,7 @@ public class Member {
         jso.put("email", getEmail());
         jso.put("fb_link",getFb_link());
         jso.put("password", getPassword());
+        jso.put("created", getCreated());
         jso.put("login_datetime", getLogin_datetime());
         jso.put("status", getStatus());
         
@@ -245,10 +269,5 @@ public class Member {
 //        this.login_datetime = new Timestamp(data.getLong("login_datetime"));
 //        this.status = data.getString("status");
       }
-//    
-//    /**
-//     * 計算會員之組別<br>
-//     * 若為偶數則為「偶數會員」，若為奇數則為「奇數會員」
-//     */
 
 }

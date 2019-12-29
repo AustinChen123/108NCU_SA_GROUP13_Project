@@ -157,9 +157,10 @@ public class MemberHelper {
                 String password = rs.getString("password");
                 Boolean status = rs.getBoolean("status");
                 Timestamp login_datetime = rs.getTimestamp("login_datetime");
+                Timestamp created = rs.getTimestamp("created");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, email, name, fb_link, password, status,login_datetime);
+                m = new Member(member_id, email, name, fb_link, password, status,login_datetime, created);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
@@ -239,10 +240,12 @@ public class MemberHelper {
                 String fb_link = rs.getString("fb_link");
                 String password = rs.getString("password");
                 Boolean status = rs.getBoolean("status");
+                Timestamp login_datetime = rs.getTimestamp("login_datetime");
+                Timestamp created = rs.getTimestamp("created");
                 
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, name, email, password, fb_link, status);
+                m = new Member(member_id, name, email, password, fb_link, status, login_datetime, created);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
