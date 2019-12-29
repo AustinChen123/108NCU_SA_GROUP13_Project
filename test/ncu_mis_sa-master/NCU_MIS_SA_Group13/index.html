@@ -119,11 +119,12 @@
                 其他
                 </button>                                 
                 </li> 
+                </ul>
         </div>
         </nav>
 		<div class="search_add">
-			<input class="search" type="summit" value="搜尋商品"/>
-			<button class="search_btn">
+			<input class="search" type="summit" value="搜尋商品" name="search_text"/>
+			<button class="search_btn" id="search_btn_">
 			<i class="fas fa-search fa-lg" style="font-size: 17px"></i>
 			</button>
 			<button id="add_item_" class="add_item_btn" >新增商品</button>
@@ -164,40 +165,18 @@
                     </form>
                 </div>
         </div>
+        
+        <!-- 點擊商品後，會顯示該商品的詳細資料 -->
         <div class="item_info" id = "item_info">
             <a href="#" class="close"></a>
             <div class="item_discripe">
-                <div class="item_box">
-                    <img class = "item_img" src="/img/item1.jpg" />
-                    <table>
-                        <tr>
-                            <td class="left">商品名稱</td>
-                            <td class="right">腳踏車</td>
-                        </tr>
-                        <tr>
-                            <td class="left">商品分類</td>
-                            <td class="right">交通工具</td>
-                        </tr>
-                        <tr>
-                            <td class="left">商品狀態</td>
-                            <td class="right">二手</td>
-                        </tr>
-                        <tr>
-                            <td class="left">售價</td>
-                            <td class="right">1500元</td>
-                        </tr>
-                        <tr>
-                            <td class="left">商品描述</td>
-                            <td class="right last">上課代步用，正常使用痕跡</td>
-                        </tr>
-                    </table>
-                    <button class="buy_btn"id="buy_btn">購買商品</button>
+                <div class="item_box" id="item_panel">
                 </div>
             </div>
         </div> 
         <div class="item_info" id = "add_item">
             <a href="#" class="close"></a>
-            <div class="item_discripe">
+            <div class="item_discripe" >
                 <div class="item_box">
                     <span class="form_text">商品上架</span>
                     <form enctype="multipart/form-data">
@@ -305,7 +284,7 @@
 	                    login_();
 	                    
 	                }else{
-	                	console.log(response.status);
+	                	//console.log(response.status);
 	                    alert("使用者名稱或密碼錯誤 或 您的帳號未審核過");
 	                    $("#member_password").val("");  //將密碼input清空
 	                    $("#member_password").focus();  //將游標定位到密碼input
@@ -357,6 +336,8 @@
             $("#login_here").attr('id','logout_here');
            	$("#logout_here").html("登出");
             $("#btn").attr('href','#logout');
+            var result='?id='+getCookie("id")
+            location.href= result;
             $("#btn").attr('onclick','logout_()');
     	}
         //logout方法
@@ -370,6 +351,8 @@
           	delCookie("id");
           	delCookie("email");
           	delCookie("fb_link");
+          	var result='index.html';
+            location.href= result;
           	
         }
         //取得全部商品資料
@@ -382,6 +365,7 @@
               dataType: 'json',
               timeout: 5000,
               success: function (response) {
+            	  //console.log(response)
                 if (response.status == 200) {
               	var product_panel = '';
               	
@@ -412,7 +396,7 @@
           	inner_html += '<div class="col-md-3">';
           	//<a href="#item_info?id='+ data.id +'"></a>
           	inner_html += '<div class="item" style="height:470px">';
-          	inner_html += '<img class = "item_shortimg"  src="statics/img/product/' + data.image + '" width="200" height="240"/>'
+        	inner_html += '<img class = "item_shortimg" id="' + data.id +'" src="statics/img/product/' + data.image + '" width="200" height="240"/>';
           	inner_html +='<table class="item_shortinfo">';
           	inner_html +='<tr>';
           	inner_html +='<td>商品名稱</td>';
@@ -433,6 +417,51 @@
       		
       		return inner_html;
           }
+          //搜尋商品
+          $( "#search_btn_" ).click(function() {
+        	  
+			  var name = $("input[name='search_text']").val();
+              if(name=="搜尋商品"){
+              	alert("請輸入欲搜尋之關鍵字！");
+              }
+              else{
+				alert(name);
+				selectitem(name);
+              }
+          });
+          
+          function selectitem(item_name) {
+              $.ajax({
+                type: "GET",
+                url: "api/product.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                data:{
+                	name_list: item_name
+                },
+                success: function (response) {
+                	console.log(response)
+                  if (response.status == 200) {
+ //               	var item_box = '';
+ //               	var product_name = response.response.data[0].name;
+//                	var seller_name=response.response.data[0].seller_name;
+//                	var seller_email=response.response.data[0].seller_email;
+//                	var seller_fb=response.response.data[0].seller_fb;
+//                	var price=response.response.data[0].price;
+					console.log(response.response.data[0]);
+
+                  }
+                },
+                error: function () {
+                  alert("無法連線到伺服器！");
+                }
+              });
+         }
+          
+          
+          
           
           //新增商品
           function submit() {
@@ -482,9 +511,12 @@
 	                             timeout: 5000,
 	                             success: function (response) {
 	                                   if(response.status == 200){
-	                                            console.log(response.response);
-	                                            alert("新增成功！")
+	                                            //console.log(response.response);
+	                                            alert("新增成功！");
+	                                            $("#product_panel").empty();
+	                                            location.href='#add_success';
 	                                            getAllProduct();
+	                                              
 	                                        }
 	                                    },
 	                                    error: function () {
@@ -493,7 +525,7 @@
 	                            });
 	                        }
         	  			
-                    }
+          }
           //登入者才能新增商品
           $( "#add_item_" ).click(function() {
         	if (getCookie("id")!="") {
@@ -501,13 +533,175 @@
         		// 處理新增商品表單點擊事件
                 var $form = $('#submit');
                 $form.click(function() {
-                	console.log("點了");
                     submit();});
           	}
         	else{
         		 alert("欲新增商品請先登入");
         	}
           });
+    //商品細項
+    function getiteminfo(item_id) {
+              $.ajax({
+                type: "GET",
+                url: "api/product.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                data:{
+                	id_list: item_id
+                },
+                success: function (response) {
+                	console.log(response)
+                  if (response.status == 200) {
+                	var item_box = '';
+                	var product_name = response.response.data[0].name;
+                	var seller_name=response.response.data[0].seller_name;
+                	var seller_email=response.response.data[0].seller_email;
+                	var seller_fb=response.response.data[0].seller_fb;
+                	var price=response.response.data[0].price;
+					//console.log(response.response.data[0]);
+                	item_box += '<img class = "item_img" src="statics/img/product/' + response.response.data[0].image + '">';
+                	item_box += '<table>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品名稱</td>';
+                	item_box += '<td class="right">' + response.response.data[0].name + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品分類</td>';
+                	item_box += '<td class="right">' + response.response.data[0].classification + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品狀態</td>';
+                	//判斷商品的狀態
+                	if(response.response.data[0].product_status){
+                		item_box += '<td class="right">全新</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">二手</td>';
+                 	 }
+                	
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">審核狀態</td>';
+                	//判斷商品的審核狀態
+                	if(response.response.data[0].verifacation_status){
+                		item_box += '<td class="right">未審核</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">已審核</td>';
+                 	 }
+                
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">售價</td>';
+                	item_box += '<td class="right">' + response.response.data[0].price + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品描述</td>';
+                	item_box += '<td class="right last">' + response.response.data[0].product_overview + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">賣家</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_name + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">E-Mail</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_email + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">FACEBOOK</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_fb + '</td>';
+                	item_box += '</tr>';
+                	item_box += '</table>';
+                	item_box += '<button class="buy_btn" id="buy_btn" onclick=Buy('+item_id+',"'+product_name+'","'+seller_name+'","'+seller_email+'","'+seller_fb+'","'+price+'")>購買商品</button>'
+                	$("#item_panel").empty();
+                	$("#item_panel").append(item_box);
+                	
+                  }
+                },
+                error: function () {
+                  alert("無法連線到伺服器！");
+                }
+              });
+         }
+
+          
+          //點擊圖片，查看商品詳細內容
+          $(document).on("click",".item_shortimg",function() {
+        	  var item_id = $(this).attr("id");//取得點擊的商品資料
+        	  getiteminfo(item_id);
+        	  location.href='#item_info';
+          });
+          
+         //購買商品方法
+         function Buy(item_id,product_name,seller_name,seller_email,seller_fb,price){
+          //點擊購買商品按鈕(作有無登入的判斷)
+       	  if (getCookie("id")=="") {
+       		alert("欲購買商品請先登入");
+       	  }
+       	  else if(getCookie("email")==seller_email){
+       		alert("不能購買自己的商品");
+       	  }
+       	  else{
+        	 var msg = "您真的確定要購買嗎？\n\n請確認！"; 
+        	 if (confirm(msg)==true){ 
+        		 //創建訂單
+        		 var buyer_id =getCookie("id");
+        		 var buyer_name=getCookie("name");
+        		 var buyer_email=getCookie("email");
+        		 var product_id=item_id;
+        		 var total=price;
+        		 
+        		 // 將資料組成JSON格式
+                 var data_object = {
+                 "buyer_id":buyer_id,
+                 "buyer_name":buyer_name,
+                 "buyer_email":buyer_email,
+                 "product_id":product_id,
+                 "product_name":product_name,
+                 "seller_name":seller_name,
+                 "seller_email":seller_email,
+                 "seller_fb":seller_fb,
+                 "total": total,
+                 };
+
+                 // 將JSON格式轉換成字串
+                 var data_string = JSON.stringify(data_object);
+
+                 // 發出POST的AJAX請求
+                 $.ajax({
+                    		 type: "POST",
+                            url: "api/order.do",
+                            data: data_string,
+                            crossDomain: true,
+                            cache: false,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function (response) {
+                                  if(response.status == 200){
+                                           //console.log(response.response);
+                                           alert("創建訂單成功！");
+                                           location.href='cart.html'+'?item_id='+item_id;
+                                             
+                                       }
+                                   },
+                                   error: function () {
+                                       alert("無法連線到伺服器！");
+                                   }
+                           });
+        		 
+        		 
+        		 
+        		 
+        	 }
+        	 else{ 
+        		 console.log("已取消")
+             } 
+          } 
+         }
+         
+          
                  		
            
           
