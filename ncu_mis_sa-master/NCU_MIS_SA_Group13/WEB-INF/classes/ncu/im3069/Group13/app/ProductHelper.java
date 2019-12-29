@@ -308,11 +308,17 @@ public class ProductHelper {
         return response;
     }
     
-    public Product getByClassification(String classification) {
+    public JSONObject getByClassification(String classification) {
         /** 新建一個 Product 物件之 p 變數，用於紀錄每一位查詢回之商品資料 */
         Product p = null;
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
+        /** 用於儲存所有檢索回之商品，以JSONArray方式儲存 */
+        JSONArray jsa = new JSONArray();
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
         ResultSet rs = null;
         
@@ -336,6 +342,7 @@ public class ProductHelper {
             while(rs.next()) {
             	/** 將 ResultSet 之資料取出 */
                 int product_id = rs.getInt("id");
+                int member_id=rs.getInt("member_id");
                 String seller_name=rs.getString("seller_name");
                 String seller_email=rs.getString("seller_email");
                 String seller_fb=rs.getString("seller_fb");
@@ -348,7 +355,8 @@ public class ProductHelper {
                 Boolean verification_status=rs.getBoolean("verification_status");
                 
                 /** 將每一筆商品資料產生一個新Product物件 */
-                p = new Product(product_id,seller_name,seller_email,seller_fb, name,classificaion,product_status, price,product_overview, image,verification_status);
+                p = new Product(product_id,member_id,seller_name,seller_email,seller_fb, name,classificaion,product_status, price,product_overview, image,verification_status);
+                jsa.put(p.getData());
             }
 
         } catch (SQLException e) {
@@ -361,8 +369,23 @@ public class ProductHelper {
             /** 關閉連線並釋放所有資料庫相關之資源 **/
             DBMgr.close(rs, pres, conn);
         }
+        
 
-        return p;
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
+
+ //       return p;
     }
     public JSONObject create(Product p) {
         /** 記錄實際執行之SQL指令 */

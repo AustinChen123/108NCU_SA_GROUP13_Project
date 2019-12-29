@@ -30,6 +30,8 @@ public class ProductController extends HttpServlet {
         
         String name = jsr.getParameter("name_list");
         
+        String classifi = jsr.getParameter("classifi_list");
+        
         JSONObject resp = new JSONObject();
         /** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
         if (!id.isEmpty()) {
@@ -43,6 +45,13 @@ public class ProductController extends HttpServlet {
             resp.put("status", "200");
             resp.put("message", "搜尋商品資料取得成功");
             resp.put("response", query2);
+        }
+        else if(!classifi.isEmpty()){
+            JSONObject query3 =ph.getByClassification(classifi);
+            resp.put("status", "200");
+            resp.put("message", "分類商品資料取得成功");
+            resp.put("response", query3);
+        	
         }
         else {
           JSONObject query = ph.getAll();
