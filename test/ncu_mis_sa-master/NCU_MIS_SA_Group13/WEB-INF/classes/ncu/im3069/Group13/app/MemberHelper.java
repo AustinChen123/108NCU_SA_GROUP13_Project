@@ -552,6 +552,8 @@ public class MemberHelper {
      * @param m 一名會員之Member物件
      */
     public void updateLogin_datetime(Member m) {
+        /** 更新時間登入時間 */
+    	Timestamp login_datetime = m.getLogin_datetime();
         
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -560,14 +562,14 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `sa_project`.`members` SET `login_datetime` = ? WHERE `email` = ?";
+            String sql = "Update `sa_project`.`members` SET `login_datetime` = ? WHERE `id` = ?";
             /** 取得會員編號 */
-            String email=m.getEmail();
+            int id = m.getID();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-            pres.setString(2, email);
+            pres.setTimestamp(1, login_datetime);
+            pres.setInt(2, id);
             /** 執行更新之SQL指令 */
             pres.executeUpdate();
 
