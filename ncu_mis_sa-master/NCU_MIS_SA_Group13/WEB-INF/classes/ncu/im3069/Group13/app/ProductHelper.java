@@ -457,18 +457,18 @@ public class ProductHelper {
             
             /** 取得所需之參數 */
             
-            int product_id = p.getInt();
-            String name = p.getString();
-            String classificaion=p.getString();
+            int product_id = p.getID();
+            String name = p.getName();
+            String classification=p.getString();
             Boolean product_status=p.getBoolean();
-            float price = p.getFloat();
-            String product_overview = p.getString();
-            String image = p.getString();
+            float price = p.getPrice();
+            String product_overview = p.getProduct_overview();
+            String image = p.getImage();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setString(1, name);
-            pres.setString(2, classificaion);
+            pres.setString(2, classification);
             pres.setBoolean(3, product_status);
             pres.setFloat(4, price);
             pres.setString(5, product_overview);

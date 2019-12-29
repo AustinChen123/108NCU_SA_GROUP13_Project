@@ -101,6 +101,27 @@ public class ProductController extends HttpServlet {
         }
 	}
 	
+    public void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+            /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+            JsonReader jsr = new JsonReader(request);
+            JSONObject jso = jsr.getObject();
+            
+            /** 取出經解析到JSONObject之Request參數 */
+            int id = jso.getInt("id");
+            
+            /** 透過MemberHelper物件的deleteByID()方法至資料庫刪除該名會員，回傳之資料為JSONObject物件 */
+            JSONObject query = ph.deleteByID(id);
+            
+            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+            JSONObject resp = new JSONObject();
+            resp.put("status", "200");
+            resp.put("message", "商品移除成功！");
+            resp.put("response", query);
+
+            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+            jsr.response(resp, response);
+        }
 	
 	
 	/**

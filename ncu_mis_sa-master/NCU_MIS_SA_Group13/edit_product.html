@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>CakePHP: the rapid development php framework: Products</title>
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            <h1><a href="http://cakephp.org/">CakePHP: the rapid development php framework</a></h1>
+        </div>
+        <div id="content">
+            <h2>更新商品資料</h2>
+            <a href="index.html">會員清單</a>
+            <a href="product.html">購物車模組</a>
+            <a href="detail.html">商品清單</a>
+
+            <div id="flashMessage" class="message" style="display: none;"></div>
+
+            <form id="form" accept-charset="utf-8">
+                <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+                <div class="input text required">
+                    <label for="product_name">商品名稱</label>
+                    <input name="name" maxlength="30" type="text" id="product_name" >
+                </div>
+                <div class="input classificaion required">
+                    <label for="classificaion">商品分類</label>
+                    
+                    
+                    <select name="classificaion" maxlength="50" type="option" id="classificaion">
+                                <option>食物</option>
+								<option>服飾</option>
+								<option>美妝</option>
+								<option>3C周邊</option>
+								<option>家具</option>
+								<option>交通工具</option>
+								<option>收購</option>
+								<option>贈送</option>
+								<option>其他</option>
+                    </select>
+                    
+                </div>
+                <div class="input price required">
+                    <label for="product_price">售價</label>
+                    <input name="price" type="text" id="product_price" >
+                </div> 
+                
+                <div>
+                    <label for="product_overview">商品描述</label>
+                    <input name="product_overview" type="text" id="product_overview" ><p></p>
+                </div>
+                <div class="submit"><input type="button" value="更新" id="submit"></div>
+            </form>
+
+            <script type="text/javascript">
+                // 取得網址參數
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                var id = url.searchParams.get("id");
+                var sql_num = 0;
+
+                function updateProduct(id) {
+                    var name = $('#product_name').val();
+                    var classificaion = $('#classificaion').val();
+                    var price = $('#product_price').val();
+                 //   var image = $('#member_fb_link').val();
+                    var product_overview = $('#product_overview').val();
+                    
+                //    if($('#member_status').prop("checked")===true){
+               //     	var status = true;
+                    	
+                //    }
+                //    else{
+                //   	var status =false;
+                //   }
+                    
+                 //   var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                  //  var fb_link_rule = /^http|https/;
+                    
+                    else {
+                        // 將資料組成JSON格式
+                        var data_object = {
+                            "id": id,
+                            "name": name,
+                            "classification": classification,
+                            "price": price,
+                            "image":image,
+                            "product_overview":product_overview
+                        };
+
+                        // 將JSON格式轉換成字串
+                        var data_string = JSON.stringify(data_object);
+
+                        // 發出POST的PUT請求
+                        $.ajax({
+                                type: "PUT",
+                                url: "api/product.do",
+                                data: data_string,
+                                crossDomain: true,
+                                cache: false,
+                                dataType: 'json',
+                                timeout: 5000,
+                                success: function (response) {
+                                    $('#flashMessage').html(response.message);
+                                    $('#flashMessage').show();
+                                    if(response.status == 200){
+                                        updateSQLTable(response.response);
+                                        getProduct();
+                                    }
+                                },
+                                error: function () {
+                                    alert("無法連線到伺服器！");
+                                }
+                        });
+                    }
+                }
+
+                // 更新SQL指令歷史表格
+                function updateSQLTable(data) {
+                    var time = (data.time / 1000000).toFixed(2);
+                    var table_html = "";
+                    
+                    sql_num += 1
+
+                    table_html += '<tr>';
+                    table_html += '<td>' + sql_num + '</td>';
+                    table_html += '<td>' + data.sql + '</td>';
+                    table_html += '<td style="text-align: right">' + '0' + '</td>';
+                    table_html += '<td style="text-align: right">' + data.row + '</td>';
+                    table_html += '<td style="text-align: right">' + data.row + '</td>';
+                    table_html += '<td style="text-align: right">' + time + '</td>';
+                    table_html += '</tr>';
+                    $("#sql_log > tbody").append(table_html);
+                    $("#sql_summary").html("(default) " + data.row + " queries took " + time + " ms");
+                }
+
+                function getProduct() {
+                    $.ajax({
+                        type: "GET",
+                        url: "api/product.do",
+                        crossDomain: true,
+                        data: "id=" + id,
+                        cache: false,
+                        dataType: 'json',
+                        timeout: 5000,
+                        success: function (response) {
+                            if(response.status == 200){
+                            	updateSQLTable(response.response);
+                            	console.log(response.response);
+                            	document.getElementById('product_name').value = response['response']['data'][0]['name'];
+                            	document.getElementById('classificaion').value = response['response']['data'][0]['classificaion'];
+                            	document.getElementById('product_price').value = response['response']['data'][0]['price'];
+                            	document.getElementById('product_image').value = response['response']['data'][0]['image'];
+                            	document.getElementById('product_overview').value = response['response']['data'][0]['product_overview'];
+                            	
+                            }
+                            console.log(response);
+                        },
+                        error: function () {
+                            alert("無法連線到伺服器！");
+                        }
+                    });
+                }
+
+                $('#submit').click(function() {
+                    updateProduct(id)
+                });
+                
+                $(document).ready(function() {
+                	// 發出GET的AJAX請求取得原本該會員的資料
+                 	$("#sql_log > tbody").empty();
+                    getProduct();
+                    
+                });
+            </script>
+        </div>
+        <div id="footer">
+            <a href="http://www.cakephp.org/" target="_blank" id="cake-powered"><img src="statics/img/cake.power.gif" alt="CakePHP: the rapid development php framework" border="0"></a>
+            <p>CakePHP 2.6.10</p>
+        </div>
+    </div>
+
+    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
+        <caption id="sql_summary">(default) 0 query took 0 ms</caption>
+        <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Query</th>
+                <th>Error</th>
+                <th>Affected</th>
+                
+                <th>Took (ms)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+
+</html>

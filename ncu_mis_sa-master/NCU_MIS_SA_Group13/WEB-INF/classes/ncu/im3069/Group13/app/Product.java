@@ -278,4 +278,14 @@ public class Product {
       
         return jso;
     }
+
+	public String getString() {
+
+		return this.classification;
+	}
+
+	public Boolean getBoolean() {
+		
+		return this.product_status;
+	}
 }

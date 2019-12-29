@@ -463,8 +463,13 @@
                   	select_panel +='<td>'+ response.response.data[0].name +'</td>';
                   	select_panel +='</tr>';
                   	select_panel +='<tr>';
-                  	select_panel +='<td>商品狀態</td>';
-                  	select_panel +='<td>'+ response.response.data[0].product_status +'</td>';
+                	//判斷商品的狀態
+                	if(response.response.data[0].product_status){
+                		item_box += '<td class="right">全新</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">二手</td>';
+                 	 }
                   	select_panel +='</tr>';
                   	select_panel +='<tr>';
                   	select_panel +='<td>商品價格</td>';
