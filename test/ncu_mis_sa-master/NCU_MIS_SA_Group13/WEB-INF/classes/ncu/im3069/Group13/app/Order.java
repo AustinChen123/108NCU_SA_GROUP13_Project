@@ -80,6 +80,18 @@ public class Order {
         this.deleted=deleted;
         getOrderData();
     }
+    public Order(int buyer_id, String buyer_name,  String buyer_email, int product_id,  String product_name,  String seller_name,  String seller_email, String seller_fb, float total) {
+        
+        this.buyer_id=buyer_id;
+        this.buyer_name=buyer_name;
+        this.buyer_email=buyer_email;
+        this.product_id=product_id;
+        this.product_name=product_name;
+        this.seller_email=seller_email;
+        this.seller_name=seller_name;
+        this.seller_fb=seller_fb;
+        this.total=total;
+    }
 
     /**
      * 新增一個訂單產品及其數量
@@ -117,7 +129,7 @@ public class Order {
      * @return int 回傳買家id
      */
     public int getBuyer_Id() {
-        return this.id;
+        return this.buyer_id;
     }
 
     /**

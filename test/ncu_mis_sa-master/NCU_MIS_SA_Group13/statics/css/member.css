@@ -203,6 +203,12 @@ table{
     margin-left: 5%;
     font-size: 28px;
 }
+.product_info .product_modify{
+    font-size: 24px;
+}
+.product_info .product_delete{
+    font-size: 24px;
+}
 .product_info td{
     margin: 20px;
     display: table-cell;
@@ -214,7 +220,7 @@ table{
     background: rgb(209, 209, 209);
     border-radius: 3px;
     font-size: 22px;
-    padding: 0px 80px;
+    padding: 0px 60px;
 }
 .order_info{
     display:inline-block;
