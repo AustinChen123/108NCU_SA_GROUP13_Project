@@ -60,10 +60,11 @@
 		        <span class="text-muted"><b>訂單成立時間</b></span>
 		        <span id="date" class="badge badge-secondary badge-pill">YYYY/MM/DD</span>
 		      </h4>
+		      
 		      <ul class="list-group mb-3">
 		        <li class="list-group-item d-flex justify-content-between">
-		          <span>Total (NTD)</span>
-		          <strong>$ <span id="summary">0</span></strong>
+		          <span>訂單編號</span>
+		          <strong><span id="summary">0</span></strong>
 		        </li>
 		      </ul>
 		    </div>
@@ -156,7 +157,7 @@
             	$("#product_id").html(response['response']['data'][0]['product_id']);
             	$("#product_name").html(response['response']['data'][0]['product_name']);
             	$("#total_2").html(response['response']['data'][0]['total']);
-            	$("#summary").html(response['response']['data'][0]['total']);
+            	$("#summary").html(response['response']['data'][0]['id']);
             	
             }
             //console.log(response);
