@@ -48,10 +48,6 @@ public class Order {
     private boolean deleted;
 
 
-    /** oph，OrderItemHelper 之物件與 Order 相關之資料庫方法（Sigleton） */
-    private OrderItemHelper oph = OrderItemHelper.getHelper();
-
-
     /**
      * 實例化（Instantiates）一個新的（new）Order 物件<br>
      * 採用多載（overload）方法進行，此建構子用於修改訂單資料時，新改資料庫已存在的訂單
@@ -92,6 +88,21 @@ public class Order {
         this.seller_fb=seller_fb;
         this.total=total;
     }
+public Order(int id, boolean status) {
+        
+        this.id=id;
+        this.status=status;
+    }
+public Order(int id,int product_id) {
+    
+    this.id=id;
+    this.product_id=product_id;
+}
+
+public Order(int id) {
+    
+    this.id=id;
+}
 
     /**
      * 新增一個訂單產品及其數量

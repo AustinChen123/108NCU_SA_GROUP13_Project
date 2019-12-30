@@ -5,6 +5,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import org.json.*;
 
+import ncu.im3069.Group13.app.Member;
 import ncu.im3069.Group13.app.Order;
 import ncu.im3069.Group13.app.OrderHelper;
 import ncu.im3069.Group13.app.Product;
@@ -44,6 +45,8 @@ public class OrderController extends HttpServlet {
         /** 取出經解析到 JsonReader 之 Request 參數 */
         String id = jsr.getParameter("id");
         String product_id=jsr.getParameter("product_id_in");
+        String seller_email=jsr.getParameter("seller_email");
+        String buyer_id=jsr.getParameter("buyer_id");
 
         /** 新建一個 JSONObject 用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
@@ -61,6 +64,20 @@ public class OrderController extends HttpServlet {
             JSONObject query = oh.getByProduct_Id(product_id);
             resp.put("status", "200");
             resp.put("message", "最新訂單資料取得成功");
+            resp.put("response", query);
+        }
+        else if(!seller_email.isEmpty()) {
+        	/** 透過 orderHelper 物件的 getByProduct_ID() 方法自資料庫取回該筆訂單之資料，回傳之資料為 JSONObject 物件 */
+            JSONObject query = oh.getBySeller_email(seller_email);
+            resp.put("status", "200");
+            resp.put("message", "賣家訂單資料取得成功");
+            resp.put("response", query);
+        }
+        else if(!buyer_id.isEmpty()) {
+        	/** 透過 orderHelper 物件的 getByProduct_ID() 方法自資料庫取回該筆訂單之資料，回傳之資料為 JSONObject 物件 */
+            JSONObject query = oh.getByBuyer_Id(buyer_id);
+            resp.put("status", "200");
+            resp.put("message", "買家訂單資料取得成功");
             resp.put("response", query);
         }
         else {
@@ -104,7 +121,9 @@ public class OrderController extends HttpServlet {
 
         /** 透過 orderHelper 物件的 create() 方法新建一筆訂單至資料庫 */
         JSONObject data = oh.create(od);
-        Product p = new Product(product_id);
+        //創建新訂單外，同時讓商品下架
+        boolean on_shelf=true;
+        Product p = new Product(product_id,on_shelf);
         ph.updateOn_Shelf(p);
 
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
@@ -116,5 +135,59 @@ public class OrderController extends HttpServlet {
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
         jsr.response(resp, response);
 	}
+	public void doPut(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+	        JsonReader jsr = new JsonReader(request);
+	        JSONObject jso = jsr.getObject();
+	        
+	        /** 取出經解析到JSONObject之Request參數 */
+	        int id = jso.getInt("id");
+	        
+	       
+	        /** 透過傳入之參數，新建一個以這些參數之會員Order物件 */
+	        Order o = new Order(id);
+	        
+	        /** 透過Order物件的updateStatus()方法至資料庫更新該交易完成狀態，回傳之資料為JSONObject物件 */
+	        JSONObject data = oh.updateStatus(o);
+	        
+	        /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+	        JSONObject resp = new JSONObject();
+	        resp.put("status", "200");
+	        resp.put("message", "成功! 完成交易...");
+	        resp.put("response", data);
+	        
+	        /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+	        jsr.response(resp, response);
+	       
+	    }
+	public void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+            /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+            JsonReader jsr = new JsonReader(request);
+            JSONObject jso = jsr.getObject();
+            
+            /** 取出經解析到JSONObject之Request參數 */
+            int deleted_id=jso.getInt("deleted_id"); 
+            Order o = new Order(deleted_id);
+            //刪除新訂單外，同時讓商品重新上架
+            boolean on_shelf=false;
+            int product_id=jso.getInt("product_re_id"); 
+            Product p = new Product(product_id,on_shelf);
+            ph.updateOn_Shelf(p);
+          
+	       
+	        JSONObject data = oh.Deleted(o);
+	        	
+	        /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+		    JSONObject resp = new JSONObject();
+		    resp.put("status", "200");
+		    resp.put("message", "成功! 刪除此筆交易...");
+		    resp.put("response", data);
+		        
+		    /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+		    jsr.response(resp, response);
+	        
+        }
 
 }

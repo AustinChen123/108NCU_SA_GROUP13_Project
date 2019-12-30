@@ -42,7 +42,6 @@ public class ProductController extends HttpServlet {
             resp.put("message", "商品資料取得成功");
             resp.put("response", query1);
          }
-        
         if (!id.isEmpty()) {
           JSONObject query1=ph.getById(id);
           resp.put("status", "200");
@@ -159,20 +158,21 @@ public class ProductController extends HttpServlet {
         /** 取出經解析到JSONObject之Request參數 */
         int id = jso.getInt("id");
 
-        /** 透過傳入之參數，新建一個以這些參數之商品Product物件 */
-        Product p = new Product(id);
+	    /** 透過傳入之參數，新建一個以這些參數之商品Product物件 */
+	    Product p = new Product(id);
+	        
+	    /** 透過Product物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
+	    JSONObject data = p.update_verification();
+	        
+	    /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+	    JSONObject resp = new JSONObject();
+	    resp.put("status", "200");
+	    resp.put("message", "成功! 更新商品審核狀態...");
+	    resp.put("response", data);
+	        
+	    /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+	    jsr.response(resp, response);
         
-        /** 透過Product物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
-        JSONObject data = p.update_verification();
-        
-        /** 新建一個JSONObject用於將回傳之資料進行封裝 */
-        JSONObject resp = new JSONObject();
-        resp.put("status", "200");
-        resp.put("message", "成功! 更新商品審核狀態...");
-        resp.put("response", data);
-        
-        /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
-        jsr.response(resp, response);
-    }
+        }
 
 }

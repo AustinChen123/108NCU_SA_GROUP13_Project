@@ -157,8 +157,6 @@ public class ProductHelper {
 
         return response;
     }
-
-    
     public JSONObject getByMemberId(String member_id) {
         /** 新建一個 Product 物件之 p 變數，用於紀錄每一位查詢回之商品資料 */
         Product p = null;
@@ -222,6 +220,7 @@ public class ProductHelper {
 
         return response;
     }
+
     
     public JSONObject getById(String id) {
         /** 新建一個 Product 物件之 p 變數，用於紀錄每一位查詢回之商品資料 */
@@ -670,7 +669,48 @@ public class ProductHelper {
             conn = DBMgr.getConnection();
             /** SQL指令 */
             /** 設成1，商品已下架 */
-            String sql = "Update `sa_project`.`products` SET `on_shelf` = 1 WHERE `id` = ?";
+            String sql = "Update `sa_project`.`products` SET `on_shelf` = ? WHERE `id` = ?";
+            /** 取得會員編號 */
+            int id = p.getID();
+            boolean on_shelf=p.getOn_shelf();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setBoolean(1, on_shelf);
+            pres.setInt(2, id);
+            /** 執行更新之SQL指令 */
+            pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+    }
+    /**
+     * 讓商品重新上架狀態
+     *
+     * @param p Product物件
+     * @param on_shelf 商品上架狀態（Boolean）
+     */
+    public void Re_On_Shelf(Product p) {      
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            /** 設成0，商品重新上架 */
+            String sql = "Update `sa_project`.`products` SET `on_shelf` = 0 WHERE `id` = ?";
             /** 取得會員編號 */
             int id = p.getID();
             
