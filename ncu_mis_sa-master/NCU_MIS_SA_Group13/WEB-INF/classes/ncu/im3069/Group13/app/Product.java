@@ -70,6 +70,23 @@ public class Product {
 		this.price = price;
 		this.image = image;
 	}
+	
+	/**
+     * 實例化（Instantiates）一個新的（new）Product 物件<br>
+     * 採用多載（overload）方法進行，此建構子用於取得會員商品時
+     *
+     * @param id 產品編號
+     * @param name 產品名稱
+     * @param price 產品價格
+     * @param product_status 產品狀態
+     */
+	public Product(int id, String name, Boolean product_status, float price) {
+		this.id = id;
+		this.name = name;
+		this.product_status = product_status;
+		this.price = price;
+	}
+	
 
     /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
@@ -88,7 +105,7 @@ public class Product {
 		this.image = image;
 		this.product_overview = product_overview;
 	}
-	public Product(int id,int member_id,String seller_name,String seller_email,String seller_fb, String name,String classificaion, Boolean product_status, float price, String product_overview, String image, Boolean verification_status) {
+	public Product(int id,int member_id,String seller_name,String seller_email,String seller_fb, String name,String classificaion, Boolean product_status, float price, String product_overview, String image, Boolean verification_status){
 		this.id = id;
 		this.member_id=member_id;
 		this.seller_name=seller_name;
@@ -114,7 +131,6 @@ public class Product {
 		this.product_overview = product_overview;
 		
 	}
-	
 	
 	
 	
