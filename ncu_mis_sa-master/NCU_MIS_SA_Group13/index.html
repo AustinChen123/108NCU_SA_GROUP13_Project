@@ -653,9 +653,7 @@
                 	item_box += '</tr>';
                 	item_box += '<tr>';
                 	item_box += '<td class="left">賣家</td>';
-//                	item_box += '<a href="'+ url +'" >'
                 	item_box += '<td class="right" id="member_info" meminfo ="'+url+'">' + response.response.data[0].seller_name + '</td>';
- //               	item_box += '</a>'
                 	item_box += '</tr>';
                 	item_box += '<tr>';
                 	item_box += '<td class="left">E-Mail</td>';
@@ -690,8 +688,7 @@
           //查看商品詳細內容中，點擊賣家資訊
          $(document).on("click","#member_info",function() {
         	  
-        	  var url = $(this).attr("meminfo");//取得點擊的商品資料
-  //      	  getiteminfo(item_id);
+        	  var url = $(this).attr("meminfo");
         	  location.href=url;
           });
           
