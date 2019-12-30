@@ -57,14 +57,14 @@
                 <ul id = "classifi_btn">
                   
                 <li>                                   
-                <button class="btn" id="classifi_1">
+                <button class="btn" id="classifi_1" class_name="食物">
                 <i class="fa fa-cookie-bite fa-lg"></i>
                 食物
                 </button>
                 </li>   
                    
                 <li>                                 
-                <button class="btn" id="classifi_2">
+                <button class="btn" id="classifi_2" class_name="服飾">
                 <i class="fa fa-tshirt fa-lg"></i>
                 服飾
                 </button>
@@ -72,56 +72,56 @@
                 
                     
                 <li>
-                <button class="btn" id="classifi_3">
+                <button class="btn" id="classifi_3" class_name="美妝">
                 <i class="fa fa-magic fa-lg"></i>
                 美妝
                 </button>                                 
                 </li>   
                   
                 <li>  
-                <button class="btn" id="classifi_4">
+                <button class="btn" id="classifi_4" class_name="3C周邊">
                 <i class="fa fa-headphones fa-lg"></i>
      3C周邊
                 </button>                                
                 </li>   
 
                 <li>  
-                <button class="btn" id="classifi_5">
+                <button class="btn" id="classifi_5" class_name="家具">
                 <i class="fa fa-tv fa-lg"></i>
                 家具
                 </button>                                                      
                 </li>   
 
                 <li>     
-                <button class="btn" id="classifi_6">
+                <button class="btn" id="classifi_6" class_name="交通工具">
                 <i class="fa fa-bicycle fa-lg"></i>
                 交通工具
                 </button>                              
                 </li> 
 
                 <li>
-                <button class="btn" id="classifi_7">
+                <button class="btn" id="classifi_7" class_name="收購">
                 <i class="fa fa-hand-holding-usd fa-lg"></i>
                 收購
                 </button>                                   
                 </li>
 					
                 <li>  
-                <button class="btn" id="classifi_8">
+                <button class="btn" id="classifi_8" class_name="贈送">
                 <i class="fa fa-gift fa-lg"></i>
                 贈送
                 </button>                                 
                 </li>  
 					
 				<li>  
-                <button class="btn" id="classifi_9">
+                <button class="btn" id="classifi_9" class_name="其他">
                 <i class="fa fa-eye fa-lg"></i>
                 其他
                 </button>                                 
                 </li> 
 				
 				<li>  
-				<button class="btn" id="classifi_10">
+				<button class="btn" id="classifi_10" class_name="全部">
 				<i class="fa fa-book fa-lg"></i>
 	全部
 				</button>                                 
@@ -603,6 +603,7 @@
                 success: function (response) {
                 	console.log(response)
                   if (response.status == 200) {
+                	var url = 'othermember.html?id='+ response.response.data[0].member_id;
                 	var item_box = '';
                 	var product_name = response.response.data[0].name;
                 	var seller_name=response.response.data[0].seller_name;
@@ -652,7 +653,7 @@
                 	item_box += '</tr>';
                 	item_box += '<tr>';
                 	item_box += '<td class="left">賣家</td>';
-                	item_box += '<td class="right">' + response.response.data[0].seller_name + '</td>';
+                	item_box += '<td class="right" id="member_info" meminfo ="'+url+'">' + response.response.data[0].seller_name + '</td>';
                 	item_box += '</tr>';
                 	item_box += '<tr>';
                 	item_box += '<td class="left">E-Mail</td>';
@@ -678,50 +679,29 @@
           
           //點擊圖片，查看商品詳細內容
           $(document).on("click",".item_shortimg",function() {
+        	  
         	  var item_id = $(this).attr("id");//取得點擊的商品資料
         	  getiteminfo(item_id);
         	  location.href='#item_info';
           });
           
+          //查看商品詳細內容中，點擊賣家資訊
+         $(document).on("click","#member_info",function() {
+        	  
+        	  var url = $(this).attr("meminfo");
+        	  location.href=url;
+          });
+          
           //點擊商品分類
           $( ".btn" ).click(function() {
+        	  
+        	  var classi_name = $(this).attr("class_name");
         	  
         	  var classi_id = $(this).attr("id");
         	  
         	  if(classi_id=="classifi_1" || classi_id=="classifi_2" || classi_id=="classifi_3" || classi_id=="classifi_4" || classi_id=="classifi_5" || classi_id=="classifi_6" || classi_id=="classifi_7" || classi_id=="classifi_8" || classi_id=="classifi_9"){
         		  
-        		  var classi_name = "";
-        		  
-        		  switch (classi_id) {
-        		  case "classifi_1":
-        			  classi_name = "食物";
-        		  　break;
-        		  case "classifi_2":
-        			  classi_name = "服飾";
-        		  　break;
-        		  case "classifi_3":
-        			  classi_name = "美妝";
-        		  　break;
-        		  case "classifi_4":
-        			  classi_name = "3C周邊";
-        		  　break;
-        		  case "classifi_5":
-        			  classi_name = "家具";
-        		  　break;
-        		  case "classifi_6":
-        			  classi_name = "交通工具";
-        		  　break;
-        		  case "classifi_7":
-        			  classi_name = "收購";
-        		  　break;
-        		  case "classifi_8":
-        			  classi_name = "贈送";
-        		  　break;
-        		  case "classifi_9":
-        			  classi_name = "其他";
-        		  　break;
-        		  default:       			  
-        		  }
+
         		  classificationtitem(classi_name);	  
         	  }
         	  else if(classi_id=="classifi_10"){  //點擊全部則回到最初頁面
