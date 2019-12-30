@@ -223,7 +223,9 @@
         //更新會員商品
         function updateMemberItem(data){
         	console.log(data)
+        	var item_length = data.length;
             $(".product_info").empty();
+            
             var table_html = '';
             table_html += '<h1 style="text-align:center; font-size:30px;">會員商品</h1>';
             table_html += '<table>';
@@ -232,21 +234,29 @@
             table_html += '<td class = "table_title">商品狀態</td>';
             table_html += '<td class = "table_title">商品價格</td>';
             table_html += '<td class = "table_title">修改/刪除</td></tr>';
-            table_html += '<tr><td>'+data[0].id+'</td>';
-            table_html += '<td>'+data[0].name+'</td>';
-            //商品狀態
-        	if(data[0].product_status){
-        		table_html += '<td>全新</td>';
-        	}
-        	else{
-        		table_html += '<td>二手</td>';
-         	 }
-            table_html += '<td>TWD '+data[0].price+'</td>';
-            table_html += '<td><button class = "product_modify" id = "product_modify">修改</button>';
-            table_html += '<button class = "product_delete" id = "product_delete">刪除</button></td></tr>';
+            
+            var slong = 0;
+            console.log(data[slong])
+            while (item_length > slong){
+            	if (data[slong].member_id == id){
+            		table_html += '<tr><td>'+data[slong].id+'</td>';
+            		table_html += '<td>'+data[slong].name+'</td>';
+            		//商品狀態
+        			if(data[slong].product_status){
+        				table_html += '<td>全新</td>';
+        			}
+        			else{
+        				table_html += '<td>二手</td>';
+         	 		}
+            		table_html += '<td>TWD '+data[slong].price+'</td>';
+            		table_html += '<td><button class = "product_modify" id = "product_modify">修改</button>';
+            		table_html += '<button class = "product_delete" id = "product_delete">刪除</button></td></tr>';
+            	}
+            	slong++;
+            }
             table_html += '</table>';
-
             $(".product_info").append(table_html);
+            
         }
         
         $(document).ready(function(){
