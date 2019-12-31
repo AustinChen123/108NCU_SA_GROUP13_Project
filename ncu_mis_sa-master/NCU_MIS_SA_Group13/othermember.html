@@ -193,7 +193,7 @@
             console.log(data[slong])
             while (item_length > slong){
             	if (data[slong].member_id == id){
-            		table_html += '<tr><td>'+data[slong].id+'</td>';
+            		table_html += '<tr><td><a href="#">'+data[slong].id+'</a></td>';
             		table_html += '<td>'+data[slong].name+'</td>';
             		//商品狀態
         			if(data[slong].product_status){

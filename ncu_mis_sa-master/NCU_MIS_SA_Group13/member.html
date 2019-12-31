@@ -88,16 +88,16 @@
                         <td class = "table_title">修改/刪除</td>
                     </tr>
                     <!-- 這裡開始是js填入 -->
-                    <tr>
-                        <td><a href="#">undefined</a></td>
-                        <td>undefined</td>
-                        <td>undefined</td>
-                        <td>TWD undefined</td>
-                         <td>
-                            <button class = "product_modify" id = "product_modify">修改</button>
-                            <button class = "product_delete" id = "product_delete">刪除</button>
-                        </td>
-                    </tr>
+                    <!-- <tr>
+                        	<td><a href="#">undefined</a></td>
+                        	<td>undefined</td>
+                        	<td>undefined</td>
+                        	<td>TWD undefined</td>
+                         	<td>
+                            	<button class = "product_modify" id = "product_modify">修改</button>
+                            	<button class = "product_delete" id = "product_delete">刪除</button>
+                        	</td>
+                    	</tr>-->
                 </table>
             </div>
         </div>
@@ -213,7 +213,7 @@
         console.log(data[slong])
         while (item_length > slong){
         	if (data[slong].member_id == id){
-        		table_html += '<tr><td>'+data[slong].id+'</td>';
+        		table_html += '<tr><td><a href="#">'+data[slong].id+'</a></td>';
         		table_html += '<td>'+data[slong].name+'</td>';
         		//商品狀態
     			if(data[slong].product_status){
