@@ -68,14 +68,24 @@
                         <td class="info_title">上次登入時間</td>
                         <td></td>
                     </tr>
-                    <tr>
-                           <td><a ></a></td>
-                        <td><a ></a></td>
+                </table>
+            </div>
+        </div>
+ 		<hr size="3px" align="center" width="100%" color = skyblue>
+        <div class="member_product" id= "product">
+            <div class="product_info">
+                <h1 style="text-align:center; font-size:30px;">會員商品</h1>
+                <table>
+                    <tr class = "table_title">
+                        <td class = "table_title">商品id</td>
+                        <td class = "table_title">商品名稱</td>
+                        <td class = "table_title">商品狀態</td>
+                        <td class = "table_title">商品價格</td>
                     </tr>
                 </table>
             </div>
         </div>
- 
+        
         <script>
         // 取得網址參數
             var url_string = window.location.href;
@@ -109,42 +119,7 @@
                         }
                  }); // end ajax
                 }   // end function
-        //     <table>
-        //     <tr>
-        //         <td class="info_title">會員id</td>
-        //         <td>我是假id</td>
-        //     </tr>
-        //     <tr>
-        //         <td class="info_title">email</td>
-        //         <td>我是假email</td>
-        //     </tr>
-        //     <tr>
-        //         <td class="info_title">會員姓名</td>
-        //         <td>我是假名</td>
-        //     </tr>
-        //     <tr>
-        //         <td class="info_title">Facebook連結</td>
-        //         <td><a href = "#FB">Facebook連結/a></td>
-        //     </tr>
-        // </table>
-        // <table>
-        //     <tr>                        
-        //         <td class="info_title">會員建立日期</td>
-        //         <td>不是今天</td>
-        //     </tr>
-        //     <tr>
-        //         <td class="info_title">會員驗證狀態</td>
-        //         <td>沒驗證</td>
-        //     </tr>
-        //     <tr>
-        //         <td class="info_title">上次登入時間</td>
-        //         <td>現在</td>
-        //     </tr>
-        //     <tr>
-        //         <td><a href = "#order">會員訂單</a></td>
-        //         <td><a href = "#product">會員商品</a></td>
-        //     </tr>
-        // </table>
+
         function updatemember(data){
         	console.log(data)
             $(".member_info").empty();
@@ -167,20 +142,78 @@
          	 }
             
             table_html += '<tr><td class="info_title">上次登入時間</td><td>'+data[0].login_datetime+'</td></tr>';
-            
-            table_html += '<tr><td><a></a></td>';
-            table_html += '<td><a></a></td></tr>';
             table_html += '</table>';
             $(".member_info").append(table_html);
         }
         
+      //取得會員商品
+        function getMemberItem(id) {
+    		console.log(id)
+            var data_object = {
+                "member_id": id,
+            }
+    		console.log(data_object)
+            var data_string = JSON.stringify(data_object);
+    		console.log(data_string)
+            $.ajax({
+            data:data_object,  //直接傳表單裡的資料
+            crossDomain: true,
+            type: "GET",
+            url: "api/product.do",
+            cache: true,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+            	console.log(response)
+                if (response.status == 200) {
+                updateMemberItem(response.response.data);
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+                    }
+             });
+         }
+        
+        //更新會員商品
+        function updateMemberItem(data){
+        	console.log(data)
+        	var item_length = data.length;
+            $(".product_info").empty();
+            
+            var table_html = '';
+            table_html += '<h1 style="text-align:center; font-size:30px;">會員商品</h1>';
+            table_html += '<table>';
+            table_html += '<tr class = "table_title"><td class = "table_title">商品id</td>';
+            table_html += '<td class = "table_title">商品名稱</td>';
+            table_html += '<td class = "table_title">商品狀態</td>';
+            table_html += '<td class = "table_title">商品價格</td>';
+            
+            var slong = 0;
+            console.log(data[slong])
+            while (item_length > slong){
+            	if (data[slong].member_id == id){
+            		table_html += '<tr><td>'+data[slong].id+'</td>';
+            		table_html += '<td>'+data[slong].name+'</td>';
+            		//商品狀態
+        			if(data[slong].product_status){
+        				table_html += '<td>全新</td>';
+        			}
+        			else{
+        				table_html += '<td>二手</td>';
+         	 		}
+            		table_html += '<td>TWD '+data[slong].price+'</td>';
+            	}
+            	slong++;
+            }
+            table_html += '</table>';
+            $(".product_info").append(table_html);
+            
+        }   
+                
         $(document).ready(function(){
-        	if(id == null){
-        		alert("請先登入會員!");
-        	}
-        	else{
-        		getmember(id);
-        	}
+        	getmember(id);
+        	getMemberItem(id);
         });
         </script>
     </body>
