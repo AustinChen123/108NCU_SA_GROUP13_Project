@@ -94,12 +94,12 @@ public class Member {
      * @param login_datetime 更新時間的分鐘數
      * @param status the 會員之組別
      */
-    public Member(int id, String email, String name, String fb_link, String password, Boolean status, Timestamp login_datetime, Timestamp created) {
+    public Member(int id, String name, String email, String password, String fb_link, Boolean status, Timestamp login_datetime, Timestamp created) {
         this.id = id;
-        this.email = email;
         this.name = name;
-        this.fb_link = fb_link;
+        this.email = email;
         this.password = password;
+        this.fb_link = fb_link;
         this.status = status;
         this.login_datetime = login_datetime;
         this.created = created;
@@ -257,17 +257,5 @@ public class Member {
         
         return jso;
     }
-    
-      /**
-       * 取得資料庫內之更新資料時間分鐘數與會員組別
-       *
-      */
-    private void getLoginTimesStatus() {
-//        /** 透過MemberHelper物件，取得儲存於資料庫的更新時間分鐘數與會員組別 */
-//        JSONObject data = mh.getLoginTimesStatus(this);
-//        /** 將資料庫所儲存該名會員之相關資料指派至Member物件之屬性 */
-//        this.login_datetime = new Timestamp(data.getLong("login_datetime"));
-//        this.status = data.getString("status");
-      }
 
 }
