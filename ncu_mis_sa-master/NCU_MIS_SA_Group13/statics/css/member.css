@@ -58,23 +58,23 @@ html {
 }
 #header .top_nav .slogan{
     float: left;
-    padding-left: 10%;
+    padding-left: 5%;
     font-size: 32px;
 }
 #header .userbar{
-    width: 400px;
+    width: 550px;
     height: 36px;
     float: right;
 }
 #header .userbar ul li span{ 
     margin: 0 auto;
     line-height: 36px;
-    text-align: left;
+    text-align: center;
     position: relative;
 }
 
 #header .userbar ul li{
-    width: 160px;
+    width: 180px;
     margin: 0 auto;
     position:relative;
     display:block;
@@ -83,9 +83,9 @@ html {
     line-height: 36px;
 }
 #header .userbar ul li>a {
-    height: 36PX;
+    height: 30PX;
     position:relative;
-    width:160px;
+    width:180px;
     display:table;
     border-collapse:collapse;
     border-spacing:0;
