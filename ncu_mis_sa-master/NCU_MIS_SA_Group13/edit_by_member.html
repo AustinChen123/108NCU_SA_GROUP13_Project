@@ -17,9 +17,8 @@
             <h1><a href="http://cakephp.org/">CakePHP: the rapid development php framework</a></h1>
         </div>
         <div id="content">
-            <h2>更新會員資料</h2>
-            <a href="manager.html">會員清單</a>
-            <a href="product.html">購物車模組</a>
+            <h2>修改會員資料</h2>
+			<a href="#" id = "member">會員專區</a>
 
             <div id="flashMessage" class="message" style="display: none;"></div>
 
@@ -41,11 +40,7 @@
                     <label for="member_password">密碼</label>
                     <input name="password" type="password" id="member_password" required="required">
                 </div>
-                <div>
-                    <label for="member_status">會員審核狀態</label>
-                    <input name="status" type="checkbox" id="member_status" ><p></p>
-                </div>
-                <div class="submit"><input type="button" value="更新" id="submit"></div>
+                <div class="submit"><input type="button" value="確認修改" id="submit"></div>
             </form>
 
             <script type="text/javascript">
@@ -54,21 +49,15 @@
                 var url = new URL(url_string);
                 var id = url.searchParams.get("id");
                 var sql_num = 0;
-
-                function updateMember(id) {
+				var status_nonedit = false;
+                
+				function updateMember(id) {
                     var name = $('#member_name').val();
                     var email = $('#member_email').val();
                     var password = $('#member_password').val();
                     var fb_link = $('#member_fb_link').val();
-                    
-                    if($('#member_status').prop("checked")===true){
-                    	var status = true;
-                    	
-                    }
-                    else{
-                    	var status =false;
-                    }
-                    
+                    var status = status_nonedit;
+
                     var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
                     var fb_link_rule = /^http|https/;
                     if(!password_rule.test(password)) {
@@ -106,6 +95,9 @@
                                     if(response.status == 200){
                                         updateSQLTable(response.response);
                                         getMember();
+                                        setCookie("id", id,1);
+                                        setCookie("name", name,1);
+                                        setCookie("fb_link", fb_link,1);
                                     }
                                 },
                                 error: function () {
@@ -151,12 +143,7 @@
                             	document.getElementById('member_email').value = response['response']['data'][0]['email'];
                             	document.getElementById('member_fb_link').value = response['response']['data'][0]['fb_link'];
                             	document.getElementById('member_password').value = response['response']['data'][0]['password'];
-                            	if(response['response']['data'][0]['status']===true){
-                            		document.getElementById('member_status').checked = true;
-                            	}
-                            	else{
-                            		document.getElementById('member_status').checked = false;
-                            	}
+                            	status_nonedit = response['response']['data'][0]['status'];
                             }
                             console.log(response);
                         },
@@ -165,9 +152,35 @@
                         }
                     });
                 }
-
+                
+              //設定cookies
+            	function setCookie(cookieName, cookieValue, exdays) {
+            		  if (document.cookie.indexOf(cookieName) >= 0) {
+            		    var expD = new Date();
+            		    expD.setTime(expD.getTime() + (-1*24*60*60*1000));
+            		    var uexpires = "expires="+expD.toUTCString();
+            		    document.cookie = cookieName + "=" + cookieValue + "; " + uexpires; 
+            		  } 
+            		  var d = new Date();
+            		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            		  var expires = "expires="+d.toUTCString();
+            		  document.cookie = cookieName + "=" + cookieValue + "; " + expires;  
+            		}
+              
+              //取cookies函式  
+            	function getCookie(cookieName) {
+        			var name = cookieName + "=";
+        			var ca = document.cookie.split(';');
+        			for(var i=0; i<ca.length; i++) {
+        			      var c = ca[i];
+        			      while (c.charAt(0)==' ') c = c.substring(1);
+        			      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        	  		}
+          			return "";
+        		}
+                
                 $('#submit').click(function() {
-                    updateMember(id)
+                    updateMember(id);
                 });
                 
                 $(document).ready(function() {
@@ -175,6 +188,8 @@
                  	$("#sql_log > tbody").empty();
                     getMember();
                     
+                    var result='member.html?id='+getCookie("id");
+                    $("#member").attr("href",result);
                 });
             </script>
         </div>
