@@ -39,9 +39,9 @@ footer {
 footer p {
   margin-bottom: .25rem;
 }
-.d-flex{
+ /* .d-flex{
   background-color:#00bbbb;
-}
+} */
 .lead{
   font-size: 22px;
 }
@@ -54,10 +54,7 @@ footer p {
 .table{
   font-size: 20px;
 }
-.d-flex a{
-  font-family: 'DFHsiu-W3-WIN-BF'; 
-  font-size: 20px;
-}
+
 body p{
   font-size: 20px;
 }

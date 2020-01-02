@@ -8,7 +8,7 @@
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Jekyll v3.8.5">
 
-  <title>商品列表 ｜ NCU MIS SA</title>
+  <title>商品列表 ｜復活福利社2.0</title>
 
   <!-- Bootstrap core CSS -->
   <link href="statics/css/bootstrap.min.css" rel="stylesheet">
@@ -39,12 +39,12 @@
 </head>
 
 <body>
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">中央復活福利社2.0</h5>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm">
+    <h3 class="my-0 mr-md-auto font-weight-bold">復活福利社2.0</h3>
     <nav class="my-2 my-md-0 mr-md-3">
-      <a class="p-2 text-dark" href="manager.html">會員管理模組</a>
-      <a class="p-2 text-dark" href="product.html">商品列表</a>
-      <a class="p-2 text-dark" href="order.html">訂單列表</a>
+      <a class="p-2 text-white" href="manager.html">會員管理模組</a>
+      <a class="p-2 text-white" href="product.html">商品列表</a>
+      <a class="p-2 text-white" href="order.html">訂單列表</a>
     </nav>
   </div>
 
@@ -120,7 +120,7 @@
 		inner_html += '<p class="card-text">' + "賣家信箱: "+ data.seller_email + '</p>';
 		inner_html += '<p class="card-text">' + "審核狀態: "+ varification_value +'</p>';
 		//inner_html += '<p class="card-text">' + "上下架狀態: "+ on_shelf_value +'</p>';
-		inner_html += '<div class="d-flex justify-content-between align-items-center">';
+		inner_html += '<div class="bg-white d-flex  justify-content-between align-items-center">';
 		inner_html += '<div class="btn-group">';
 		inner_html += '<button type="button" name="verificatioin_btn" class="btn btn-lg btn-block btn-outline-primary" id='+data.id+' onclick=updateVerification('+data.id+')>'+varification_value+'</button>'
 		inner_html += '</div><small class="text-muted">id: ' + data.id + '</small>';
