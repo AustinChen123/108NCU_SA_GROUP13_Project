@@ -286,6 +286,13 @@
     		var result='edit_by_member.html?id='+getCookie("id");
             $("#edit_by_member").attr("href",result);
     	}
+    	//沒有圖片上傳會放default圖
+  	    document.addEventListener("error",function (e) {
+  	    	var elem = e.target;
+  	    	if (elem.tagName.toLowerCase() == 'img') {
+  	    		elem.src = "statics/img/product/default_.jpg";
+  	    	}
+  	    	}, true);
     });
     
     $(document).on("click",".item_shortimg",function() {
@@ -308,7 +315,7 @@
                 	id_list: item_id
                 },
                 success: function (response) {
-                	console.log(response)
+                	//console.log(response)
                   if (response.status == 200) {
                 	var url = 'othermember.html?id='+ response.response.data[0].member_id;
                 	var item_box = '';
@@ -317,7 +324,7 @@
                 	var seller_email=response.response.data[0].seller_email;
                 	var seller_fb=response.response.data[0].seller_fb;
                 	var price=response.response.data[0].price;
-					//console.log(response.response.data[0]);
+					console.log(response.response.data[0].image);
                 	item_box += '<img class = "item_img" src="statics/img/product/' + response.response.data[0].image + '">';
                 	item_box += '<table>';
                 	item_box += '<tr>';
