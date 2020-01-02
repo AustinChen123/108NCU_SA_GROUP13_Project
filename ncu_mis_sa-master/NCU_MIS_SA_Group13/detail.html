@@ -112,8 +112,8 @@
                         table_html += '<td>' + value['seller_name'] + '</td>';
                         table_html += '<td>' + value['price'] + '</td>';
                         
-                        table_html += '<td>' + '<a href="edit_product.html?id=' + value['id'] + '">編輯</a> | ';
-                        table_html += '<a href="javascript: deleteProduct(' + value['id'] + ');">刪除</a></td></tr>';
+                       
+                        table_html += '<td>' + '<a href="javascript: deleteProduct(' + value['id'] + ');">刪除</a></td></tr>';
                     })
 
                     $("#table > tbody").append(table_html);
