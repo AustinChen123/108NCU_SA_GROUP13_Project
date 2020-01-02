@@ -4,6 +4,7 @@
         <!-- 編碼類型 -->
          <meta charset="UTF-8">
          <title>復活福利社2.0</title>
+         <!-- <link rel="stylesheet" href="statics/css/style.css" /> -->
          <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
          <link rel="stylesheet" href="statics/css/member.css" />
@@ -107,6 +108,16 @@
                 </table>
             </div>
         </div>
+        
+        <!-- 點擊商品後，會顯示該商品的詳細資料 -->
+        <div class="item_info" id = "item_info">
+            <a href="#" class="close"></a>
+            <div class="item_discripe">
+                <div class="item_box" id="item_panel">
+                
+                </div>
+            </div>
+        </div> 
         
         <script>
      // 取得網址參數
@@ -219,7 +230,7 @@
         console.log(data[slong])
         while (item_length > slong){
         	if (data[slong].member_id == id){
-        		table_html += '<tr><td><a href="#">'+data[slong].id+'</a></td>';
+        		table_html += '<tr><td><a href="#" class="item_shortimg" id="'+ data[slong].id +'">'+data[slong].id+'</a></td>';
         		table_html += '<td>'+data[slong].name+'</td>';
         		//商品狀態
     			if(data[slong].product_status){
@@ -276,6 +287,101 @@
             $("#edit_by_member").attr("href",result);
     	}
     });
+    
+    $(document).on("click",".item_shortimg",function() {
+  	  
+  	  var item_id = $(this).attr("id");//取得點擊的商品資料
+  	  getiteminfo(item_id);
+  	  location.href='#item_info';
+    });
+    
+    //商品細項
+    function getiteminfo(item_id) {
+              $.ajax({
+                type: "GET",
+                url: "api/product.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                data:{
+                	id_list: item_id
+                },
+                success: function (response) {
+                	console.log(response)
+                  if (response.status == 200) {
+                	var url = 'othermember.html?id='+ response.response.data[0].member_id;
+                	var item_box = '';
+                	var product_name = response.response.data[0].name;
+                	var seller_name=response.response.data[0].seller_name;
+                	var seller_email=response.response.data[0].seller_email;
+                	var seller_fb=response.response.data[0].seller_fb;
+                	var price=response.response.data[0].price;
+					//console.log(response.response.data[0]);
+                	item_box += '<img class = "item_img" src="statics/img/product/' + response.response.data[0].image + '">';
+                	item_box += '<table>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品名稱</td>';
+                	item_box += '<td class="right">' + response.response.data[0].name + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品分類</td>';
+                	item_box += '<td class="right">' + response.response.data[0].classification + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品狀態</td>';
+                	//判斷商品的狀態
+                	if(response.response.data[0].product_status){
+                		item_box += '<td class="right">全新</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">二手</td>';
+                 	 }
+                	
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">審核狀態</td>';
+                	//判斷商品的審核狀態
+                	if(response.response.data[0].verifacation_status){
+                		item_box += '<td class="right">未審核</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">已審核</td>';
+                 	 }
+                
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">售價</td>';
+                	item_box += '<td class="right">' + response.response.data[0].price + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品描述</td>';
+                	item_box += '<td class="right last">' + response.response.data[0].product_overview + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">賣家</td>';
+                	item_box += '<td class="right" id="member_info" meminfo ="'+url+'">' + response.response.data[0].seller_name + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">E-Mail</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_email + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">FACEBOOK</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_fb + '</td>';
+                	item_box += '</tr>';
+                	item_box += '</table>';
+         //       	item_box += '<button class="buy_btn" id="buy_btn" onclick=Buy('+item_id+',"'+product_name+'","'+seller_name+'","'+seller_email+'","'+seller_fb+'","'+price+'")>購買商品</button>'
+                	$("#item_panel").empty();
+                	$("#item_panel").append(item_box);
+                	
+                  }
+                },
+                error: function () {
+                  alert("無法連線到伺服器！");
+                }
+              });
+         }
         </script>
     </body>
 </html>
