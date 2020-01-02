@@ -406,6 +406,7 @@ form #submit:active{
     width: 2rem;
     height: 2rem;
     position: absolute;
+    font-size: 20px;
     display: flex;
     z-index: 1;
     align-items: center;
@@ -413,7 +414,7 @@ form #submit:active{
     background-color: black;
     border-radius: 50%;
     color: white;
-    content: "��";
+    content: "x";
     cursor: pointer;
   }
   
@@ -442,11 +443,12 @@ form #submit:active{
     display: flex;
     z-index: 1;
     align-items: center;
+    font-size: 20px;
     justify-content: center;
     background-color: black;
     border-radius: 50%;
     color: white;
-    content: "��";
+    content: "x";
     cursor: pointer;
   }
   
