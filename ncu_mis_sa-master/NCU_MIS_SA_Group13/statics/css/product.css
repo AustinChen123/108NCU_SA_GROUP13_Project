@@ -4,7 +4,7 @@
          url('../fonts/DFHsiu-W3-WIN-BF.ttf') format("truetype");
 }
 *{
-font-family: 'DFHsiu-W3-WIN-BF'; 
+font-family: 'DFHsiu-W3-WIN-BF';
 }
 .jumbotron {
   padding-top: 3rem;
@@ -39,9 +39,7 @@ footer {
 footer p {
   margin-bottom: .25rem;
 }
- /* .d-flex{
-  background-color:#00bbbb;
-} */
+
 .lead{
   font-size: 22px;
 }
@@ -54,10 +52,18 @@ footer p {
 .table{
   font-size: 20px;
 }
-
+label{
+  font-size: 20px;
+}
 body p{
   font-size: 20px;
 }
 .nav-link{
   font-size: 20px;
+}
+.col-md-6 label{
+  font-size: 1.8rem;
+}
+.col-md-6 p{
+  font-size: 1.3rem;
 }
