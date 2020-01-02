@@ -24,6 +24,7 @@
 	margin:0;
 	padding:0;
 	font-family: 'DFHsiu-W3-WIN-BF' !important;
+	font-size:20px;
 }
 
 /** General Style Info **/
@@ -60,10 +61,7 @@ h2 {
 	color: #e32;
 	font-size: 190%;
 }
-h3 {
-	color: #2c6877;
-	font-size: 165%;
-}
+
 h4 {
 	color: #993;
 	font-weight: normal;
@@ -313,7 +311,7 @@ form div.submit {
 }
 label {
 	display: block;
-	font-size: 110%;
+	font-size: 20px;
 	margin-bottom:3px;
 }
 input, textarea {
@@ -324,14 +322,14 @@ input, textarea {
 }
 select {
 	clear: both;
-	font-size: 120%;
+	font-size: 20px;
 	vertical-align: text-bottom;
 }
 select[multiple=multiple] {
 	width: 100%;
 }
 option {
-	font-size: 120%;
+	font-size:20px;
 	padding: 0 3px;
 }
 input[type=checkbox] {
@@ -356,7 +354,7 @@ input[type=radio] {
 }
 input[type=button] {
 	display: inline;
-	font-size: 110%;
+	font-size: 22px;
 	width: auto;
 }
 form .submit input[type=button] {
@@ -405,7 +403,7 @@ form .error-message {
 .message {
 	clear: both;
 	color: #fff;
-	font-size: 140%;
+	font-size: 28px;
 	font-weight: bold;
 	margin: 0 0 1em 0;
 	padding: 5px;
@@ -473,7 +471,7 @@ p.error,
 }
 p.error {
 	font-family: Monaco, Consolas, Courier, monospace;
-	font-size: 120%;
+	font-size: 24px;
 	padding: 0.8em;
 	margin: 1em 0;
 }
@@ -484,7 +482,7 @@ p.error em {
 .notice {
 	color: #000;
 	display: block;
-	font-size: 120%;
+	font-size: 24px;
 	padding: 0.8em;
 	margin: 1em 0;
 }
@@ -613,7 +611,7 @@ pre {
 	color: #333;
 	margin: 10px 0 5px 0;
 	padding: 10px 10px 0 10px;
-	font-size: 120%;
+	font-size: 24px;
 	line-height: 140%;
 	overflow: auto;
 	position: relative;
@@ -630,7 +628,7 @@ pre {
 	border-radius: 10px;
 	margin: 0px 4px 10px 2px;
 	font-family: sans-serif;
-	font-size: 14px;
+	font-size: 20px;
 	line-height: 14px;
 	display: inline-block;
 	text-decoration: none;
@@ -673,7 +671,7 @@ pre {
 .cake-code-dump pre,
 .cake-code-dump pre code {
 	clear: both;
-	font-size: 12px;
+	font-size: 20px;
 	line-height: 15px;
 	margin: 4px 2px;
 	padding: 4px;
@@ -727,7 +725,7 @@ pre {
 	color:#bbb;
 	padding:5px;
 	margin:5px 0 10px;
-	font-size:10px;
+	font-size:20px;
 }
 .code-coverage-results span.result-bad {
 	color: #a00;
@@ -743,3 +741,61 @@ pre {
 #url-rewriting-warning {
 	display:none;
 }
+
+.lead{
+  font-size: 22px;
+}
+.pb-2{
+  font-size: 23px;
+}
+.pb-3{
+  font-size: 20px;
+}
+.table{
+  font-size: 20px;
+}
+.p-2{
+	font-size:20px;
+}
+body p{
+  font-size: 20px;
+}
+.nav-link{
+  font-size: 20px;
+}
+input {
+  font-size:22px;
+}
+label{
+	font-size:20px
+}
+#btn{
+    border: none;
+    float:left;
+}
+
+#btn{
+    height: 44PX;
+    width:160px;
+    color:black;
+    background: powderblue;
+    line-height: 36px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    -webkit-transform:translateZ(0) scale(1,1);
+    -webkit-transition:all .14s linear;
+    transition:all .14s linear;
+    }
+#btn:hover{
+    background: pink;
+    border: none;
+    float:left;
+}
+#btn:active{
+    background: powderblue
+    }
+    
+#btn:focus{
+    outline: none;
+    }

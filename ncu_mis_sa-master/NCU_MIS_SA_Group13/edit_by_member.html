@@ -6,24 +6,31 @@
       <title>會員資料編輯 ｜復活福利社2.0</title>
     <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
     <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
-    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/edit-by-member.css">
 	<link href="statics/css/bootstrap.min.css" rel="stylesheet">
-    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+  <!-- Custom styles for this template -->
+  <link href="statics/css/jquery-confirm.css" rel="stylesheet">
+  <script src="statics/js/jquery-3.4.1.min.js"></script>
+  <script src="statics/js/jquery-confirm.js"></script>
+  <script src="statics/js/big.min.js"></script>
+  <link rel="stylesheet" type="text/css" 
+  href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="container">
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm">
     <h3 class="my-0 mr-md-auto font-weight-bold">復活福利社2.0</h3>
     <nav class="my-2 my-md-0 mr-md-3">
-      <a class="p-2 text-white" href="manager.html">會員管理模組</a>
-      <a class="p-2 text-white" href="product.html">商品列表</a>
-      <a class="p-2 text-white" href="order.html">訂單列表</a>
-    </nav>
+          <a class = "p2 text-light" href="index.html">
+          <span class="nav-text">回到商場&nbsp;</span>
+          </a>
+          <a class = "p2 text-light" href="#" id = "member">會員專區</a>
+    </nav> 
   </div>
         <div id="content">
             <h2>修改會員資料</h2>
-			<a href="#" id = "member">會員專區</a>
+
 
             <div id="flashMessage" class="message" style="display: none;"></div>
 
@@ -45,7 +52,7 @@
                     <label for="member_password">密碼</label>
                     <input name="password" type="password" id="member_password" required="required">
                 </div>
-                <div class="submit"><input type="button" value="確認修改" id="submit"></div>
+                <div class="submit"><input type="button" value="確認修改" id="btn"></div>
             </form>
 
             <script type="text/javascript">
@@ -142,7 +149,7 @@
                         timeout: 5000,
                         success: function (response) {
                             if(response.status == 200){
-                            	updateSQLTable(response.response);
+                            	//updateSQLTable(response.response);
                             	console.log(response.response);
                             	document.getElementById('member_name').value = response['response']['data'][0]['name'];
                             	document.getElementById('member_email').value = response['response']['data'][0]['email'];
@@ -198,27 +205,9 @@
                 });
             </script>
         </div>
-        <div id="footer">
-            <a href="http://www.cakephp.org/" target="_blank" id="cake-powered"><img src="statics/img/cake.power.gif" alt="CakePHP: the rapid development php framework" border="0"></a>
-            <p>CakePHP 2.6.10</p>
-        </div>
+
     </div>
 
-    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
-        <caption id="sql_summary">(default) 0 query took 0 ms</caption>
-        <thead>
-            <tr>
-                <th>Nr</th>
-                <th>Query</th>
-                <th>Error</th>
-                <th>Affected</th>
-                <th>Num. rows</th>
-                <th>Took (ms)</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
 </body>
 
 </html>
