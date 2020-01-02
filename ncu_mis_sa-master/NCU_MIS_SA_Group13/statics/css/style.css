@@ -207,10 +207,13 @@ display: none;
     top: 5%;
     width: 300px;
     height: 470px;
-
+	z-index:0;
     background: rgb(240, 240, 240);
     -webkit-border-radius: 25px;
     transition: 0.3s;
+}
+.col-md-3{
+	z-index:0;
 }
 .item:hover{
     margin: 4% 8%;
@@ -277,6 +280,7 @@ td{
     height: 700px;
     top:25%;
     right:35%;
+    z-index:10;
     position: absolute;
     display: flex;
 }
@@ -398,9 +402,10 @@ form #submit:active{
 .close {
     position: relative;
     display: block;
+    z-index: 11;
   }
   
-.close::after {
+.close::before {
     left: 600px;
     top: -1rem;
     width: 2rem;
@@ -408,7 +413,7 @@ form #submit:active{
     position: absolute;
     font-size: 20px;
     display: flex;
-    z-index: 1;
+    z-index: 11;
     align-items: center;
     justify-content: center;
     background-color: black;
@@ -419,29 +424,30 @@ form #submit:active{
   }
   
   /* Lightbox overlay */
-.close::before {
+  /* .close::before {
     left: 310px;
     top: -1rem;
     width: 2rem;
     height: 2rem;
     position: fixed;
-/*    background-color: rgba(0,0,0,.7);*/
+    background-color: rgba(0,0,0,.7);
     content: "";
     cursor: default;
-  }
+  }*/
 .close_signin {
     position: relative;
     display: block;
+    z-index: 11;
   }
   
-.close_signin::after {
+.close_signin::before {
     left: 360px;
     top: -1rem;
     width: 2rem;
     height: 2rem;
     position: absolute;
     display: flex;
-    z-index: 1;
+    z-index: 11;
     align-items: center;
     font-size: 20px;
     justify-content: center;
@@ -450,20 +456,21 @@ form #submit:active{
     color: white;
     content: "x";
     cursor: pointer;
+
   }
   
   /* Lightbox overlay */
-.close_signin::before {
+/* .close_signin::before {
     left: 300px;
     top: -1rem;
     width: 2rem;
     height: 2rem;
     position: fixed;
-/*    background-color: rgba(0,0,0,.7);*/
+	background-color: rgba(0,0,0,.7);
     content: "";
     cursor: default;
   }
-
+*/
 form div {
 /*	clear: both;*/
 	margin-bottom: 1em;
@@ -528,6 +535,7 @@ width: 100%;
 overflow-y: hidden;
 overflow-x: hidden;
 float: left;
+z-index: 10;
 }
 
 .scrollbar:hover
@@ -537,6 +545,7 @@ height: 90%;
 width: 100%;
 overflow-y: scroll;
 overflow-x: hidden;
+z-index: 10;
 }
 
 /* Scrollbar Style */ 
@@ -602,6 +611,7 @@ background-color: #BFBFBF;
     top:0;
     bottom:0;
     height:100%;
+    z-index:10;
     left:0;
     width:60px;
     overflow:hidden;
