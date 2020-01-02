@@ -288,6 +288,9 @@ tr{
     border-collapse:collapse;
     border-spacing:0;
 }
+.signin .submit{
+	left-padding:25px;
+}
 .login_regis{
     display: none;
 }
@@ -300,7 +303,31 @@ tr{
     display: flex;
     /* visibility: hidden; */
 }
-
+#login_submit,#register_submit{
+	height: 36PX;
+    width:60px;
+    color:black;
+    font-weight:bold;
+    background: silver;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin-left:18.5px;
+    -webkit-transform:translateZ(0) scale(1,1);
+    -webkit-transition:all .14s linear;
+    transition:all .14s linear;
+}
+#login_submit:hover,#register_submit:hover{
+	background: pink;
+    border: none;
+}
+#login_submit:active,#register_submit:active{
+	background: powderblue
+}
+#login_submit:focus,#register_submit:focus{
+	outline:none;
+}
 .item_info{
     display: none;
 }
@@ -391,7 +418,7 @@ tr{
     font-size: 30px;
 }
 .signin{
-    padding: 30px 95px 0px 95px;
+    padding: 20px 80px 0px 80px;
     width: 350px;
     position: relative;
     background-color: #B0E0E6;
@@ -438,7 +465,7 @@ form #submit:active{
   }
   
 .close::before {
-    left: 600px;
+    left: 605px;
     top: -1rem;
     width: 2rem;
     height: 2rem;
@@ -473,7 +500,7 @@ form #submit:active{
   }
   
 .close_signin::before {
-    left: 360px;
+    left: 327px;
     top: -1rem;
     width: 2rem;
     height: 2rem;
@@ -505,7 +532,7 @@ form #submit:active{
 */
 form div {
 /*	clear: both;*/
-	margin-bottom: 1em;
+	margin-bottom: 0.7em;
 /*	padding: .5em;*/
 /*	vertical-align: text-top;*/
 }
