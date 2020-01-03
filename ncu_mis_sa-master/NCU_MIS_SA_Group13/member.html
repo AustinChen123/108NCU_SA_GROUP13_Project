@@ -240,8 +240,8 @@
     				table_html += '<td>二手</td>';
      	 		}
         		table_html += '<td>TWD '+data[slong].price+'</td>';
-        		table_html += '<td><button class = "product_modify" id = "product_modify">修改</button>';
-        		table_html += '<button class = "product_delete" id = "product_delete">刪除</button></td></tr>';
+        		table_html += '<td><a href="edit_product.html?id='+data[slong].id+'"><button class = "product_modify" id = "product_modify" >修改</button></a>';
+        		table_html += '<a href="#deleted?id='+data[slong].id+'"><button class = "product_delete" id = "product_delete" onclick="deleteProduct('+data[slong].id+')">刪除</button></a></td></tr>';
         	}
         	slong++;
         }
@@ -389,6 +389,36 @@
                 }
               });
          }
+		    function deleteProduct(id) {
+		        var check = window.confirm("確認刪除商品？");
+		        if (check == true) {
+		            console.log("You pressed OK!");
+		            var request = {'id': id};
+		            var data_string = JSON.stringify(request);
+		            $.ajax({
+		                type: "DELETE",
+		                url: "api/product.do",
+		                crossDomain: true,
+		                data: data_string,
+		                cache: false,
+		                dataType: 'json',
+		                timeout: 5000,
+		                success: function (response) {
+		                    if(response.status == 200){
+		                    	getMemberItem(id)
+		                    }
+		                    console.log(response);
+		                },
+		                error: function () {
+		                    alert("無法連線到伺服器！");
+		                }
+		            });
+		        }
+		        else {
+		            console.log("You pressed Cancel!");
+		        }
+		    }
+    	
         </script>
     </body>
 </html>

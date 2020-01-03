@@ -9,19 +9,21 @@
     <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
     <link rel="stylesheet" type="text/css" href="statics/css/edit-by-member.css">
     <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+    
 
     <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div id="container">
-        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm" id="header">
+         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm" id="header">
             <h3 class="my-0 mr-md-auto font-weight-bold text-dark" >復活福利社2.0</h3>
             <a href="index.html">去首頁&nbsp;</a>
-            <a href="detail.html">商品清單</a>
+            <a href="javascript:" onclick="self.location=document.referrer;">回上一頁</a>
         </div>
         <div id="content">
             <h2>更新商品資料</h2>
+            
             <div id="flashMessage" class="message" style="display: none;"></div>
 
             <form id="form" accept-charset="utf-8">
@@ -34,16 +36,16 @@
                     <label for="classificaion">商品分類</label>
                     
                     
-                    <select name="classificaion" maxlength="50" type="option" id="classificaion">
-                                <option>食物</option>
-								<option>服飾</option>
-								<option>美妝</option>
-								<option>3C周邊</option>
-								<option>家具</option>
-								<option>交通工具</option>
-								<option>收購</option>
-								<option>贈送</option>
-								<option>其他</option>
+                    <select name="classificaion" maxlength="50" type="option" id="product_classification">
+                                <option value="1" >食物</option>
+								<option value="2">服飾</option>
+								<option value="3">美妝</option>
+								<option value="4">3C周邊</option>
+								<option value="5">家具</option>
+								<option value="6">交通工具</option>
+								<option value="7">收購</option>
+								<option value="8">贈送</option>
+								<option value="9">其他</option>
                     </select>
                     
                 </div>
@@ -54,133 +56,135 @@
                 
                 <div class="font-weight-bold">
                     <label for="product_overview">商品描述</label>
-                    <input name="product_overview" type="text" id="product_overview" ><p></p>
+                    <textarea name="product_overview" id="product_overview"  cols="50" rows="5" ></textarea>
                 </div>
-                <div class="submit"><input type="button" value="更新" id="btn"></div>
+                <div class="submit"><input type="button" value="更新" id="submit"></div>
             </form>
 
             <script type="text/javascript">
-                // 取得網址參數
-                var url_string = window.location.href;
-                var url = new URL(url_string);
-                var id = url.searchParams.get("id");
-                var sql_num = 0;
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var item_id = url.searchParams.get("id");
+           
+            //更新商品資料
+			function updateProduct(id) {
+                var name = $('#product_name').val();
+                var classification = $("#product_classification :selected").text();
+                var price = $("#product_price").val();
+                var product_overview = $('#product_overview').val();
 
-                function updateProduct(id) {
-                    var name = $('#product_name').val();
-                    var classificaion = $('#classificaion').val();
-                    var price = $('#product_price').val();
-                 //   var image = $('#member_fb_link').val();
-                    var product_overview = $('#product_overview').val();
-                    
-                //    if($('#member_status').prop("checked")===true){
-               //     	var status = true;
-                    	
-                //    }
-                //    else{
-                //   	var status =false;
-                //   }
-                    
-                 //   var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-                  //  var fb_link_rule = /^http|https/;
-                    
-                    else {
-                        // 將資料組成JSON格式
-                        var data_object = {
-                            "id": id,
-                            "name": name,
-                            "classification": classification,
-                            "price": price,
-                            "image":image,
-                            "product_overview":product_overview
-                        };
+                // 將資料組成JSON格式
+                var data_object = {
+                        "id": id,
+                        "name": name,
+                        "classification": classification,
+                        "price": price,
+                        "product_overview":product_overview,
+                 };
 
-                        // 將JSON格式轉換成字串
-                        var data_string = JSON.stringify(data_object);
+                 // 將JSON格式轉換成字串
+                 var data_string = JSON.stringify(data_object);
 
-                        // 發出POST的PUT請求
-                        $.ajax({
-                                type: "PUT",
-                                url: "api/product.do",
-                                data: data_string,
-                                crossDomain: true,
-                                cache: false,
-                                dataType: 'json',
-                                timeout: 5000,
-                                success: function (response) {
-                                    $('#flashMessage').html(response.message);
-                                    $('#flashMessage').show();
-                                    if(response.status == 200){
-                                        updateSQLTable(response.response);
-                                        getProduct();
-                                    }
-                                },
-                                error: function () {
-                                    alert("無法連線到伺服器！");
+                 // 發出POST的PUT請求
+                 $.ajax({
+                            type: "PUT",
+                            url: "api/product.do",
+                            data: data_string,
+                            crossDomain: true,
+                            cache: false,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function (response) {
+                                if(response.status == 200){
+                                	alert("更新成功！")
+                                	getProduct(item_id)
+                                	
                                 }
-                        });
-                    }
-                }
-
-                // 更新SQL指令歷史表格
-                function updateSQLTable(data) {
-                    var time = (data.time / 1000000).toFixed(2);
-                    var table_html = "";
-                    
-                    sql_num += 1
-
-                    table_html += '<tr>';
-                    table_html += '<td>' + sql_num + '</td>';
-                    table_html += '<td>' + data.sql + '</td>';
-                    table_html += '<td style="text-align: right">' + '0' + '</td>';
-                    table_html += '<td style="text-align: right">' + data.row + '</td>';
-                    table_html += '<td style="text-align: right">' + data.row + '</td>';
-                    table_html += '<td style="text-align: right">' + time + '</td>';
-                    table_html += '</tr>';
-                    $("#sql_log > tbody").append(table_html);
-                    $("#sql_summary").html("(default) " + data.row + " queries took " + time + " ms");
-                }
-
-                function getProduct() {
-                    $.ajax({
-                        type: "GET",
-                        url: "api/product.do",
-                        crossDomain: true,
-                        data: "id=" + id,
-                        cache: false,
-                        dataType: 'json',
-                        timeout: 5000,
-                        success: function (response) {
-                            if(response.status == 200){
-                            	updateSQLTable(response.response);
-                            	console.log(response.response);
-                            	document.getElementById('product_name').value = response['response']['data'][0]['name'];
-                            	document.getElementById('classificaion').value = response['response']['data'][0]['classificaion'];
-                            	document.getElementById('product_price').value = response['response']['data'][0]['price'];
-                            	document.getElementById('product_image').value = response['response']['data'][0]['image'];
-                            	document.getElementById('product_overview').value = response['response']['data'][0]['product_overview'];
-                            	
+                            },
+                            error: function () {
+                                alert("無法連線到伺服器！");
                             }
-                            console.log(response);
-                        },
-                        error: function () {
-                            alert("無法連線到伺服器！");
-                        }
                     });
-                }
-
-                $('#submit').click(function() {
-                    updateProduct(id)
-                });
                 
-                $(document).ready(function() {
-                	// 發出GET的AJAX請求取得原本該會員的資料
-                 	$("#sql_log > tbody").empty();
-                    getProduct();
-                    
+            }
+
+			//先取得原商品資料
+            function getProduct(item_id) {
+                $.ajax({
+                	 type: "GET",
+                     url: "api/product.do",
+                     crossDomain: true,
+                     cache: false,
+                     dataType: 'json',
+                     timeout: 5000,
+                     data:{
+                     	id_list: item_id
+                     },
+                    success: function (response) {
+                        if(response.status == 200){
+                        	
+                        	
+                        	$("#product_name").val(response['response']['data'][0]['name']);
+                        	var this_classification=response['response']['data'][0]['classification'];
+                        	console.log(this_classification);
+                        	//$("#product_classification option:contains('+this_classification+')").attr("selected", true);
+                        	$("#product_classification option").filter(function() {
+    									return this.text == this_classification; 
+							}).attr('selected', true);
+                        	$("#product_price").val(response['response']['data'][0]['price']);
+                        	$("#product_overview").val(response['response']['data'][0]['product_overview']);
+                        	
+                        }
+                        
+                    },
+                    error: function () {
+                        alert("無法連線到伺服器！");
+                    }
                 });
+            }
+            
+          //設定cookies
+        	function setCookie(cookieName, cookieValue, exdays) {
+        		  if (document.cookie.indexOf(cookieName) >= 0) {
+        		    var expD = new Date();
+        		    expD.setTime(expD.getTime() + (-1*24*60*60*1000));
+        		    var uexpires = "expires="+expD.toUTCString();
+        		    document.cookie = cookieName + "=" + cookieValue + "; " + uexpires; 
+        		  } 
+        		  var d = new Date();
+        		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        		  var expires = "expires="+d.toUTCString();
+        		  document.cookie = cookieName + "=" + cookieValue + "; " + expires;  
+        		}
+          
+          //取cookies函式  
+        	function getCookie(cookieName) {
+    			var name = cookieName + "=";
+    			var ca = document.cookie.split(';');
+    			for(var i=0; i<ca.length; i++) {
+    			      var c = ca[i];
+    			      while (c.charAt(0)==' ') c = c.substring(1);
+    			      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    	  		}
+      			return "";
+    		}
+            
+            $('#submit').click(function() {
+                updateProduct(item_id);
+            });
+            
+            $(document).ready(function() {
+            	
+            	// 發出GET的AJAX請求取得原本該商品的資料
+             	getProduct(item_id)
+                
+                
+            });
             </script>
         </div>
+        
     </div>
+
 </body>
+
 </html>

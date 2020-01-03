@@ -543,27 +543,23 @@ public class ProductHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `sa_project`.`products` SET `name` = ? , `classification`= ? , `` = ? , `product_status` = ?, `price` = ?, `product_overview` = ?`image` = ? WHERE `id` = ?";
+            String sql = "Update `sa_project`.`products` SET `name` = ? , `classification`= ?, `price` = ?, `product_overview` = ? WHERE `id` = ?";
             
             /** 取得所需之參數 */
             
             int product_id = p.getID();
             String name = p.getName();
             String classification=p.getString();
-            Boolean product_status=p.getBoolean();
             float price = p.getPrice();
             String product_overview = p.getProduct_overview();
-            String image = p.getImage();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setString(1, name);
             pres.setString(2, classification);
-            pres.setBoolean(3, product_status);
-            pres.setFloat(4, price);
-            pres.setString(5, product_overview);
-            pres.setString(6, image);
-            pres.setInt(7, product_id);
+            pres.setFloat(3, price);
+            pres.setString(4, product_overview);
+            pres.setInt(5, product_id);
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
 

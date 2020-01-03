@@ -134,6 +134,14 @@ public class Product {
 		this.on_shelf=on_shelf;
 		
 	}
+	public Product(int id, String name, String classification,float price,String product_overview) {
+		this.id=id;
+		this.name=name;
+		this.classification=classification;
+		this.price=price;
+		this.product_overview=product_overview;
+		
+	}
 	
 	
 	
