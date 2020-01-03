@@ -3,24 +3,25 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>CakePHP: the rapid development php framework: Products</title>
+    <title>編輯商品 | 復活福利社2.0</title>
     <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
     <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/edit-by-member.css">
+    <link href="statics/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div id="container">
-        <div id="header">
-            <h1><a href="http://cakephp.org/">CakePHP: the rapid development php framework</a></h1>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm" id="header">
+            <h3 class="my-0 mr-md-auto font-weight-bold text-dark" >復活福利社2.0</h3>
+            <a href="index.html">去首頁&nbsp;</a>
+            <a href="detail.html">商品清單</a>
         </div>
         <div id="content">
             <h2>更新商品資料</h2>
-            <a href="index.html">去首頁</a>
-            <a href="detail.html">商品清單</a>
-
             <div id="flashMessage" class="message" style="display: none;"></div>
 
             <form id="form" accept-charset="utf-8">
@@ -51,11 +52,11 @@
                     <input name="price" type="text" id="product_price" >
                 </div> 
                 
-                <div>
+                <div class="font-weight-bold">
                     <label for="product_overview">商品描述</label>
                     <input name="product_overview" type="text" id="product_overview" ><p></p>
                 </div>
-                <div class="submit"><input type="button" value="更新" id="submit"></div>
+                <div class="submit"><input type="button" value="更新" id="btn"></div>
             </form>
 
             <script type="text/javascript">
@@ -180,27 +181,6 @@
                 });
             </script>
         </div>
-        <div id="footer">
-            <a href="http://www.cakephp.org/" target="_blank" id="cake-powered"><img src="statics/img/cake.power.gif" alt="CakePHP: the rapid development php framework" border="0"></a>
-            <p>CakePHP 2.6.10</p>
-        </div>
     </div>
-
-    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
-        <caption id="sql_summary">(default) 0 query took 0 ms</caption>
-        <thead>
-            <tr>
-                <th>Nr</th>
-                <th>Query</th>
-                <th>Error</th>
-                <th>Affected</th>
-                
-                <th>Took (ms)</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
 </body>
-
 </html>
