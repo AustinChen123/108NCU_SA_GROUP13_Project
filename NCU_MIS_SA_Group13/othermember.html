@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 編碼類型 -->
+         <meta charset="UTF-8">
+         <title>復活福利社2.0</title>
+         <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+         <link rel="stylesheet" href="statics/css/member.css" />
+         <link rel="stylesheet" type="text/css" 
+         href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
+        
+        </head>
+
+    <body> 
+        <div id="header">
+            <nav class="top_nav">
+                <span class="slogan">復活福利社2.0</span>
+                <div class="userbar">
+                    <ul class="menu">
+                        <li id = "user">
+                            <a href="index.html">
+                            <i class="fa-lg fas fa-shopping-cart "></i>
+                            <span class="nav-text">回到商場&nbsp;</span>
+                            </a>
+                        </li>
+                        <li id = "user">
+                            <a href="manager.html">
+                            <i class="fa-lg fas fa-wrench"></i>
+                            <span class="nav-text">管理員專區</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </div>
+        <div class="member_container">
+            <div class="member_info">
+                <table>
+                    <tr>
+                        <td class="info_title">會員id</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">email</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">會員姓名</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">Facebook連結</td>
+                        <td><a href = "#FB">Facebook</a></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>                        
+                        <td class="info_title">會員建立日期</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">會員驗證狀態</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">上次登入時間</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+ 		<hr size="3px" align="center" width="100%" color = skyblue>
+        <div class="member_product" id= "product">
+            <div class="product_info">
+                <h1 style="text-align:center; font-size:30px;">會員商品</h1>
+                <table>
+                    <tr class = "table_title">
+                        <td class = "table_title">商品id</td>
+                        <td class = "table_title">商品名稱</td>
+                        <td class = "table_title">商品狀態</td>
+                        <td class = "table_title">商品價格</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <script>
+        // 取得網址參數
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var id = url.searchParams.get("id");
+        // 取得會員資料
+            function getmember(id) {
+        		console.log(id)
+                var data_object = {
+                    "id": id,
+                }
+        		console.log(data_object)
+                var data_string = JSON.stringify(data_object);
+        		console.log(data_string)
+                $.ajax({
+	            data:data_object,  //直接傳表單裡的資料
+	            crossDomain: true,
+                type: "GET",
+                url: "api/member.do",
+                cache: true,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                	console.log(response)
+                    if (response.status == 200) {
+                    updatemember(response.response.data);
+                    }
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                        }
+                 }); // end ajax
+                }   // end function
+
+        function updatemember(data){
+        	console.log(data)
+            $(".member_info").empty();
+            var table_html = '';
+            table_html += '<table>';
+            table_html += '<tr><td class="info_title">會員id</td><td>'+data[0].id+'</td></tr>';
+            table_html += '<tr><td class="info_title">email</td><td>'+data[0].email+'</td></tr>';
+            table_html += '<tr><td class="info_title">會員姓名</td><td>'+data[0].name+'</td></tr>';
+            table_html += '<tr><td class="info_title">Facebook連結</td><td>'+'<a href = '+data[0].fb_link+'/a>Facebook</td></tr>';
+            table_html += '</table>';
+            table_html += '<table>';
+            table_html += '<tr><td class="info_title">會員建立日期</td><td>'+data[0].created+'</td></tr>';
+            table_html += '<tr><td class="info_title">會員驗證狀態</td>';
+            //會員驗證狀態
+        	if(data[0].status){
+        		table_html += '<td>已審核</td></tr>';
+        	}
+        	else{
+        		table_html += '<td>未審核</td></tr>';
+         	 }
+            
+            table_html += '<tr><td class="info_title">上次登入時間</td><td>'+data[0].login_datetime+'</td></tr>';
+            table_html += '</table>';
+            $(".member_info").append(table_html);
+        }
+        
+      //取得會員商品
+        function getMemberItem(id) {
+    		console.log(id)
+            var data_object = {
+                "member_id": id,
+            }
+    		console.log(data_object)
+            var data_string = JSON.stringify(data_object);
+    		console.log(data_string)
+            $.ajax({
+            data:data_object,  //直接傳表單裡的資料
+            crossDomain: true,
+            type: "GET",
+            url: "api/product.do",
+            cache: true,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+            	console.log(response)
+                if (response.status == 200) {
+                updateMemberItem(response.response.data);
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+                    }
+             });
+         }
+        
+        //更新會員商品
+        function updateMemberItem(data){
+        	console.log(data)
+        	var item_length = data.length;
+            $(".product_info").empty();
+            
+            var table_html = '';
+            table_html += '<h1 style="text-align:center; font-size:30px;">會員商品</h1>';
+            table_html += '<table>';
+            table_html += '<tr class = "table_title"><td class = "table_title">商品id</td>';
+            table_html += '<td class = "table_title">商品名稱</td>';
+            table_html += '<td class = "table_title">商品狀態</td>';
+            table_html += '<td class = "table_title">商品價格</td>';
+            
+            var slong = 0;
+            console.log(data[slong])
+            while (item_length > slong){
+            	if (data[slong].member_id == id){
+            		table_html += '<tr><td><a href="#">'+data[slong].id+'</a></td>';
+            		table_html += '<td>'+data[slong].name+'</td>';
+            		//商品狀態
+        			if(data[slong].product_status){
+        				table_html += '<td>全新</td>';
+        			}
+        			else{
+        				table_html += '<td>二手</td>';
+         	 		}
+            		table_html += '<td>TWD '+data[slong].price+'</td>';
+            	}
+            	slong++;
+            }
+            table_html += '</table>';
+            $(".product_info").append(table_html);
+            
+        }   
+                
+        $(document).ready(function(){
+        	getmember(id);
+        	getMemberItem(id);
+        });
+        </script>
+    </body>
+</html>

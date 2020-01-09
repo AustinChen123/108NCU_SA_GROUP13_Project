@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 編碼類型 -->
+         <meta charset="UTF-8">
+         <title>復活福利社2.0</title>
+         <!-- <link rel="stylesheet" href="statics/css/style.css" /> -->
+         <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+         <link rel="stylesheet" href="statics/css/member.css" />
+         <link rel="stylesheet" type="text/css" 
+         href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
+        
+        </head>
+
+    <body> 
+        <div id="header">
+            <nav class="top_nav">
+                <span class="slogan">復活福利社2.0</span>
+                <div class="userbar">
+                    <ul class="menu">
+                        <li id = "user">
+                            <a href="index.html">
+                            <i class="fa-lg fas fa-shopping-cart "></i>
+                            <span class="nav-text">回到商場&nbsp;</span>
+                            </a>
+                        </li>
+                        <li id = "user">
+                            <a href="manager.html">
+                            <i class="fa-lg fas fa-wrench"></i>
+                            <span class="nav-text">管理員專區</span>
+                            </a>
+                        </li>
+                        <li id = "user">
+                            <a href="#" id = "edit_by_member">
+                            <i class="fa-lg fas fa-edit"></i>
+                            <span class="nav-text">修改會員資料</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </div>
+        <div class="member_container">
+            <div class="member_info">
+                <table>
+                    <tr>
+                        <td class="info_title">會員id</td>
+                        <td>undefined</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">email</td>
+                        <td>undefined</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">會員姓名</td>
+                        <td>undefined</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">Facebook連結</td>
+                        <td><a href = "#FB">Facebook</a></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>                        
+                        <td class="info_title">會員建立日期</td>
+                        <td>undefined</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">會員驗證狀態</td>
+                        <td>undefined</td>
+                    </tr>
+                    <tr>
+                        <td class="info_title">上次登入時間</td>
+                        <td>undefined</td>
+                    </tr>
+                    <tr>
+                           <td><a href = "#order">查看會員訂單</a></td>
+                        <td><a href = "#product">查看會員商品</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr size="3px" align="center" width="100%" color = skyblue>
+        <div class="member_product" id= "product">
+            <div class="product_info">
+                <h1 style="text-align:center; font-size:30px;">會員商品</h1>
+                <table>
+                    <tr class = "table_title">
+                        <td class = "table_title">商品id</td>
+                        <td class = "table_title">商品名稱</td>
+                        <td class = "table_title">商品狀態</td>
+                        <td class = "table_title">商品價格</td>
+                        <td class = "table_title">修改/刪除</td>
+                    </tr>
+                    <!-- 這裡開始是js填入 -->
+                    <!-- <tr>
+                        	<td><a href="#">undefined</a></td>
+                        	<td>undefined</td>
+                        	<td>undefined</td>
+                        	<td>TWD undefined</td>
+                         	<td>
+                            	<button class = "product_modify" id = "product_modify">修改</button>
+                            	<button class = "product_delete" id = "product_delete">刪除</button>
+                        	</td>
+                    	</tr>-->
+                </table>
+            </div>
+        </div>
+        
+        <!-- 點擊商品後，會顯示該商品的詳細資料 -->
+        <div class="item_info" id = "item_info">
+            <a href="#" class="close"></a>
+            <div class="item_discripe">
+                <div class="item_box" id="item_panel">
+                
+                </div>
+            </div>
+        </div> 
+        
+        <script>
+     // 取得網址參數
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var id = url.searchParams.get("id");
+    // 取得會員資料
+        function getMember(id) {
+    		console.log(id)
+            var data_object = {
+                "id": id,
+            }
+    		console.log(data_object)
+            var data_string = JSON.stringify(data_object);
+    		console.log(data_string)
+            $.ajax({
+            data:data_object,  //直接傳表單裡的資料
+            crossDomain: true,
+            type: "GET",
+            url: "api/member.do",
+            cache: true,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+            	console.log(response)
+                if (response.status == 200) {
+                updateMember(response.response.data);
+                }
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+                    }
+             }); // end ajax
+          }   // end function
+     //更新會員資料       
+    function updateMember(data){
+    	console.log(data)
+        $(".member_info").empty();
+        var table_html = '';
+        table_html += '<table>';
+        table_html += '<tr><td class="info_title">會員id</td><td>'+data[0].id+'</td></tr>';
+        table_html += '<tr><td class="info_title">email</td><td>'+data[0].email+'</td></tr>';
+        table_html += '<tr><td class="info_title">會員姓名</td><td>'+data[0].name+'</td></tr>';
+        table_html += '<tr><td class="info_title">Facebook連結</td><td>'+'<a href = '+data[0].fb_link+'/a>Facebook</td></tr>';
+        table_html += '</table>';
+        table_html += '<table>';
+        table_html += '<tr><td class="info_title">會員建立日期</td><td>'+data[0].created+'</td></tr>';
+        table_html += '<tr><td class="info_title">會員驗證狀態</td>';
+        //會員驗證狀態
+    	if(data[0].status){
+    		table_html += '<td>已審核</td></tr>';
+    	}
+    	else{
+    		table_html += '<td>未審核</td></tr>';
+     	 }
+        
+        table_html += '<tr><td class="info_title">上次登入時間</td><td>'+data[0].login_datetime+'</td></tr>';
+        
+        table_html += '<tr><td><a href = "buyer_order.html?id='+data[0].id+'">查看買家訂單</a></td>';
+        table_html += '<td><a href = "seller_order.html?id='+data[0].id+'">查看賣家訂單</a></td></tr>';
+        table_html += '</table>';
+        $(".member_info").append(table_html);
+    }    
+        
+  //取得會員商品
+    function getMemberItem(id) {
+		console.log(id)
+        var data_object = {
+            "member_id": id,
+        }
+		console.log(data_object)
+        var data_string = JSON.stringify(data_object);
+		console.log(data_string)
+        $.ajax({
+        data:data_object,  //直接傳表單裡的資料
+        crossDomain: true,
+        type: "GET",
+        url: "api/product.do",
+        cache: true,
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+        	console.log(response)
+            if (response.status == 200) {
+            updateMemberItem(response.response.data);
+            }
+        },
+        error: function () {
+            alert("無法連線到伺服器！");
+                }
+         });
+     }
+    
+    //更新會員商品
+    function updateMemberItem(data){
+    	console.log(data)
+    	var item_length = data.length;
+        $(".product_info").empty();
+        
+        var table_html = '';
+        table_html += '<h1 style="text-align:center; font-size:30px;">會員商品</h1>';
+        table_html += '<table>';
+        table_html += '<tr class = "table_title"><td class = "table_title">商品id</td>';
+        table_html += '<td class = "table_title">商品名稱</td>';
+        table_html += '<td class = "table_title">商品狀態</td>';
+        table_html += '<td class = "table_title">商品價格</td>';
+        table_html += '<td class = "table_title">修改/刪除</td></tr>';
+        
+        var slong = 0;
+        console.log(data[slong])
+        while (item_length > slong){
+        	if (data[slong].member_id == id){
+        		table_html += '<tr><td><a href="#" class="item_shortimg" id="'+ data[slong].id +'">'+data[slong].id+'</a></td>';
+        		table_html += '<td>'+data[slong].name+'</td>';
+        		//商品狀態
+    			if(data[slong].product_status){
+    				table_html += '<td>全新</td>';
+    			}
+    			else{
+    				table_html += '<td>二手</td>';
+     	 		}
+        		table_html += '<td>TWD '+data[slong].price+'</td>';
+        		table_html += '<td><a href="edit_product.html?id='+data[slong].id+'"><button class = "product_modify" id = "product_modify" >修改</button></a>';
+        		table_html += '<a href="#deleted?id='+data[slong].id+'"><button class = "product_delete" id = "product_delete" onclick="deleteProduct('+data[slong].id+')">刪除</button></a></td></tr>';
+        	}
+        	slong++;
+        }
+        table_html += '</table>';
+        $(".product_info").append(table_html);
+        
+    }
+    
+  //設定cookies
+	function setCookie(cookieName, cookieValue, exdays) {
+		  if (document.cookie.indexOf(cookieName) >= 0) {
+		    var expD = new Date();
+		    expD.setTime(expD.getTime() + (-1*24*60*60*1000));
+		    var uexpires = "expires="+expD.toUTCString();
+		    document.cookie = cookieName + "=" + cookieValue + "; " + uexpires; 
+		  } 
+		  var d = new Date();
+		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+		  var expires = "expires="+d.toUTCString();
+		  document.cookie = cookieName + "=" + cookieValue + "; " + expires;  
+		}
+	//取cookies函式  
+	function getCookie(cookieName) {
+		var name = cookieName + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0; i<ca.length; i++) {
+		      var c = ca[i];
+		      while (c.charAt(0)==' ') c = c.substring(1);
+		      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+  		}
+			return "";
+	}
+    
+    $(document).ready(function(){
+    	if(id == null){
+    		alert("請先登入會員!");
+    	}
+    	else{
+    		getMember(id);
+    		getMemberItem(id);
+    		
+    		var result='edit_by_member.html?id='+getCookie("id");
+            $("#edit_by_member").attr("href",result);
+    	}
+    	//沒有圖片上傳會放default圖
+  	    document.addEventListener("error",function (e) {
+  	    	var elem = e.target;
+  	    	if (elem.tagName.toLowerCase() == 'img') {
+  	    		elem.src = "statics/img/product/default_.jpg";
+  	    	}
+  	    	}, true);
+    });
+    
+    $(document).on("click",".item_shortimg",function() {
+  	  
+  	  var item_id = $(this).attr("id");//取得點擊的商品資料
+  	  getiteminfo(item_id);
+  	  location.href='#item_info';
+    });
+    
+    //商品細項
+    function getiteminfo(item_id) {
+              $.ajax({
+                type: "GET",
+                url: "api/product.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                data:{
+                	id_list: item_id
+                },
+                success: function (response) {
+                	//console.log(response)
+                  if (response.status == 200) {
+                	var url = 'othermember.html?id='+ response.response.data[0].member_id;
+                	var item_box = '';
+                	var product_name = response.response.data[0].name;
+                	var seller_name=response.response.data[0].seller_name;
+                	var seller_email=response.response.data[0].seller_email;
+                	var seller_fb=response.response.data[0].seller_fb;
+                	var price=response.response.data[0].price;
+					console.log(response.response.data[0].image);
+                	item_box += '<img class = "item_img" src="statics/img/product/' + response.response.data[0].image + '">';
+                	item_box += '<table>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品名稱</td>';
+                	item_box += '<td class="right">' + response.response.data[0].name + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品分類</td>';
+                	item_box += '<td class="right">' + response.response.data[0].classification + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品狀態</td>';
+                	//判斷商品的狀態
+                	if(response.response.data[0].product_status){
+                		item_box += '<td class="right">全新</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">二手</td>';
+                 	 }
+                	
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">審核狀態</td>';
+                	//判斷商品的審核狀態
+                	if(response.response.data[0].verifacation_status){
+                		item_box += '<td class="right">未審核</td>';
+                	}
+                	else{
+                		item_box += '<td class="right">已審核</td>';
+                 	 }
+                
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">售價</td>';
+                	item_box += '<td class="right">' + response.response.data[0].price + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">商品描述</td>';
+                	item_box += '<td class="right last">' + response.response.data[0].product_overview + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">賣家</td>';
+                	item_box += '<td class="right" id="member_info" meminfo ="'+url+'">' + response.response.data[0].seller_name + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">E-Mail</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_email + '</td>';
+                	item_box += '</tr>';
+                	item_box += '<tr>';
+                	item_box += '<td class="left">FACEBOOK</td>';
+                	item_box += '<td class="right">' + response.response.data[0].seller_fb + '</td>';
+                	item_box += '</tr>';
+                	item_box += '</table>';
+         //       	item_box += '<button class="buy_btn" id="buy_btn" onclick=Buy('+item_id+',"'+product_name+'","'+seller_name+'","'+seller_email+'","'+seller_fb+'","'+price+'")>購買商品</button>'
+                	$("#item_panel").empty();
+                	$("#item_panel").append(item_box);
+                	
+                  }
+                },
+                error: function () {
+                  alert("無法連線到伺服器！");
+                }
+              });
+         }
+		    function deleteProduct(id) {
+		        var check = window.confirm("確認刪除商品？");
+		        if (check == true) {
+		            console.log("You pressed OK!");
+		            var request = {'id': id};
+		            var data_string = JSON.stringify(request);
+		            $.ajax({
+		                type: "DELETE",
+		                url: "api/product.do",
+		                crossDomain: true,
+		                data: data_string,
+		                cache: false,
+		                dataType: 'json',
+		                timeout: 5000,
+		                success: function (response) {
+		                    if(response.status == 200){
+		                    	getMemberItem(id)
+		                    }
+		                    console.log(response);
+		                },
+		                error: function () {
+		                    alert("無法連線到伺服器！");
+		                }
+		            });
+		        }
+		        else {
+		            console.log("You pressed Cancel!");
+		        }
+		    }
+    	
+        </script>
+    </body>
+</html>

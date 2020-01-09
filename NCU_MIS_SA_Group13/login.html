@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 編碼類型 -->
+         <meta charset="UTF-8">
+         <title>復活福利社2.0</title>
+         <link rel="stylesheet" href="/css/style.css" />
+         <link rel="stylesheet" type="text/css" 
+         href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
+          <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        
+        </head>
+
+    <body> 
+        <!-- 1.頭部 -->
+        <div id="header">
+            <nav class="top_nav">
+                <span class="slogan">復活福利社2.0</span>
+                <div class="btnbox">
+                    <a class = "signin_btn btn" id = "btn" href="#login">
+                    <span class="nav-text" id = "login_here">登出</span>
+                    </a>
+                    <!-- <input class="signin_btn" type="button" href="#login" value = "登入/註冊" /> -->
+                </div>
+                <span id ="member_message"></span>
+                <div class="userbar">
+                    <ul class="menu">
+                        <li id = "user">
+                            <a href="#">
+                            <i class="fa-lg fas fa-user "></i>
+                            <span class="nav-text">會員專區&nbsp;</span>
+                            </a>
+                        </li>
+                        <li id = "user">
+                            <a href="manager.html">
+                            <i class="fa-lg fas fa-wrench"></i>
+                            <span class="nav-text">管理員專區</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <img class="logo" src = "/img/logo.png">
+
+        </div>
+    <nav class="main-menu">
+
+
+  
+           <div class="settings"></div>
+        <div class="scrollbar" id="style-1">
+      
+                <ul>
+                  
+                <li>                                   
+                <button class="btn">
+                <i class="fa fa-cookie-bite fa-lg"></i>
+                食物
+                </button>
+                </li>   
+                   
+                <li>                                 
+                <button class="btn">
+                <i class="fa fa-tshirt fa-lg"></i>
+                服飾
+                </button>
+                </li>   
+                
+                    
+                <li>
+                <button class="btn">
+                <i class="fa fa-magic fa-lg"></i>
+                美妝
+                </button>                                 
+                </li>   
+                  
+                <li>  
+                <button class="btn">
+                <i class="fa fa-headphones fa-lg"></i>
+                3C周邊
+                </button>                                
+                </li>   
+
+                <li>  
+                <button class="btn">
+                <i class="fa fa-tv fa-lg"></i>
+                家具
+                </button>                                                      
+                </li>   
+
+                <li>     
+                <button class="btn">
+                <i class="fa fa-bicycle fa-lg"></i>
+                交通工具
+                </button>                              
+                </li> 
+
+                <li>
+                <button class="btn">
+                <i class="fa fa-hand-holding-usd fa-lg"></i>
+                收購
+                </button>                                   
+                </li>
+					
+                <li>  
+                <button class="btn">
+                <i class="fa fa-gift fa-lg"></i>
+                贈送
+                </button>                                 
+                </li>  
+					
+				<li>  
+                <button class="btn">
+                <i class="fa fa-eye fa-lg"></i>
+                其他
+                </button>                                 
+                </li> 
+        </div>
+        </nav>
+		<div class="search_add">
+			<input class="search" type="summit" value="搜尋商品"/>
+			<button class="search_btn">
+			<i class="fas fa-search fa-lg" style="font-size: 17px"></i>
+			</button>
+			<button class="add_item_btn" onclick="location.href='#add_item'">新增商品</button>
+        </div>
+        
+        <div class="item_container">
+            <div class="items">
+                <div class="item">
+                    <!-- 此為示範檔案格式 之後會使用js進行這部分的撰寫 -->
+                    <img class = "item_shortimg" src="/img/item1.jpg" />
+                    <table class="item_shortinfo">
+                        <tr>
+                            <td>商品名稱</td>
+                            <td>腳踏車</td>
+                        </tr>
+                        <tr>
+                            <td>商品狀態</td>
+                            <td>二手</td>
+                        </tr>
+                        <tr>
+                            <td>商品價格</td>
+                            <td>1500</td>
+                        </tr>             
+                    </table>
+                    <!-- 記得要根據id開啟item資訊 -->
+                    <a class="check_item" href="#item_info"></a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="login_regis" id = "login">
+            <a href="#" class="close_signin"></a>
+			
+                <div class="signin">
+					<span class ="signin_text">會員登入</span>
+                    <form id="form" accept-charset="utf-8">
+                        <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+                        <div class="input email required">
+                            <label for="member_email">帳號</label>
+                            <input name="email" maxlength="50" type="email" id="member_email" required="required">
+                        </div>
+                        <div class="input password required">
+                            <label for="member_password">密碼</label>
+                            <input name="password" maxlength="30" type="password" id="member_password" required="required">
+                        </div>
+                        <div class="submit">
+							<input type="button" value="登入" id="login_submit">
+							<a href="register.html">
+							<input type="button" value="註冊" id="register_submit">
+							</a>
+							
+						</div>
+                    </form>
+                </div>
+        </div>
+        <div class="item_info" id = "item_info">
+            <a href="#" class="close"></a>
+            <div class="item_discripe">
+                <div class="item_box">
+                    <img class = "item_img" src="/img/item1.jpg" />
+                    <table>
+                        <tr>
+                            <td class="left">商品名稱</td>
+                            <td class="right">腳踏車</td>
+                        </tr>
+                        <tr>
+                            <td class="left">商品分類</td>
+                            <td class="right">交通工具</td>
+                        </tr>
+                        <tr>
+                            <td class="left">商品狀態</td>
+                            <td class="right">二手</td>
+                        </tr>
+                        <tr>
+                            <td class="left">售價</td>
+                            <td class="right">1500元</td>
+                        </tr>
+                        <tr>
+                            <td class="left">商品描述</td>
+                            <td class="right last">上課代步用，正常使用痕跡</td>
+                        </tr>
+                    </table>
+                    <button class="buy_btn"id="buy_btn">購買商品</button>
+                </div>
+            </div>
+        </div> 
+        <div class="item_info" id = "add_item">
+            <a href="#" class="close"></a>
+            <div class="item_discripe">
+                <div class="item_box">
+                    <span class="form_text">商品上架</span>
+                    <form enctype="multipart/form-data">
+					<table>
+						<tr>
+							<td>商品名稱</td>
+							<td><input name = "item_name" required = "required"/></td>
+						</tr>
+						<tr>
+							<td>商品分類</td>
+							<td><select name = "item_category" required = "required">
+								<option>食物</option>
+								<option>服飾</option>
+								<option>美妝</option>
+								<option>3C周邊</option>
+								<option>家具</option>
+								<option>交通工具</option>
+								<option>收購</option>
+								<option>贈送</option>
+								<option>其他</option>
+							</td>
+						</tr>	
+						<tr>
+							<td>商品狀態</td>
+							<td><input type="radio" name = "item_state" value = "new" checked/>全新
+								<input type="radio" name = "item_state" value = "used"/>二手
+							</td>
+						</tr>
+						<tr>
+							<td>售價</td>
+							<td><input class="price" name = "item_price" required = "required"/>元
+							</td>
+						</tr>
+						<tr>
+							<td>商品圖片</td>
+							<td><input class="img_input" type="file" name = "item_image"></td>
+						</tr>
+						<tr>
+							<td>商品描述</td>
+							<td><textarea class="description" name = "item_dis" rows = "2" cols="20"></textarea></td>
+						</tr>
+                    </table>
+					<div style="text-align:center">
+						<button class="add_btn" id="add_btn">確認新增</button>
+					</div>
+					</form>
+                </div>
+            </div>
+        </div> 
+        <!-- <form class="" action="add.php" method="post">
+            <input type="mail" name="mail" value="" placeholder="輸入註冊信箱">
+            <input type="text" name="password" value=""panel placeholder="輸入密碼">
+            <input type="password" name="pwcheck" value=""panel placeholder="再次輸入密碼">
+            <input type="text" name="name" value="" placeholder="輸入姓名">
+            <input type="number" name="phone" value="" placeholder="輸入電話">
+            <input type="text" name="addr" value="" placeholder="輸入地址">
+            <input type="submit" name="" value="註冊">
+        </form> -->
+    </body>
+    <script type="text/javascript">
+    
+    	function setCookie(cookieName, cookieValue, exdays) {
+    		  if (document.cookie.indexOf(cookieName) >= 0) {
+    		    var expD = new Date();
+    		    expD.setTime(expD.getTime() + (-1*24*60*60*1000));
+    		    var uexpires = "expires="+expD.toUTCString();
+    		    document.cookie = cookieName + "=" + cookieValue + "; " + uexpires; 
+    		  } 
+    		  var d = new Date();
+    		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    		  var expires = "expires="+d.toUTCString();
+    		  document.cookie = cookieName + "=" + cookieValue + "; " + expires;  
+    		}
+    	//取cookies函式  
+    	function getCookie(cookieName) {
+			var name = cookieName + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0; i<ca.length; i++) {
+			      var c = ca[i];
+			      while (c.charAt(0)==' ') c = c.substring(1);
+			      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+	  		}
+  			return "";
+		}
+    	//刪除cookie
+    	function delCookie(name){
+    	var exp = new Date();
+    	exp.setTime(exp.getTime() - 1);
+    	var cval = getCookie(name);
+    	if (cval != null) document.cookie = name   +"="+   cval   +";expires="+   exp.toGMTString();
+    	}
+        //點擊登出按鈕
+        $('#btn').click(function() {
+    	    	logout_();
+    	    	console.log(success);
+    	});
+        function logout_(){
+        	$("#member_message").empty();
+        	 $("#logout_here").attr('id','login_here');
+             $("#login_here").html("註冊/登入");
+        	$("#btn").attr('href','#login')
+        	delCookie("name");
+        	delCookie("id");
+        	
+        }
+    </script>
+</html>

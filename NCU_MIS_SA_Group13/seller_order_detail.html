@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v3.8.5">
+
+  <title>訂單詳情</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+  <link href="statics/css/font-awesome.min.css" rel="stylesheet">
+  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+  <!-- Custom styles for this template -->
+
+  <link href="statics/css/jquery-confirm.css" rel="stylesheet">
+  <script src="statics/js/jquery-3.4.1.min.js"></script>
+  <script src="statics/js/jquery-confirm.js"></script>
+  <script src="statics/js/big.min.js"></script>
+  <link href="statics/css/product.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" 
+  href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-blue border-bottom shadow-sm">
+    <h3 class="my-0 mr-md-auto font-weight-normal">復活福利社2.0</h3>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="javascript:history.back()">
+        <i class="fa fa-user "></i>
+        回上一頁
+      </a>
+   
+    </nav>
+  </div>
+
+  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center bg-light">
+    <h1 class="display-4">訂單詳情</h1>
+    <p class="lead">以下為該筆訂單之所有資料</p>
+  </div>
+
+  <div class="container">
+	  <div class="py-5">    
+	  	<div class="my-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0">訂單資料</h6>
+        
+        <div class="row">
+	        <div class="col media text-muted pt-3">
+	          <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+	            <strong class="d-block text-gray-dark">訂單編號</strong>
+	            <span id="order_id">{{order_id}}</span>
+	          </p>
+	        </div>
+	        <div class="col media text-muted pt-3">
+	          <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+	            <strong class="d-block text-gray-dark">建立時間</strong>
+	            <span id="create_datetime">{{create_datetime}}</span>
+	          </p>
+	        </div>
+	        <div class="col media text-muted pt-3">
+	          <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+	            <strong class="d-block text-gray-dark">交易狀態</strong>
+	            <span id="status">{{status}}</span>
+	          </p>
+	        </div>
+	     </div>
+	     <div class="row">  
+	        <div class="col media text-muted pt-3">
+             <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+               <strong class="d-block text-gray-dark">買家名字</strong>
+               <span id="buyer_name">{{buyer_name}}</span>
+             </p>
+           </div>
+           
+           <div class="col media text-muted pt-3">
+             <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+               <strong class="d-block text-gray-dark">買家信箱</strong>
+               <span id="buyer_email">{{buyer_email}}</span>
+             </p>
+           </div>
+         </div>
+         
+         <div class="row">
+           <div class="col media text-muted pt-3">
+             <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+               <strong class="d-block text-gray-dark">賣家名字</strong>
+               <span id="seller_name" class="p-2">{{seller_name}}</span>
+             </p>
+           </div>
+           
+          <div class="col media text-muted pt-3">
+            <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+              <strong class="d-block text-gray-dark">賣家信箱</strong>
+              <span id="seller_email">{{seller_email}}</span>
+            </p>
+          </div>
+          
+          <div class="col media text-muted pt-3">
+            <p class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+              <strong class="d-block text-gray-dark">賣家FB</strong>
+              <span id="seller_fb">{{seller_fb}}</span>
+            </p>
+          </div>
+         </div>
+         </div>
+        
+        <H3 class="d-block text-right mt-3">總價：$ <span id="total">{{total}}</span></H3>
+      </div>
+
+       
+       <div class="table-responsive">
+         <table id="table" class="table table-striped table-sm">
+           <thead>
+             <tr>
+               <th class="text-center" style="width: 10%">商品編號</th>
+               <th class="text-center" style="width: 50%">品名</th>
+               <th class="text-center" style="width: 40%">價格</th>
+             </tr>
+             <tr>
+               <th class="text-center" style="width: 10%" id="product_id">{{product_id}}</th>
+               <th class="text-center" style="width: 50%" id="product_name">{{product_name}}</th>
+               <th class="text-center" style="width: 40%" id="total_2">{{total}}</th>
+             </tr>
+           </thead>
+           <tbody id="panel">
+           </tbody>
+         </table>
+       </div>
+       <div>
+       		<div class="btn btn-primary" ><input class="btn btn-primary" type="button" value="完成訂單" id="complete_btn"></div>
+       		<div class="btn btn-primary"><input class="btn btn-primary" type="button" value="刪除訂單" id="delete_btn"></div>
+       </div>
+     </div>
+
+  <script>
+  //取得網址參數
+  var url_string = window.location.href;
+  var url = new URL(url_string);
+  var id = url.searchParams.get("id");
+  
+  $('#complete_btn').click(function() {
+	  
+	  if(confirm("確定完成此筆交易?")===true){
+		  Complete_this_Order(id);
+	  }
+      
+      
+  });
+  
+  $('#delete_btn').click(function() {
+	  if(confirm("尚未完成交易...確定刪除此交易?")===true){
+	  Delete_this_Order(id);
+	  }
+  });
+  //完成訂單方法
+  function Complete_this_Order(id){
+	  // 將資料組成JSON格式
+      var data_object = {
+          "id": id,
+      };
+
+      // 將JSON格式轉換成字串
+      var data_string = JSON.stringify(data_object);
+
+      // 發出POST的PUT請求
+      $.ajax({
+              type: "PUT",
+              url: "api/order.do",
+              data: data_string,
+              crossDomain: true,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                  if(response.status == 200){
+           			  alert("交易已完成！")
+           			  location.reload();
+                  }
+              },
+              error: function () {
+                  alert("無法連線到伺服器！");
+              }
+      });
+	  
+  }
+  //刪除訂單方法
+function Delete_this_Order(id){
+	 var product_id=$("#product_id").text();
+	  // 將資料組成JSON格式
+     var data_object = {
+         "deleted_id": id,
+         "product_re_id":product_id
+         
+     };
+     
+     // 將JSON格式轉換成字串
+     var data_string = JSON.stringify(data_object);
+
+     // 發出POST的PUT請求
+     $.ajax({
+             type: "DELETE",
+             url: "api/order.do",
+             data: data_string,
+             crossDomain: true,
+             cache: false,
+             dataType: 'json',
+             timeout: 5000,
+             success: function (response) {
+                 if(response.status == 200){
+          			  alert("交易已刪除！")
+          			  history.back();
+                 }
+             },
+             error: function () {
+                 alert("無法連線到伺服器！");
+             }
+     });
+	  
+  }
+  
+  
+  //取得訂單資料
+  function getOrderData() {
+	  $.ajax({
+          type: "GET",
+          url: "api/order.do",
+          data: "id=" + id,
+          crossDomain: true,
+          cache: false,
+          dataType: 'json',
+          timeout: 5000,
+          success: function (response) {
+              if(response.status == 200){
+            	  updateHTML(response.response.data[0]);
+            	 
+            	  
+              }
+          },
+          error: function () {
+              alert("無法連線到伺服器！");
+          }
+    });
+  }
+  
+  getOrderData();
+  
+  function updateHTML(data) {
+	  var status_value='';
+      if (data.status === false ) {
+    	  status_value="尚在交易";
+      } 
+      else if (data.status === true ) {
+    	  status_value="交易完成";
+      }
+      console.log(data.buyer_email);
+	  $("#order_id").html(id);
+	  $("#create_datetime").html(data.create_datetime);
+	  $("#status").html(status_value);
+	  $("#buyer_email").html(data.buyer_email);
+	  $("#buyer_name").html(data.buyer_name);
+	  $("#seller_name").html(data.seller_name);
+	  $("#seller_email").html(data.seller_email);
+	  $("#seller_fb").html(data.seller_fb);
+	  $("#total").html(data.total);
+	  
+	  
+	  $("#product_id").html(data.product_id);
+	  $("#total_2").html(data.total);
+	  $("#product_name").html(data.product_name);
+	  if(data.status===true){
+		  $("#complete_btn").attr('disabled', true);
+		  $("#delete_btn").attr('disabled', true);
+	  }
+	  
+
+  }
+
+  </script>
+
+  <footer class="text-muted">
+    <div class="container">
+      <p class="float-right">
+        <a href="#">Back to top</a>
+      </p>
+      <!-- <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+      <p>New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a
+          href="/docs/4.3/getting-started/introduction/">getting started guide</a>.</p> -->
+    </div>
+  </footer>
+</body>
+
+</html>

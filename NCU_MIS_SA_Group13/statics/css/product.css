@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'DFHsiu-W3-WIN-BF';
+  src: url('../fonts/DFHsiu-W3-WIN-BF.woff') format("woff"),
+         url('../fonts/DFHsiu-W3-WIN-BF.ttf') format("truetype");
+}
+*{
+font-family: 'DFHsiu-W3-WIN-BF';
+}
+.jumbotron {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
+
+.lead{
+  font-size: 22px;
+}
+.pb-2{
+  font-size: 23px;
+}
+.pb-3{
+  font-size: 20px;
+}
+.table{
+  font-size: 20px;
+}
+label{
+  font-size: 20px;
+}
+body p{
+  font-size: 20px;
+}
+.nav-link{
+  font-size: 20px;
+}
+.col-md-6 label{
+  font-size: 1.8rem;
+}
+.col-md-6 p{
+  font-size: 1.3rem;
+}
