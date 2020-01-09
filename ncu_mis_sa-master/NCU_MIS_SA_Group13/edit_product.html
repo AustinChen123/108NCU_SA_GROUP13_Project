@@ -72,6 +72,8 @@
                 var classification = $("#product_classification :selected").text();
                 var price = $("#product_price").val();
                 var product_overview = $('#product_overview').val();
+                var verifacation_status = false;
+                
 
                 // 將資料組成JSON格式
                 var data_object = {
@@ -80,10 +82,10 @@
                         "classification": classification,
                         "price": price,
                         "product_overview":product_overview,
+                        "verifacation_status":verifacation_status
                  };
-
-                 // 將JSON格式轉換成字串
-                 var data_string = JSON.stringify(data_object);
+                // 將JSON格式轉換成字串
+                var data_string = JSON.stringify(data_object);
 
                  // 發出POST的PUT請求
                  $.ajax({

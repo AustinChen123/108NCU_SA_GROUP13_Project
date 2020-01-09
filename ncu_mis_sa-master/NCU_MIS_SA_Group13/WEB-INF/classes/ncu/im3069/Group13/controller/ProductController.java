@@ -151,7 +151,7 @@ public class ProductController extends HttpServlet {
      */
     public void doPut(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+        
         JsonReader jsr = new JsonReader(request);
         JSONObject jso = jsr.getObject();
         /** 取出經解析到JSONObject之Request參數 */
@@ -160,10 +160,12 @@ public class ProductController extends HttpServlet {
         String classification = jso.getString("classification");
         float price = jso.getFloat("price");
         String product_overview=jso.getString("product_overview");
+        boolean verifacation_status=jso.getBoolean("verifacation_status");
         
-        if(!name.isEmpty()) {
+        if(verifacation_status == false) {
+        	
         	/** 透過傳入之參數，新建一個以這些參數之商品Product物件 */
-    	    Product p = new Product(id,name,classification,price,product_overview);
+    	    Product p = new Product(id,name,classification,price,product_overview,verifacation_status);
     	        
     	    /** 透過Product物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
     	    JSONObject data = ph.update(p);
@@ -179,8 +181,9 @@ public class ProductController extends HttpServlet {
         	
         }
         else {
-		    /** 透過傳入之參數，新建一個以這些參數之商品Product物件 */
-		    Product p = new Product(id);
+		   
+        	/** 透過傳入之參數，新建一個以這些參數之商品Product物件 */
+    	    Product p = new Product(id,name,classification,price,product_overview,verifacation_status);
 		        
 		    /** 透過Product物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
 		    JSONObject data = p.update_verification();
@@ -195,5 +198,11 @@ public class ProductController extends HttpServlet {
 		    jsr.response(resp, response);
         }
         }
+
+
+
+
+
+	
 
 }

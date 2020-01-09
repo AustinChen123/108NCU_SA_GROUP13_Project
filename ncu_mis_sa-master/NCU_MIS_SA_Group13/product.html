@@ -130,15 +130,24 @@
     }
     
     function updateVerification(id) {
-        var verification_status =true;
+    	var name = "";
+        var classification = "";
+        var price = 0;
+        var product_overview ="";
+        var verifacation_status =true;
         
             // 將資料組成JSON格式
             var data_object = {
-                "id": id
+                "id": id,
+                "name": name,
+                "classification": classification,
+                "price": price,
+                "product_overview":product_overview,
+                "verifacation_status":verifacation_status
             };
-
-            // 將JSON格式轉換成字串
+         // 將JSON格式轉換成字串
             var data_string = JSON.stringify(data_object);
+
 
             // 發出POST的PUT請求
             $.ajax({

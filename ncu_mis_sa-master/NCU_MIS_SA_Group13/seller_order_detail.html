@@ -161,14 +161,18 @@
   var id = url.searchParams.get("id");
   
   $('#complete_btn').click(function() {
-	  confirm("確定完成此筆交易?");
-      Complete_this_Order(id);
+	  
+	  if(confirm("確定完成此筆交易?")===true){
+		  Complete_this_Order(id);
+	  }
+      
       
   });
   
   $('#delete_btn').click(function() {
-	  confirm("尚未完成交易...確定刪除此交易?");
+	  if(confirm("尚未完成交易...確定刪除此交易?")===true){
 	  Delete_this_Order(id);
+	  }
   });
   //完成訂單方法
   function Complete_this_Order(id){
